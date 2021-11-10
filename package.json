@@ -4,11 +4,17 @@
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -rf ./dist && tsc",
+    "generate-ts-api": "npm run build && node ./dist/generate_ts_api/generateCode.js > ./out.txt",
+    "generate-visitor-template": "npm run build && node ./dist/generate_ts_api/generateVisitorTemplate.js > ./outVisitor.txt",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update2latest": "ncu -u --packageFile package.json && nsi && tsc",
+    "validate astn": "npm run build && node ./dist/src/index.js \"../astn/tsconfig.json\""
   },
   "author": "Corno",
   "license": "ISC",
   "dependencies": {
+    "pareto-runtime": "^0.8.0",
     "typescript": "^4.4.4"
   },
   "devDependencies": {

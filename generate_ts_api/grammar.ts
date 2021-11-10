@@ -1,19 +1,65 @@
 
 
-export type X =
-| ["bag", Y[]]
-| ["leaf", {}]
+export type Type =
+    | ["bag", Definition[]]
+    | ["leaf", {}]
 
-export type Y =
-    | ["local", [string, X]]
+export type Definition =
+    | ["local", [string, Type]]
     | ["global", string]
 
 export type Grammar = {
-    tokenRules: { [key: string]: X }
+    tokenRules: { [key: string]: Type }
+    startRule: string
 }
 
-const grammar: Grammar = {
+export const grammar: Grammar = {
+    startRule: "SourceFile",
     "tokenRules": {
+        "SourceFile": ["bag", [
+            ["local", ["InterfaceDeclaration", ["leaf", [
+
+                // "Identifier",
+                // "TypeParameter",
+                // "MethodSignature",
+                // "PropertySignature",
+                // "IndexSignature",
+                // "ConstructSignature",
+                // "ExportKeyword"
+
+            ]]]],
+            ["global", "FunctionDeclaration"],
+            ["global", "VariableStatement"],
+            ["local", ["EndOfFileToken", ["leaf", {}]]],
+            ["local", ["ExportDeclaration", ["bag", [
+                ["global", "StringLiteral"]
+            ]]]],
+            ["local", ["ImportDeclaration", ["bag", [
+                ["global", "StringLiteral"]
+            ]]]],
+            ["global", "TypeAliasDeclaration"],
+            ["global", "ExpressionStatement"],
+
+
+            //   "ImportDeclaration": [
+            //     "ImportClause",
+            //     "StringLiteral"
+            // ],
+            // "ImportClause": [
+            //     "NamespaceImport",
+            //     "NamedImports"
+            // ],
+            // "NamespaceImport": [
+            //     "Identifier"
+            // ],
+            // "NamedImports": [
+            //     "ImportSpecifier"
+            // ],
+            // "ImportSpecifier": [
+            //     "Identifier"
+            // ],
+
+        ]],
         "Identifier": ["leaf", {}],
         "TypeParameter": ["bag", [
             ["global", "Identifier"]
@@ -372,7 +418,8 @@ const grammar: Grammar = {
         ]],
         "TypeLiteral": ["bag", [
             ["global", "PropertySignature"],
-            ["global", "MethodSignature"]
+            ["global", "MethodSignature"],
+            ["local", ["IndexSignature", ["leaf", {}]]],
         ]],
         "TemplateExpression": ["bag", [
             ["local", ["TemplateHead", ["leaf", {}]]],
