@@ -1,0 +1,18 @@
+{
+  "name": "pareto-ts-validater",
+  "version": "0.0.1",
+  "description": "validates if a typescript code base conforms the 'pareto' rules",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Corno",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "ts-morph": "^12.2.0"
+  }
+}
