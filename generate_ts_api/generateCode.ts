@@ -1,6 +1,7 @@
+import * as pr from "pareto-runtime"
 import { createFile } from "./createFile"
 import * as g from "./grammar"
-import { Block, Line } from "./WriteAPI"
+import { Block } from "./WriteAPI"
 
 function assertUnreachable<RT>(_x: never): RT {
     throw new Error("unreachable")
@@ -9,13 +10,11 @@ function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
     return callback(input)
 }
 
-const $w = createFile(
-    "    ",
-    "\r\n",
-    (str) => {
-        console.log(str)
-    }
-)
+const [, , targetPath] = process.argv
+if (targetPath === undefined) {
+    console.error("missing target path")
+    pr.processExit(1)
+}
 
 function forEachEntry<T>(
     dictionary: { [key: string]: T },
@@ -26,27 +25,10 @@ function forEachEntry<T>(
     })
 }
 
-function generate($w: Block) {
-
+function generateAPI($w: Block) {
     $w.line(($w) => {
         $w.snippet(`import * as pr from "pareto-runtime"`)
     })
-    $w.line(($w) => {
-        $w.snippet(`import * as p from "./untypedAPI"`)
-    })
-    $w.line(($w) => { })
-    $w.line(($w) => {
-        $w.snippet(`export class UnrecognizedNodeError extends Error {`)
-        $w.indent(($w) => {
-            $w.line(($w) => {
-                // see https://www.dannyguo.com/blog/how-to-fix-instanceof-not-working-for-custom-errors-in-typescript/
-                $w.snippet(`constructor(message: string) { super(message); Object.setPrototypeOf(this, UnrecognizedNodeError.prototype); }`)
-
-            })
-        })
-        $w.snippet(`}`)
-    })
-    $w.line(($w) => { })
     forEachEntry(g.grammar.tokenRules, ($, key) => {
         function generateType(
             $k: string,
@@ -86,6 +68,43 @@ function generate($w: Block) {
                 $w.snippet(``)
             })
             $w.line(($w) => {
+                $w.snippet(`export type C${$k}<Annotation> = `)
+                switch ($[0]) {
+                    case "bag":
+                        cc($[1], ($) => {
+                            $w.indent(($w) => {
+                                $.forEach(($) => {
+                                    $w.line(($w) => {
+                                        switch ($[0]) {
+                                            case "global":
+                                                cc($[1], ($) => {
+                                                    $w.snippet(`| ["${$}", T${$}<Annotation>]`)
+                                                })
+                                                break
+                                            case "local":
+                                                cc($[1], ($) => {
+                                                    $w.snippet(`| ["${$[0]}", T${$[0]}<Annotation>]`)
+                                                })
+                                                break
+                                            default:
+                                                assertUnreachable($[0])
+                                        }
+                                    })
+                                })
+                            })
+                        })
+                        break
+                    case "leaf":
+                        cc($[1], ($) => {
+                            $w.snippet(`number`)
+                        })
+                        break
+                    default:
+                        assertUnreachable($[0])
+                }
+
+            })
+            $w.line(($w) => {
                 $w.snippet(`export type T${$k}<Annotation> = `)
                 switch ($[0]) {
                     case "bag":
@@ -96,28 +115,7 @@ function generate($w: Block) {
                                     $w.snippet(`annotation: Annotation`)
                                 })
                                 $w.line(($w) => {
-                                    $w.snippet(`children: Array<`)
-                                    $w.indent(($w) => {
-                                        $.forEach(($) => {
-                                            $w.line(($w) => {
-                                                switch ($[0]) {
-                                                    case "global":
-                                                        cc($[1], ($) => {
-                                                            $w.snippet(`| ["${$}", T${$}<Annotation>]`)
-                                                        })
-                                                        break
-                                                    case "local":
-                                                        cc($[1], ($) => {
-                                                            $w.snippet(`| ["${$[0]}", T${$[0]}<Annotation>]`)
-                                                        })
-                                                        break
-                                                    default:
-                                                        assertUnreachable($[0])
-                                                }
-                                            })
-                                        })
-                                    })
-                                    $w.snippet(`>`)
+                                    $w.snippet(`children: pr.IReadonlyArray<C${$k}<Annotation>>`)
                                 })
                             })
                             $w.snippet(`}`)
@@ -141,19 +139,47 @@ function generate($w: Block) {
     })
 
     $w.line(($w) => {
+        $w.snippet(`export type Root<Annotation> = T${g.grammar.startRule}<Annotation>`)
+    })
+
+}
+
+function generateBuilder($w: Block) {
+
+    $w.line(($w) => {
+        $w.snippet(`import * as pr from "pareto-runtime"`)
+    })
+    $w.line(($w) => {
+        $w.snippet(`import * as uapi from "./untypedAPI"`)
+    })
+    $w.line(($w) => {
+        $w.snippet(`import * as tapi from "./generated_ts_api"`)
+    })
+    $w.line(($w) => { })
+    $w.line(($w) => {
+        $w.snippet(`export class UnrecognizedNodeError extends Error {`)
+        $w.indent(($w) => {
+            $w.line(($w) => {
+                // see https://www.dannyguo.com/blog/how-to-fix-instanceof-not-working-for-custom-errors-in-typescript/
+                $w.snippet(`constructor(message: string) { super(message); Object.setPrototypeOf(this, UnrecognizedNodeError.prototype); }`)
+
+            })
+        })
+        $w.snippet(`}`)
+    })
+    $w.line(($w) => { })
+
+    $w.line(($w) => {
         $w.snippet(`export function root<Annotation>(`)
         $w.indent(($w) => {
             $w.line(($w) => {
-                $w.snippet(`$: p.Node<Annotation>,`)
+                $w.snippet(`$: uapi.Node<Annotation>,`)
             })
             $w.line(($w) => {
-                $w.snippet(`callback: ($: T${g.grammar.startRule}<Annotation>) => void,`)
+                $w.snippet(`callback: ($: tapi.T${g.grammar.startRule}<Annotation>) => void,`)
             })
             $w.line(($w) => {
-                $w.snippet(`getLineInfo: ($: p.Node<Annotation>) => string,`)
-            })
-            $w.line(($w) => {
-                $w.snippet(`getAnnotation: ($: p.Node<Annotation>) => Annotation,`)
+                $w.snippet(`reportUnexpectedChild: ($: { parent: uapi.Node<Annotation>, child: uapi.Node<Annotation>, }) => void,`)
             })
         })
         $w.snippet(`): void {`)
@@ -165,10 +191,10 @@ function generate($w: Block) {
                     $w.snippet(`function _${key}(`)
                     $w.indent(($w) => {
                         $w.line(($w) => {
-                            $w.snippet(`$: p.Node<Annotation>,`)
+                            $w.snippet(`$: uapi.Node<Annotation>,`)
                         })
                         $w.line(($w) => {
-                            $w.snippet(`callback: ($: T${key}<Annotation>) => void,`)
+                            $w.snippet(`callback: ($: tapi.T${key}<Annotation>) => void,`)
                         })
                     })
                     $w.snippet(`) {`)
@@ -182,16 +208,10 @@ function generate($w: Block) {
                                 case "bag":
                                     cc($[1], ($) => {
                                         $w.line(($w) => {
-                                            $w.snippet(`const temp: T${$k}<Annotation> = {`)
-                                            $w.indent(($w) => {
-                                                $w.line(($w) => {
-                                                    $w.snippet(`annotation: getAnnotation($),`)
-                                                })
-                                                $w.line(($w) => {
-                                                    $w.snippet(`children: []`)
-                                                })
-                                            })
-                                            $w.snippet(`}`)
+                                            $w.snippet(`const temp: tapi.C${$k}<Annotation>[] = []`)
+                                        })
+                                        $w.line(($w) => {
+                                            $w.snippet(`const $parent = $`)
                                         })
                                         $w.line(($w) => {
                                             $w.snippet(`$.children.forEach(($) => {`)
@@ -213,7 +233,7 @@ function generate($w: Block) {
                                                                                             $w.snippet(`$,`)
                                                                                         })
                                                                                         $w.line(($w) => {
-                                                                                            $w.snippet(`($) => { temp.children.push(["${$}", $]) },`)
+                                                                                            $w.snippet(`($) => { temp.push(["${$}", $]) },`)
                                                                                         })
                                                                                     })
                                                                                     $w.snippet(`)`)
@@ -232,10 +252,10 @@ function generate($w: Block) {
                                                                             $w.snippet(`case "${$[0]}": {`)
                                                                             $w.indent(($w) => {
                                                                                 $w.line(($w) => {
-                                                                                    $w.snippet(`const callback = ($: T${$[0]}<Annotation>) => {`)
+                                                                                    $w.snippet(`const callback = ($: tapi.T${$[0]}<Annotation>) => {`)
                                                                                     $w.indent(($w) => {
                                                                                         $w.line(($w) => {
-                                                                                            $w.snippet(`temp.children.push(["${$[0]}", $])`)
+                                                                                            $w.snippet(`temp.push(["${$[0]}", $])`)
                                                                                         })
                                                                                     })
                                                                                     $w.snippet(`}`)
@@ -268,7 +288,7 @@ function generate($w: Block) {
                                                         })
                                                         $w.line(($w) => {
                                                             //$w.snippet(`default: throw new UnrecognizedNodeError(\`\${$.kindName}\`)`)
-                                                            $w.snippet(`default: console.error(\`encountered unexpected node in '${$k}': '\${$.kindName}' @ \${getLineInfo($)}\`)`)
+                                                            $w.snippet(`default: reportUnexpectedChild({ parent: $parent, child: $, })`)
 
                                                         })
                                                     })
@@ -278,7 +298,16 @@ function generate($w: Block) {
                                             $w.snippet(`})`)
                                         })
                                         $w.line(($w) => {
-                                            $w.snippet(`callback(temp)`)
+                                            $w.snippet(`callback({`)
+                                            $w.indent(($w) => {
+                                                $w.line(($w) => {
+                                                    $w.snippet(`annotation: $.annotation,`)
+                                                })
+                                                $w.line(($w) => {
+                                                    $w.snippet(`children: temp`)
+                                                })
+                                            })
+                                            $w.snippet(`})`)
                                         })
                                     })
                                     break
@@ -309,9 +338,187 @@ function generate($w: Block) {
 
 
     $w.line(($w) => {
-        $w.snippet(`export type Root<Annotation> = T${g.grammar.startRule}<Annotation>`)
+        $w.snippet(`export type Root<Annotation> = tapi.T${g.grammar.startRule}<Annotation>`)
     })
-
 }
 
-generate($w)
+function generateVisitorTemplate($w: Block) {
+
+    $w.line(($w) => {
+        $w.snippet(`import * as pr from "pareto-runtime"`)
+    })
+    $w.line(($w) => {
+        $w.snippet(`import * as api from "./generated_ts_api"`)
+    })
+    $w.line(($w) => { })
+
+    $w.line(($w) => {
+        $w.snippet(`export function visit<Annotation>(`)
+        $w.indent(($w) => {
+            $w.line(($w) => {
+                $w.snippet(`$: api.T${g.grammar.startRule}<Annotation>,`)
+            })
+            $w.line(($w) => {
+                $w.snippet(`report: (annotation: Annotation) => void,`)
+            })
+        })
+        $w.snippet(`): void {`)
+        $w.indent(($w) => {
+
+            forEachEntry(g.grammar.tokenRules, ($, key) => {
+                $w.line(($w) => {
+
+                    $w.snippet(`function _${key}(`)
+                    $w.indent(($w) => {
+                        $w.line(($w) => {
+                            $w.snippet(`$: api.T${key}<Annotation>,`)
+                        })
+                    })
+                    $w.snippet(`) {`)
+                    $w.indent(($w) => {
+                        function generateType(
+                            $key: string,
+                            $: g.Type,
+                            $w: Block
+                        ) {
+                            switch ($[0]) {
+                                case "bag":
+                                    cc($[1], ($) => {
+                                        $w.line(($w) => {
+                                            $w.snippet(`report($.annotation)`)
+                                        })
+                                        $w.line(($w) => {
+                                            $w.snippet(`$.children.forEach(($) => {`)
+                                            $w.indent(($w) => {
+                                                $w.line(($w) => {
+
+                                                    $w.snippet(`switch ($[0]) {`)
+                                                    $w.indent(($w) => {
+                                                        $.forEach(($) => {
+                                                            $w.line(($w) => {
+                                                                switch ($[0]) {
+                                                                    case "global":
+                                                                        cc($[1], ($) => {
+                                                                            $w.snippet(`case "${$}": {`)
+                                                                            $w.indent(($w) => {
+                                                                                $w.line(($w) => {
+                                                                                    $w.snippet(`pr.cc($[1], ($) => {`)
+                                                                                    $w.indent(($w) => {
+                                                                                        $w.line(($w) => {
+                                                                                            $w.snippet(`_${$}($)`)
+                                                                                        })
+                                                                                    })
+                                                                                    $w.snippet(`})`)
+                                                                                })
+                                                                                $w.line(($w) => {
+                                                                                    $w.snippet(`break`)
+                                                                                })
+                                                                            })
+                                                                            $w.snippet(`}`)
+                                                                        })
+                                                                        break
+                                                                    case "local":
+                                                                        cc($[1], ($) => {
+                                                                            $w.snippet(`case "${$[0]}": {`)
+                                                                            $w.indent(($w) => {
+                                                                                $w.line(($w) => {
+                                                                                    $w.snippet(`pr.cc($[1], ($) => {`)
+                                                                                    $w.indent(($w) => {
+                                                                                        generateType(
+                                                                                            $[0],
+                                                                                            $[1],
+                                                                                            $w,
+                                                                                        )
+                                                                                        $w.line(($w) => {
+                                                                                        })
+                                                                                    })
+                                                                                    $w.snippet(`})`)
+                                                                                })
+                                                                                $w.line(($w) => {
+                                                                                    $w.snippet(`break`)
+                                                                                })
+                                                                            })
+                                                                            $w.snippet(`}`)
+                                                                        })
+                                                                        break
+                                                                    default:
+                                                                        assertUnreachable($[0])
+                                                                }
+                                                            })
+                                                        })
+                                                        $w.line(($w) => {
+                                                            $w.snippet(`default: pr.au($[0])`)
+                                                        })
+                                                    })
+                                                    $w.snippet(`}`)
+                                                })
+                                            })
+                                            $w.snippet(`})`)
+                                        })
+                                    })
+                                    break
+                                case "leaf":
+                                    cc($[1], ($) => {
+                                        $w.line(($w) => {
+                                            $w.snippet(`//report($.annotation)//LEAF`)
+                                        })
+                                        $w.line(($w) => {
+                                            $w.snippet(`//FIXME`)
+                                        })
+                                    })
+                                    break
+                                default:
+                                    assertUnreachable($[0])
+                            }
+                        }
+                        generateType(
+                            key,
+                            $,
+                            $w,
+                        )
+                    })
+                    $w.snippet(`}`)
+                })
+            })
+
+            $w.line(($w) => {
+                $w.snippet(`return _${g.grammar.startRule}($)`)
+            })
+        })
+        $w.snippet(`}`)
+    })
+}
+
+let apiOut = ""
+generateAPI(createFile(
+    "    ",
+    "\r\n",
+    (str) => {
+        apiOut += str
+    }
+))
+
+pr.writeFileSync(pr.join([targetPath, "generated_ts_api.ts"]), apiOut)
+
+let builderOut = ""
+generateBuilder(createFile(
+    "    ",
+    "\r\n",
+    (str) => {
+        builderOut += str
+    }
+))
+
+pr.writeFileSync(pr.join([targetPath, "generated_builder.ts"]), builderOut)
+
+
+let visitorOut = ""
+generateVisitorTemplate(createFile(
+    "    ",
+    "\r\n",
+    (str) => {
+        visitorOut += str
+    }
+))
+
+pr.writeFileSync(pr.join([targetPath, "generated_visitor_template.ts"]), visitorOut)

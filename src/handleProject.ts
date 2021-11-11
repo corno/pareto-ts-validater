@@ -1,40 +1,44 @@
 import * as t from "./types"
 import * as p from "./TypeScriptAPI/untypedAPI"
 import * as tsapi from "./TypeScriptAPI/generated_ts_api"
+import * as builder from "./TypeScriptAPI/generated_builder"
 import { visit } from "./TypeScriptAPI/generated_visitor_template"
 
 export function handleProject<Annotation>(
     project: p.Project<Annotation>,
     getLocationInfo: (annotation: Annotation) => string,
+    reportExistence: (
+        filePath: string,
+        annotation: Annotation,
+    ) => void,
 ) {
 
 
     try {
         project.sourceFiles.forEach(($) => {
             const filePath = $.path
-            tsapi.root(
+            builder.root(
                 $.node,
                 ($) => {
-                    console.log("##########")
                     visit(
                         $,
                         ($) => {
-                            return `${filePath}: ${getLocationInfo($)}`
+                            reportExistence(filePath, $)
                         },
                     )
                 },
+                // ($) => {
+                //     return `${filePath}: ${getLocationInfo($.annotation)}`
+                // },
                 ($) => {
-                    return `${filePath}: ${getLocationInfo($.annotation)}`
-                },
-                ($) => {
-                    return $.annotation
+                    return console.log(`unexpected child: '${$.child.kindName}' in '${$.parent.kindName}' @ ${filePath}: ${getLocationInfo($.child.annotation)}`)
                 }
             )
         })
 
 
     } catch (e) {
-        if (!(e instanceof tsapi.UnrecognizedNodeError)) {
+        if (!(e instanceof builder.UnrecognizedNodeError)) {
             throw e
         } else {
             console.error(`Encountered 1 or more unexpected typescript nodes, please mail files specified below to corno@schraverus.com`)
@@ -74,7 +78,7 @@ export function handleProject<Annotation>(
                     } else {
                         $.children.forEach(($) => {
                             if (t.index[type].indexOf($.kindName) === -1) {
-                                console.log(`MISSINGXX: ${type}>${$.kindName} @ ${filePath}:[${$.startLineNumber},${$.startLinePos}]`)
+                                console.log(`MISSINGXX: ${type}>${$.kindName} @ ${getLocationInfo($.annotation)}`)
                             }
                             descend(
                                 $,

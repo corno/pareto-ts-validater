@@ -11,11 +11,18 @@ loadProject(
     tsconfigPath,
     (
         project,
-        getLineInfo,
+        getLocationInfo,
     ) => {
         tr.handleProject(
             project,
-            getLineInfo,
+            getLocationInfo,
+            (
+                filePath,
+                $,
+
+            ) => {
+                console.log(`${$.getKindName()} ${filePath}: ${getLocationInfo($)}`)
+            },
         )
     }
 )

@@ -1,13 +1,8 @@
-
-export interface IArray<T> {
-    forEach(callback: ($: T) => void): void
-}
+import * as pr from "pareto-runtime"
 
 export type Node<Annotation> = {
-    children: IArray<Node<Annotation>>
     kindName: string
-    startLineNumber: number
-    startLinePos: number
+    children: pr.IReadonlyArray<Node<Annotation>>
     annotation: Annotation
 }
 
@@ -18,5 +13,5 @@ export type SourceFile<Annotation> = {
 
 export type Project<Annotation> = {
     path: string
-    sourceFiles: IArray<SourceFile<Annotation>>
+    sourceFiles: pr.IReadonlyArray<SourceFile<Annotation>>
 }

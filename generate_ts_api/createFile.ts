@@ -1,24 +1,24 @@
-import * as pr from "pareto-runtime"
 import { Block, Line } from "./WriteAPI"
+import * as pr from "pareto-runtime"
 
 export function createFile(
     indentation: string,
     newline: string,
     write: (str: string,) => void,
 ): Block {
+    let isFirstLine = true
     function createBlock(
         indentation: string,
         currentIndentation: string,
         flush: () => void,
-        isFirstLine: boolean,
     ): Block {
         return {
             line: (callback) => {
                 flush()
                 if (!isFirstLine) {
-                    console.error("HIERO")
-                    //write(newline)
+                    write(newline)
                 }
+                isFirstLine = false
                 let currentLine: string | null = currentIndentation
                 function createLine(
                     indentation: string,
@@ -35,12 +35,11 @@ export function createFile(
                                         currentLine = null
                                     }
                                 },
-                                false,
                             ))
                         },
                         snippet: (str) => {
                             if (currentLine === null) {
-                                write(newline)
+                                write(`\r\n`)
                                 currentLine = currentIndentation
                             }
                             currentLine += `${str}`
@@ -60,7 +59,8 @@ export function createFile(
     return createBlock(
         indentation,
         "",
-        () => {   },
-        true,
+        () => {
+            //
+        },
     )
 }

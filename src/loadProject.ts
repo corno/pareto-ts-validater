@@ -13,7 +13,6 @@ export function loadProject(
 
     const project = new tsm.Project({})
 
-
     project.addSourceFilesFromTsConfig(tsconfigPath)
 
     project.resolveSourceFileDependencies()
@@ -25,12 +24,6 @@ export function loadProject(
         }
         get kindName() {
             return this.imp.getKindName()
-        }
-        get startLineNumber() {
-            return this.imp.getStartLineNumber()
-        }
-        get startLinePos() {
-            return this.imp.getStartLinePos()
         }
         get children() {
             return {
