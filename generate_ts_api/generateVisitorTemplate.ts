@@ -37,10 +37,10 @@ function generate($w: Block) {
     $w.line(($w) => { })
 
     $w.line(($w) => {
-        $w.snippet(`export function root<Annotation>(`)
+        $w.snippet(`export function visit<Annotation>(`)
         $w.indent(($w) => {
             $w.line(($w) => {
-                $w.snippet(`$: api.T${g.grammar.startRule},`)
+                $w.snippet(`$: api.T${g.grammar.startRule}<Annotation>,`)
             })
             $w.line(($w) => {
                 $w.snippet(`getLineInfo: (annotation: Annotation) => string,`)
@@ -55,10 +55,10 @@ function generate($w: Block) {
                     $w.snippet(`function _${key}(`)
                     $w.indent(($w) => {
                         $w.line(($w) => {
-                            $w.snippet(`$: api.T${key},`)
+                            $w.snippet(`$: api.T${key}<Annotation>,`)
                         })
                         // $w.line(($w) => {
-                        //     $w.snippet(`callback: ($: api.T${key}) => void,`)
+                        //     $w.snippet(`callback: ($: api.T${key}<Annotation>) => void,`)
                         // })
                     })
                     $w.snippet(`) {`)
@@ -68,14 +68,14 @@ function generate($w: Block) {
                             $: g.Type,
                             $w: Block
                         ) {
-                            $w.line(($w) => {
-                                $w.snippet(`//console.log(\`${$key}\`)`)
-                            })
                             switch ($[0]) {
                                 case "bag":
                                     cc($[1], ($) => {
                                         $w.line(($w) => {
-                                            $w.snippet(`$.forEach(($) => {`)
+                                            $w.snippet(`//console.log(\`${$key} @ \${getLineInfo($.annotation)}\`)`)
+                                        })
+                                        $w.line(($w) => {
+                                            $w.snippet(`$.children.forEach(($) => {`)
                                             $w.indent(($w) => {
                                                 $w.line(($w) => {
 
@@ -146,6 +146,9 @@ function generate($w: Block) {
                                     break
                                 case "leaf":
                                     cc($[1], ($) => {
+                                        $w.line(($w) => {
+                                            $w.snippet(`//console.log(\`${$key}\`)`)
+                                        })
                                         $w.line(($w) => {
                                             $w.snippet(`//FIXME`)
                                         })

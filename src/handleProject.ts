@@ -3,13 +3,6 @@ import * as p from "./TypeScriptAPI/untypedAPI"
 import * as tsapi from "./TypeScriptAPI/generated_ts_api"
 import { visit } from "./TypeScriptAPI/generated_visitor_template"
 
-function assertUnreachable<RT>(_x: never): RT {
-    throw new Error("unreachable")
-}
-function cc<T, RT>(input: T, callback: (output: T) => RT): RT {
-    return callback(input)
-}
-
 export function handleProject<Annotation>(
     project: p.Project<Annotation>,
     getLocationInfo: (annotation: Annotation) => string,
@@ -25,13 +18,16 @@ export function handleProject<Annotation>(
                     console.log("##########")
                     visit(
                         $,
-                        () => {
-                            return "FOO"
+                        ($) => {
+                            return `${filePath}: ${getLocationInfo($)}`
                         },
                     )
                 },
                 ($) => {
                     return `${filePath}: ${getLocationInfo($.annotation)}`
+                },
+                ($) => {
+                    return $.annotation
                 }
             )
         })

@@ -86,32 +86,41 @@ function generate($w: Block) {
                 $w.snippet(``)
             })
             $w.line(($w) => {
-                $w.snippet(`export type T${$k} = `)
+                $w.snippet(`export type T${$k}<Annotation> = `)
                 switch ($[0]) {
                     case "bag":
                         cc($[1], ($) => {
-                            $w.snippet(`Array<`)
+                            $w.snippet(`{`)
                             $w.indent(($w) => {
-                                $.forEach(($) => {
-                                    $w.line(($w) => {
-                                        switch ($[0]) {
-                                            case "global":
-                                                cc($[1], ($) => {
-                                                    $w.snippet(`| ["${$}", T${$}]`)
-                                                })
-                                                break
-                                            case "local":
-                                                cc($[1], ($) => {
-                                                    $w.snippet(`| ["${$[0]}", T${$[0]}]`)
-                                                })
-                                                break
-                                            default:
-                                                assertUnreachable($[0])
-                                        }
+                                $w.line(($w) => {
+                                    $w.snippet(`annotation: Annotation`)
+                                })
+                                $w.line(($w) => {
+                                    $w.snippet(`children: Array<`)
+                                    $w.indent(($w) => {
+                                        $.forEach(($) => {
+                                            $w.line(($w) => {
+                                                switch ($[0]) {
+                                                    case "global":
+                                                        cc($[1], ($) => {
+                                                            $w.snippet(`| ["${$}", T${$}<Annotation>]`)
+                                                        })
+                                                        break
+                                                    case "local":
+                                                        cc($[1], ($) => {
+                                                            $w.snippet(`| ["${$[0]}", T${$[0]}<Annotation>]`)
+                                                        })
+                                                        break
+                                                    default:
+                                                        assertUnreachable($[0])
+                                                }
+                                            })
+                                        })
                                     })
+                                    $w.snippet(`>`)
                                 })
                             })
-                            $w.snippet(`>`)
+                            $w.snippet(`}`)
                         })
                         break
                     case "leaf":
@@ -138,10 +147,13 @@ function generate($w: Block) {
                 $w.snippet(`$: p.Node<Annotation>,`)
             })
             $w.line(($w) => {
-                $w.snippet(`callback: ($: T${g.grammar.startRule}) => void,`)
+                $w.snippet(`callback: ($: T${g.grammar.startRule}<Annotation>) => void,`)
             })
             $w.line(($w) => {
                 $w.snippet(`getLineInfo: ($: p.Node<Annotation>) => string,`)
+            })
+            $w.line(($w) => {
+                $w.snippet(`getAnnotation: ($: p.Node<Annotation>) => Annotation,`)
             })
         })
         $w.snippet(`): void {`)
@@ -156,7 +168,7 @@ function generate($w: Block) {
                             $w.snippet(`$: p.Node<Annotation>,`)
                         })
                         $w.line(($w) => {
-                            $w.snippet(`callback: ($: T${key}) => void,`)
+                            $w.snippet(`callback: ($: T${key}<Annotation>) => void,`)
                         })
                     })
                     $w.snippet(`) {`)
@@ -170,7 +182,16 @@ function generate($w: Block) {
                                 case "bag":
                                     cc($[1], ($) => {
                                         $w.line(($w) => {
-                                            $w.snippet(`const temp: T${$k} = []`)
+                                            $w.snippet(`const temp: T${$k}<Annotation> = {`)
+                                            $w.indent(($w) => {
+                                                $w.line(($w) => {
+                                                    $w.snippet(`annotation: getAnnotation($),`)
+                                                })
+                                                $w.line(($w) => {
+                                                    $w.snippet(`children: []`)
+                                                })
+                                            })
+                                            $w.snippet(`}`)
                                         })
                                         $w.line(($w) => {
                                             $w.snippet(`$.children.forEach(($) => {`)
@@ -192,7 +213,7 @@ function generate($w: Block) {
                                                                                             $w.snippet(`$,`)
                                                                                         })
                                                                                         $w.line(($w) => {
-                                                                                            $w.snippet(`($) => { temp.push(["${$}", $]) },`)
+                                                                                            $w.snippet(`($) => { temp.children.push(["${$}", $]) },`)
                                                                                         })
                                                                                     })
                                                                                     $w.snippet(`)`)
@@ -211,10 +232,10 @@ function generate($w: Block) {
                                                                             $w.snippet(`case "${$[0]}": {`)
                                                                             $w.indent(($w) => {
                                                                                 $w.line(($w) => {
-                                                                                    $w.snippet(`const callback = ($: T${$[0]}) => {`)
+                                                                                    $w.snippet(`const callback = ($: T${$[0]}<Annotation>) => {`)
                                                                                     $w.indent(($w) => {
                                                                                         $w.line(($w) => {
-                                                                                            $w.snippet(`temp.push(["${$[0]}", $])`)
+                                                                                            $w.snippet(`temp.children.push(["${$[0]}", $])`)
                                                                                         })
                                                                                     })
                                                                                     $w.snippet(`}`)
@@ -288,7 +309,7 @@ function generate($w: Block) {
 
 
     $w.line(($w) => {
-        $w.snippet(`export type Root = T${g.grammar.startRule}`)
+        $w.snippet(`export type Root<Annotation> = T${g.grammar.startRule}<Annotation>`)
     })
 
 }
