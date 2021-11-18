@@ -30,6 +30,39 @@ const knownExtensions: { [key: string]: {} } = {
     ".yml": {}
 }
 
+readGitWorkspace(
+    {
+        directoryPath: ".."
+    },
+    {
+        onError: ($) => {
+            console.error($)
+        },
+        fileCallback: (
+            $repoPath,
+            $filePath,
+            $content,
+        ) => {
+            const splittedPath = path.normalize($filePath).split(path.sep)
+            const expected: {[key:string]: null} = {
+                ".gitignore": null,
+                "tsconfig.json": null,
+                "src": null,
+                "bin": null,
+                "data": null,
+                "package.json": null,
+                ".eslintrc.js": null,
+                ".eslintignore": null,
+                "README.md": null,
+                "package-lock.json": null,
+            }
+            if (expected[splittedPath[0]] === undefined) {
+                console.error(`${$repoPath}: unexpected file: ${$filePath}`)
+            }
+        }
+    }
+)
+
 console.log(`date,repository,directory,basename,extension,category,lines,generated`)
 readGitWorkspace(
     {
