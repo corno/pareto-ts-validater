@@ -4,20 +4,19 @@
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",
   "scripts": {
+    "analyse pareto repos": "npm run build && node ./dist/src/analyseParetoRepos > pareto.csv",
+    "analyse workspace": "npm run build && node ./dist/src/analyseWorkspace > allFiles.csv",
     "build": "rm -rf ./dist && tsc",
-    "generate-ts-api": "npm run build && node ./dist/generate_ts_api/generateCode.js ./src/TypeScriptAPI",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "update2latest": "ncu -u --packageFile package.json && nsi && tsc",
     "validate astn": "npm run build && node ./dist/src/index.js \"../astn/tsconfig.json\""
   },
   "author": "Corno",
   "license": "ISC",
   "dependencies": {
-    "pareto-runtime": "^0.9.0",
-    "typescript": "^4.4.4"
+    "pareto-runtime": "^0.10.0",
+    "typesafe-typescript-ast": "^0.4.2"
   },
   "devDependencies": {
-    "@types/node": "^16.11.7",
-    "ts-morph": "^12.2.0"
+    "@types/node": "^16.11.7"
   }
 }

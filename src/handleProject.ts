@@ -1,31 +1,28 @@
-import * as t from "./types"
-import * as p from "./TypeScriptAPI/untypedAPI"
-import * as tsapi from "./TypeScriptAPI/generated_ts_api"
-import * as builder from "./TypeScriptAPI/generated_builder"
-import { visit } from "./TypeScriptAPI/generated_visitor_template"
+import * as tsastImp from "typesafe-typescript-ast"
+import * as uastAPI from "typesafe-typescript-ast/esc/interfaces/untypedAST"
+
 
 export function handleProject<Annotation>(
-    project: p.Project<Annotation>,
+    project: uastAPI.Project<Annotation>,
     getLocationInfo: (annotation: Annotation) => string,
     reportExistence: (
         filePath: string,
         annotation: Annotation,
     ) => void,
 ) {
-
-
     try {
         project.sourceFiles.forEach(($) => {
             const filePath = $.path
-            builder.root(
+            tsastImp.build(
                 $.node,
                 ($) => {
-                    visit(
-                        $,
-                        ($) => {
-                            reportExistence(filePath, $)
-                        },
-                    )
+                    console.log($)
+                    // tsastImp(
+                    //     $,
+                    //     ($) => {
+                    //         reportExistence(filePath, $)
+                    //     },
+                    // )
                 },
                 // ($) => {
                 //     return `${filePath}: ${getLocationInfo($.annotation)}`
@@ -38,7 +35,7 @@ export function handleProject<Annotation>(
 
 
     } catch (e) {
-        if (!(e instanceof builder.UnrecognizedNodeError)) {
+        if (!(e instanceof tsastImp.UnrecognizedNodeError)) {
             throw e
         } else {
             console.error(`Encountered 1 or more unexpected typescript nodes, please mail files specified below to corno@schraverus.com`)
@@ -54,45 +51,45 @@ export function handleProject<Annotation>(
                 }
                 const relativePath = filePath.substr(project.path.length)
 
-                function descend(
-                    $: p.Node<Annotation>,
-                    indentation: string,
-                    type: string,
-                ) {
-                    // switch (definition[0]) {
-                    //     case "global":
-                    //         cc(definition[1], (definition) => {
-                    //             g.grammar.tokenRules[type]
-                    //         })
-                    //         break
-                    //     case "local":
-                    //         cc(definition[1], (definition) => {
-                    //         })
-                    //         break
-                    //     default:
-                    //         assertUnreachable(definition[0])
-                    // }
-                    const children = t.index[type]
-                    if (children === undefined) {
-                        //console.log(`MISSING TYPE: ${type}`)
-                    } else {
-                        $.children.forEach(($) => {
-                            if (t.index[type].indexOf($.kindName) === -1) {
-                                console.log(`MISSINGXX: ${type}>${$.kindName} @ ${getLocationInfo($.annotation)}`)
-                            }
-                            descend(
-                                $,
-                                indentation + "    ",
-                                $.kindName,
-                            )
-                        })
-                    }
-                }
-                descend(
-                    $.node,
-                    "    ",
-                    "SourceFile",
-                )
+                // function descend(
+                //     $: tsast.Node<Annotation>,
+                //     indentation: string,
+                //     type: string,
+                // ) {
+                //     // switch (definition[0]) {
+                //     //     case "global":
+                //     //         cc(definition[1], (definition) => {
+                //     //             g.grammar.tokenRules[type]
+                //     //         })
+                //     //         break
+                //     //     case "local":
+                //     //         cc(definition[1], (definition) => {
+                //     //         })
+                //     //         break
+                //     //     default:
+                //     //         assertUnreachable(definition[0])
+                //     // }
+                //     const children = t.index[type]
+                //     if (children === undefined) {
+                //         //console.log(`MISSING TYPE: ${type}`)
+                //     } else {
+                //         $.children.forEach(($) => {
+                //             if (t.index[type].indexOf($.kindName) === -1) {
+                //                 console.log(`MISSINGXX: ${type}>${$.kindName} @ ${getLocationInfo($.annotation)}`)
+                //             }
+                //             descend(
+                //                 $,
+                //                 indentation + "    ",
+                //                 $.kindName,
+                //             )
+                //         })
+                //     }
+                // }
+                // descend(
+                //     $.node,
+                //     "    ",
+                //     "SourceFile",
+                // )
 
             })
         }
