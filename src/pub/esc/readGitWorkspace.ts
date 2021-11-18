@@ -1,5 +1,5 @@
 import * as pr from "pareto-runtime"
-import { readGitRepoWithContent } from "./git/readGitRepoWithContent"
+import { readGitRepoWithContent } from "../../git/esc/readGitRepoWithContent"
 import { readWorkspace } from "./readWorkspace"
 
 export function readGitWorkspace(

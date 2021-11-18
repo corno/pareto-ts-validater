@@ -4,8 +4,8 @@
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",
   "scripts": {
-    "analyse pareto repos": "npm run build && node ./dist/src/analyseParetoRepos > pareto.csv",
-    "analyse workspace": "npm run build && node ./dist/src/analyseWorkspace > allFiles.csv",
+    "analyse pareto repos": "npm run build && node ./dist/src/pub/esc/analyseParetoRepos > tmp/pareto.csv",
+    "analyse workspace": "npm run build && node ./dist/src/pub/esc/analyseWorkspace > tmp/allFiles.csv",
     "build": "rm -rf ./dist && tsc",
     "update2latest": "ncu -u --packageFile package.json && nsi && tsc",
     "validate astn": "npm run build && node ./dist/src/index.js \"../astn/tsconfig.json\""
