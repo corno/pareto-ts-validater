@@ -3,7 +3,7 @@ import * as pr from "pareto-runtime"
 
 import * as path from "path"
 import * as tast from "typesafe-typescript-ast"
-import { logReadDirErrorType } from "../../fileSystem/logReadDirErrorType"
+import { logReadDirErrorType } from "../../fileSystem/esc/logReadDirErrorType"
 import { readDirectoryRecursively } from "../../fileSystem/readDirectoryRecursively"
 
 const directoryPath = ".."

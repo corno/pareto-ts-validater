@@ -2,6 +2,8 @@ import * as pr from "pareto-runtime"
 
 import * as path from "path"
 import { readGitWorkspace } from "./readGitWorkspace"
+import { createFileSystemContext } from "./createFileSystemContext"
+import { IFileSystemContext } from "./IFileSystemContext"
 
 
 const knownFiles: { [key: string]: {} } = {
@@ -35,13 +37,15 @@ type TypeDirectory = { [key: string]: Node }
 
 type DD = {
     "type":
-    | ["files", {
-        "extensions": string[]
-        recursive: boolean
-    }]
+    | ["files", FilesDictionary]
     | ["directories", {
-
+        node: Node
     }]
+}
+
+type FilesDictionary = {
+    "extensions": string[]
+    recursive: boolean
 }
 
 type Node =
@@ -49,158 +53,180 @@ type Node =
     | ["type directory", TypeDirectory]
     | ["dictionary directory", DD]
 
-type Pointer = {
-    pos: number
-    path: string[]
-}
 
+const expected: Node = ["type directory", {
+    "_package.json": ["file", {}],
+    ".eslintignore": ["file", {}],
+    ".eslintrc.js": ["file", {}],
+    ".gitignore": ["file", {}],
+    ".vscodeignore": ["file", {}],
+    "bin": ["dictionary directory", {
+        "type": ["files", {
+            "extensions": ["mjs"],
+            "recursive": false,
+        }],
+    }],
+    "data": ["dictionary directory", {
+        "type": ["files", {
+            "extensions": [
+                "astn",
+                "astn-schema",
+                "html",
+                "json",
+                "test",
+            ],
+            "recursive": true,
+        }],
+    }],
+    "package-lock.json": ["file", {}],
+    "package.json": ["file", {}],
+    "README.md": ["file", {}],
+    "src": ["dictionary directory", {
+        "type": ["directories", {
+            "node": ["type directory", {
+                "esc": ["dictionary directory", {
+                    "type": ["files", {
+                        "extensions": ["ts"],
+                        "recursive": true,
+                    }]
+                }]
+            }]
+        }],
+    }],
+    // "src": ["dictionary directory", ["type directory", {
+    //     "interfaces": ["type directory", {}],
+    //     "implementations": ["type directory", {}],
+    //     "bin": ["dictionary directory", ["file", {}]],
+    //     "esc": ["type directory", {}],
+    // }]],
 
-function increment(
-    pointer: Pointer,
-): Pointer {
-    return {
-        pos: pointer.pos + 1,
-        path: pointer.path,
-    }
-}
+    //don't allow tmp
+    // "tmp": ["dictionary directory", {
+    //     "type": ["files", {
+    //         "extensions": [
+    //             "astn",
+    //             "csv",
+    //             "txt",
+    //         ],
+    //         "recursive": false,
+    //     }],
+    // }],
+    "tsconfig.json": ["file", {}],
+}]
 
-function expectDirectory(
-    pointer: Pointer,
-    onDirectory: (
-        pointer: Pointer
-    ) => void,
+function doNode2(
+    $: IFileSystemContext | null,
+    $d: Node,
     onError: (message: string) => void,
 ) {
-    if (pointer.path.length === pointer.pos + 1) {
-        onError(`did not expect a file at this place: ${pointer.path.join(path.sep)}`)
-    } else {
-        onDirectory(
-            increment(pointer)
-        )
-    }
-}
+    switch ($d[0]) {
+        case "dictionary directory":
+            pr.cc($d[1], ($d) => {
+                if ($ === null) {
+                    onError(`expected this to be a directory`)
+                } else {
 
-function expectFile(
-    $: Pointer,
-    onFile: (
-        fileName: string,
-    ) => void,
-    onError: (message: string) => void,
-) {
-    if ($.path.length !== $.pos + 1) {
-        onError(`did not expect a directory at this place: ${$.path.splice(0, $.pos + 1).join(path.sep)}`)
-    } else {
-        onFile($.path[$.pos])
-    }
-}
-
-function expectFileOrDirectory(
-    $: Pointer,
-    onFile: (
-        fileName: string,
-    ) => void,
-    onDirectory: (
-        pointer: Pointer
-    ) => void,
-) {
-    if ($.path.length !== $.pos + 1) {
-        onDirectory(increment($))
-    } else {
-        onFile($.path[$.pos])
-    }
-}
-
-function doTypeDirectory(
-    def: TypeDirectory,
-    $: Pointer,
-    onError: (message: string) => void,
-) {
-    if ($.path[$.pos] === undefined) {
-        throw new Error("Unexpected; missing path")
-    }
-    const step = $.path[$.pos]
-    if (def[step] === undefined) {
-        onError(`unexpected file: ${$.path.join(path.sep)}`)
-    } else {
-        const childDef = def[step]
-        switch (childDef[0]) {
-            case "dictionary directory":
-                pr.cc(childDef[1], ($d) => {
-                    expectDirectory(
-                        $,
-                        ($) => {
-                            switch ($d.type[0]) {
-                                case "directories":
-                                    pr.cc($d.type[1], ($d) => {
-                                        expectDirectory(
+                    switch ($d.type[0]) {
+                        case "directories":
+                            pr.cc($d.type[1], ($d) => {
+                                $.expectDirectory(
+                                    ($, name2) => {
+                                        //console.error(`DICT2: ${name1} ${name2}`)
+                                        doNode2(
                                             $,
-                                            ($) => {
-                                                console.log("!!! directories")
-
-                                            },
+                                            $d.node,
                                             onError,
                                         )
-                                    })
-                                    break
-                                case "files":
-                                    pr.cc($d.type[1], ($d) => {
-                                        if ($d.recursive) {
-                                            expectFileOrDirectory(
-                                                $,
-                                                ($) => {
-                                                    //file
-                                                },
-                                                ($) => {
-                                                    //dir
-                                                },
-                                            )
-                                        } else {
-                                            expectFile(
-                                                $,
-                                                ($) => {
-                                                    console.log("!!! files")
-    
-                                                },
-                                                onError,
-                                            )
+                                    },
+                                )
+                            })
+                            break
+                        case "files":
+                            pr.cc($d.type[1], ($d) => {
+                                const $fs = $
+                                function validateExtension(
+                                    $: string,
+                                ) {
+                                    const ext = path.extname($)
+                                    if (ext[0] === ".") {
+                                        if (!$d.extensions.includes(ext.substr(1))) {
+                                            $fs.onError(`unexpected extension: ${$}`)
                                         }
-                                    })
-                                    break
-                                default:
-                                    pr.au($d.type[0])
+                                    } else {
+                                        $fs.onError(`missing file extension: ${$} ${ext}`)
+                                    }
+                                }
+                                if ($d.recursive) {
+                                    function doRecursiveFilesDictionary(
+                                        $: IFileSystemContext,
+                                    ) {
+                                        $.expectFileOrDirectory(
+                                            (name, $) => {
+                                                if ($ === null) {
+                                                    validateExtension(name)
+                                                } else {
+                                                    doRecursiveFilesDictionary(
+                                                        $,
+                                                    )
+                                                }
+                                            },
+                                        )
+
+                                    }
+                                    doRecursiveFilesDictionary($)
+                                } else {
+                                    $.expectFile(
+                                        ($) => {
+                                            validateExtension($)
+                                        },
+                                    )
+                                }
+                            })
+                            break
+                        default:
+                            pr.au($d.type[0])
+                    }
+                }
+            })
+            break
+        case "file":
+            pr.cc($d[1], ($d) => {
+                if ($ !== null) {
+                    onError(`expected this to be a file`)
+                }
+                //nothing else to do
+            })
+            break
+        case "type directory":
+            pr.cc($d[1], ($d) => {
+                if ($ === null) {
+                    onError(`expected this to be a directory`)
+                } else {
+                    const context = $
+                    context.expectFileOrDirectory(
+                        (name, $) => {
+                            const childDef = $d[name]
+                            if (childDef === undefined) {
+                                context.onError(`unexpected file or directory, options: ${Object.keys($d).map(($) => `'${$}'`).join(", ")}`)
+                            } else {
+                                doNode2(
+                                    $,
+                                    childDef,
+                                    (msg) => {
+                                        context.onError(msg)
+                                    }
+                                )
                             }
-                        },
-                        onError
+                        }
                     )
-                })
-                break
-            case "file":
-                pr.cc(childDef[1], ($d) => {
-                    expectFile(
-                        $,
-                        ($) => {
-                            console.log("!!! file")
-                        },
-                        onError
-                    )
-                })
-                break
-            case "type directory":
-                pr.cc(childDef[1], ($d) => {
-                    expectDirectory(
-                        $,
-                        ($) => {
-                            console.log("!!! type dir")
-                        },
-                        onError
-                    )
-                })
-                break
-            default:
-                pr.au(childDef[0])
-        }
+                }
+            })
+            break
+        default:
+            pr.au($d[0])
     }
 }
+
 
 readGitWorkspace(
     {
@@ -216,53 +242,21 @@ readGitWorkspace(
             $content,
         ) => {
             const splittedPath = path.normalize($filePath).split(path.sep)
-            const expected: TypeDirectory = {
-                "_package.json": ["file", {}],
-                ".eslintignore": ["file", {}],
-                ".eslintrc.js": ["file", {}],
-                ".gitignore": ["file", {}],
-                ".vscodeignore": ["file", {}],
-                "bin": ["dictionary directory", {
-                    "type": ["files", {
-                        "extensions": ["mjs"],
-                        "recursive": false,
-                    }],
-                }],
-                "data": ["dictionary directory", {
-                    "type": ["files", {
-                        "extensions": ["astn"],
-                        "recursive": true,
-                    }],
-                }],
-                "package-lock.json": ["file", {}],
-                "package.json": ["file", {}],
-                "README.md": ["file", {}],
-                "src": ["dictionary directory", {
-                    "type": ["directories", {
-                    }],
-                }],
-                // "src": ["dictionary directory", ["type directory", {
-                //     "interfaces": ["type directory", {}],
-                //     "implementations": ["type directory", {}],
-                //     "bin": ["dictionary directory", ["file", {}]],
-                //     "esc": ["type directory", {}],
-                // }]],
-                "tmp": ["dictionary directory", {
-                    "type": ["files", {
-                        "extensions": ["astn", "csv"],
-                        "recursive": false,
-                    }],
-                }],
-                "tsconfig.json": ["file", {}],
-            }
-            doTypeDirectory(
-                expected,
+
+            const step = createFileSystemContext(
                 {
                     pos: 0,
                     path: splittedPath,
                 },
                 ($) => {
                     console.error(`${$repoPath}: ${$}`)
+                },
+            )
+            doNode2(
+                step,
+                expected,
+                (msg) => {
+                    console.error(`${$repoPath}: ${msg}`)
                 }
             )
         }
