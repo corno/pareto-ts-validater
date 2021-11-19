@@ -1,4 +1,4 @@
-import { IFileSystemContext } from "./IFileSystemContext"
+import { IFileSystemContext } from "./interfaces/IFileSystemContext"
 
 import * as path from "path"
 

@@ -14,6 +14,7 @@ export function readDirectoryRecursively(
             error: pr.ReadDirErrorType,
             path: string
         }) => void
+        //FIXME add onEnd: () => void
     }
 ) {
     const $in = $
