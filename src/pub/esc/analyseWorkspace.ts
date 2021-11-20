@@ -1,54 +1,55 @@
+import * as pr from "pareto-runtime"
+
 import * as pth from "path"
-import { readGitWorkspace } from "./readGitWorkspace"
-import { createFileSystemContext } from "./createFileSystemContext"
-import { doNode2 } from "./implementations/fileSystemStructure"
+import { readGitRepoWithLineCounts } from "../../git/esc/implementations/readGitRepoWithLineCounts"
+import { analysePath, PathAnalysis } from "./analysePath"
 import { paretoProject } from "./data/paretoProject"
+import { readWorkspace } from "./readWorkspace"
 
-console.log(`date,repository,directory,basename,extension,category,correct,lines,generated`)
-readGitWorkspace(
-    {
-        directoryPath: ".."
-    },
-    {
-        onError: ($) => {
-            console.error($)
+
+export function analyseWorkspace(
+    directoryPath: string,
+    callback: (
+        repoPath: string,
+        filePath: string,
+        analysis: PathAnalysis,
+        lineCount: number,
+    ) => void,
+) {
+    readWorkspace(
+        {
+            directoryPath: directoryPath,
         },
-        fileCallback: (
-            $repoPath,
-            $filePath,
-            $content,
-        ) => {
-            const splittedPath = pth.normalize($filePath).split(pth.sep)
-
-            const step = createFileSystemContext(
-                {
-                    pos: 0,
-                    path: splittedPath,
-                },
-                ($) => {
-                    console.error(`${$repoPath}: ${$}`)
-                },
-            )
-            doNode2(
-                step,
-                paretoProject,
-                "",
-                (msg) => {
-                    console.error(`${$repoPath}: ${msg}`)
-                },
-                (path, correct) => {
-                    function getLineCount(): number {
-                        let lineCount = 1 //there's always 1 line
-                        for (let i = 0; i !== $content.length; i += 1) {
-                            if ($content[i] === "\n") {
-                                lineCount += 1
+        {
+            onError: ($) => {
+                console.error($.message)
+            },
+            fileCallback: (
+                repoPath
+            ) => {
+                readGitRepoWithLineCounts(
+                    pr.join([directoryPath, repoPath]),
+                    ($) => {
+                        analysePath(
+                            paretoProject,
+                            $.filePath,
+                            (analysis) => {
+                                callback(
+                                    repoPath,
+                                    $.filePath,
+                                    analysis,
+                                    $.lineCount,
+                                )
+                            },
+                            (msg) => {
+                                console.error(`${repoPath}: ${msg}`)
                             }
-                        }
-                        return lineCount
+                        )
                     }
-                    console.log(`${new Date().toISOString().split('T')[0]},${$repoPath},${pth.dirname($filePath) === "." ? "" : pth.dirname($filePath)},${pth.basename($filePath)},${pth.extname($filePath)},${path},${correct},${getLineCount()},${$filePath.indexOf(".generated") === -1 ? "" : "generated"}`)
-                },
-            )
-        }
-    }
-)
+                )
+            }
+        },
+    )
+
+}
+

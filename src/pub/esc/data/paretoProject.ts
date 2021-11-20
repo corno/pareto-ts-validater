@@ -1,11 +1,23 @@
-import { Node } from "../interfaces/fileSystemStructure";
+import { Node } from "../interfaces/fileSystemStructure"
+
+export const typescriptProject: Node = ["dictionary directory", {
+    "type": ["directories", {
+        "node": ["type directory", {
+            "esc": ["dictionary directory", {
+                "type": ["files", {
+                    "extensions": ["ts"],
+                    "recursive": true,
+                }],
+            }],
+        }],
+    }],
+}]
 
 export const paretoProject: Node = ["type directory", {
     "_package.json": ["file", {}],
     ".eslintignore": ["file", {}],
     ".eslintrc.js": ["file", {}],
     ".gitignore": ["file", {}],
-    ".vscodeignore": ["file", {}],
     "bin": ["dictionary directory", {
         "type": ["files", {
             "extensions": ["mjs"],
@@ -25,20 +37,9 @@ export const paretoProject: Node = ["type directory", {
             "recursive": true,
         }],
     }],
-    "package-lock.json": ["file", { "ignore": true}],
+    "package-lock.json": ["file", { "ignore": true }],
     "package.json": ["file", {}],
     "README.md": ["file", {}],
-    "src": ["dictionary directory", {
-        "type": ["directories", {
-            "node": ["type directory", {
-                "esc": ["dictionary directory", {
-                    "type": ["files", {
-                        "extensions": ["ts"],
-                        "recursive": true,
-                    }]
-                }]
-            }]
-        }],
-    }],
+    "src": typescriptProject,
     "tsconfig.json": ["file", {}],
 }]

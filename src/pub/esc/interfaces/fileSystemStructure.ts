@@ -15,8 +15,6 @@ type FilesDictionary = {
 }
 
 export type Node =
-    | ["file", {
-        "ignore"?: boolean
-    }]
+    | ["file", {}]
     | ["type directory", TypeDirectory]
     | ["dictionary directory", DD]

@@ -17,5 +17,4 @@ export type IFileSystemContext = {
             context: IFileSystemContext | null,
         ) => void,
     ) => void
-    onError: (message: string) => void
 }

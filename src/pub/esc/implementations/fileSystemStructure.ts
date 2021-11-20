@@ -4,21 +4,34 @@ import * as pth from "path"
 import { IFileSystemContext } from "../interfaces/IFileSystemContext"
 import { Node } from "../interfaces/fileSystemStructure"
 
+export type Result = {
+    path: string
+    error: null | string
+}
+
 export function doNode2(
     $: IFileSystemContext | null,
     $d: Node,
     path: string,
-    onError: (message: string) => void,
-    onFile: (
-        path: string,
-        correct: boolean,
-    ) => void
+    onFile: ($: Result) => void
 ) {
+    function onFile2(
+        path: string,
+        error: null | string,
+    ) {
+        onFile({
+            path: path,
+            error: error,
+        })
+    }
     switch ($d[0]) {
         case "dictionary directory":
             pr.cc($d[1], ($d) => {
                 if ($ === null) {
-                    onError(`expected this to be a directory`)
+                    onFile2(
+                        path + "#",
+                        `expected this to be a directory`,
+                    )
                 } else {
 
                     switch ($d.type[0]) {
@@ -31,7 +44,6 @@ export function doNode2(
                                             $,
                                             $d.node,
                                             path + "/*",
-                                            onError,
                                             onFile,
                                         )
                                     },
@@ -40,7 +52,6 @@ export function doNode2(
                             break
                         case "files":
                             pr.cc($d.type[1], ($d) => {
-                                const $fs = $
                                 function handleFile(
                                     path: string,
                                     $: string,
@@ -48,15 +59,21 @@ export function doNode2(
                                     const ext = pth.extname($)
                                     if (ext[0] === ".") {
                                         if (!$d.extensions.includes(ext.substr(1))) {
-                                            $fs.onError(`unexpected extension: ${$}`)
-
-                                            onFile(path + "/*" + ext, false)
+                                            onFile2(
+                                                path + "/*" + ext,
+                                                `unexpected extension: ${$}`,
+                                            )
                                         } else {
-                                            onFile(path + "/*" + ext, true)
+                                            onFile2(
+                                                path + "/*" + ext,
+                                                null,
+                                            )
                                         }
                                     } else {
-                                        $fs.onError(`missing file extension: ${$} ${ext}`)
-                                        onFile(path + "/*", false)
+                                        onFile2(
+                                            path + "/*",
+                                            `unknown file extension: ${$} ${ext}`,
+                                        )
                                     }
                                 }
                                 if ($d.recursive) {
@@ -101,34 +118,40 @@ export function doNode2(
         case "file":
             pr.cc($d[1], ($d) => {
                 if ($ !== null) {
-                    onError(`expected this to be a file`)
-                }
-                if ($d.ignore === undefined || $d.ignore === false) {
-                    onFile(path, $ === null)
+                    onFile2(
+                        path,
+                        `expected this to be a file`,
+                    )
+                } else {
+                    onFile2(
+                        path,
+                        null,
+                    )
                 }
             })
             break
         case "type directory":
             pr.cc($d[1], ($d) => {
                 if ($ === null) {
-                    onError(`expected this to be a directory`)
-                    onFile(path, false)
+                    onFile2(
+                        path,
+                        `expected this to be a directory`,
+                    )
                 } else {
                     const context = $
                     context.expectFileOrDirectory(
                         (name, $) => {
                             const childDef = $d[name]
                             if (childDef === undefined) {
-                                context.onError(`unexpected file or directory, options: ${Object.keys($d).map(($) => `'${$}'`).join(", ")}`)
-                                onFile(path, false)
+                                onFile2(
+                                    path,
+                                    `unexpected file or directory, options: ${Object.keys($d).map(($) => `'${$}'`).join(", ")}`,
+                                )
                             } else {
                                 doNode2(
                                     $,
                                     childDef,
                                     path + "/" + name,
-                                    (msg) => {
-                                        context.onError(msg)
-                                    },
                                     onFile,
                                 )
                             }
