@@ -38,6 +38,7 @@ analyseWorkspace(
         lineCount,
     ) => {
         if (analysis.pathPattern === "/src/*/esc/**/*.ts") {
+            out.write(`\r\n`)
             out.write(
                 [
                     today,
