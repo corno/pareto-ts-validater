@@ -79,14 +79,11 @@ date,repository,path,pattern,correct,directory,basename,extension,lines,generate
 2021-12-22,pareto-ts-validater,src/pub/esc/types.ts,/src/*/esc/**/*.ts,true,src/pub/esc,types.ts,.ts,513,false
 2021-12-22,pareto-ts-validater,src/pub/esc/readWorkspace.ts,/src/*/esc/**/*.ts,true,src/pub/esc,readWorkspace.ts,.ts,44,false
 2021-12-22,pareto-ts-validater,src/pub/esc/interfaces/fileSystemStructure.ts,/src/*/esc/**/*.ts,true,src/pub/esc/interfaces,fileSystemStructure.ts,.ts,20,false
-2021-12-22,pareto-ts-validater,src/pub/esc/interfaces/IFileSystemContext.ts,/src/*/esc/**/*.ts,true,src/pub/esc/interfaces,IFileSystemContext.ts,.ts,21,false
 2021-12-22,pareto-ts-validater,src/pub/esc/index.ts,/src/*/esc/**/*.ts,true,src/pub/esc,index.ts,.ts,36,false
-2021-12-22,pareto-ts-validater,src/pub/esc/implementations/fileSystemStructure.ts,/src/*/esc/**/*.ts,true,src/pub/esc/implementations,fileSystemStructure.ts,.ts,166,false
 2021-12-22,pareto-ts-validater,src/pub/esc/handleProject.ts,/src/*/esc/**/*.ts,true,src/pub/esc,handleProject.ts,.ts,144,false
 2021-12-22,pareto-ts-validater,src/pub/esc/data/paretoProject.ts,/src/*/esc/**/*.ts,true,src/pub/esc/data,paretoProject.ts,.ts,45,false
 2021-12-22,pareto-ts-validater,src/pub/esc/analyseWorkspace.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analyseWorkspace.ts,.ts,56,false
-2021-12-22,pareto-ts-validater,src/pub/esc/analyseTypescriptFilesInWorkspace.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analyseTypescriptFilesInWorkspace.ts,.ts,59,false
-2021-12-22,pareto-ts-validater,src/pub/esc/analysePath.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analysePath.ts,.ts,100,false
+2021-12-22,pareto-ts-validater,src/pub/esc/analyseTypescriptFilesInWorkspace.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analyseTypescriptFilesInWorkspace.ts,.ts,60,false
 2021-12-22,pareto-ts-validater,src/pub/esc/analyseParetoRepos.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analyseParetoRepos.ts,.ts,89,false
 2021-12-22,pareto-ts-validater,src/pub/esc/analyseAllWorkspaceFiles.ts,/src/*/esc/**/*.ts,true,src/pub/esc,analyseAllWorkspaceFiles.ts,.ts,45,false
 2021-12-22,pareto-ts-validater,src/git/esc/implementations/readGitRepoWithLineCounts.ts,/src/*/esc/**/*.ts,true,src/git/esc/implementations,readGitRepoWithLineCounts.ts,.ts,30,false

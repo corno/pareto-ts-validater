@@ -31,7 +31,7 @@ analyseWorkspace(
                 repoPath,
                 filePath,
                 analysis.pathPattern,
-                analysis.correct,
+                analysis.error === null,
                 pth.dirname(filePath) === "." ? "" : pth.dirname(filePath),
                 pth.basename(filePath),
                 pth.extname(filePath),

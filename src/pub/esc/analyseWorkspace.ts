@@ -1,8 +1,7 @@
 import * as pr from "pareto-runtime"
 
-import * as pth from "path"
 import { readGitRepoWithLineCounts } from "../../git/esc/implementations/readGitRepoWithLineCounts"
-import { analysePath, PathAnalysis } from "./analysePath"
+import { analysePath, AnalysisResult } from "./implementations/analysePath"
 import { paretoProject } from "./data/paretoProject"
 import { readWorkspace } from "./readWorkspace"
 
@@ -12,7 +11,7 @@ export function analyseWorkspace(
     callback: (
         repoPath: string,
         filePath: string,
-        analysis: PathAnalysis,
+        analysis: AnalysisResult,
         lineCount: number,
     ) => void,
 ) {
@@ -30,21 +29,19 @@ export function analyseWorkspace(
                 readGitRepoWithLineCounts(
                     pr.join([directoryPath, repoPath]),
                     ($) => {
-                        analysePath(
+                        const analysis = analysePath(
                             paretoProject,
                             $.filePath,
-                            (analysis) => {
-                                callback(
-                                    repoPath,
-                                    $.filePath,
-                                    analysis,
-                                    $.lineCount,
-                                )
-                            },
-                            (msg) => {
-                                console.error(`${repoPath}: ${msg}`)
-                            }
                         )
+                        callback(
+                            repoPath,
+                            $.filePath,
+                            analysis,
+                            $.lineCount,
+                        )
+                        if (analysis.error !== null) {
+                            console.error(`${repoPath}: ${analysis.error}`)
+                        }
                     }
                 )
             }

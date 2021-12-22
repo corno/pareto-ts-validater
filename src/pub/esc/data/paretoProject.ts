@@ -29,6 +29,7 @@ export const paretoProject: Node = ["type directory", {
             "extensions": [
                 "astn",
                 "astn-schema",
+                "csv",
                 "html",
                 "ts",
                 "json",
