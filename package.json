@@ -4,20 +4,18 @@
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",
   "scripts": {
-    "analyse pareto repos": "npm run build && node ./dist/src/pub/esc/analyseParetoRepos > tmp/pareto.csv",
-    "analyse all workspace files": "npm run build && node ./dist/src/pub/esc/analyseAllWorkspaceFiles > tmp/allFiles.csv",
-    "analyse typesript files in workspace": "npm run build && node ./dist/src/pub/esc/analyseTypescriptFilesInWorkspace",
-    "build": "rm -rf ./dist && tsc",
-    "update2latest": "ncu -u --packageFile package.json && nsi && tsc",
-    "validate astn": "npm run build && node ./dist/src/index.js \"../astn/tsconfig.json\""
+    "makeEscBinExecutable": "find ./dist/*/esc/bin/ -type f -name \"*.js\" -exec chmod 777 {} +",
+    "build": "rm -rf ./dist && tsc && npm run makeEscBinExecutable",
+    "update2latest": "ncu -u --packageFile package.json && nsi && tsc"
   },
   "author": "Corno",
   "license": "ISC",
   "dependencies": {
-    "pareto-runtime": "^0.10.0",
-    "typesafe-typescript-ast": "^0.4.2"
+    "pareto-runtime": "^0.13.5",
+    "ts-morph": "^13.0.2"
   },
   "devDependencies": {
-    "@types/node": "^16.11.9"
+    "generate-typesafe-ast": "^0.0.4",
+    "@types/node": "^17.0.4"
   }
 }

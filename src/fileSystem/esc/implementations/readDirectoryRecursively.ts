@@ -24,6 +24,7 @@ export function readDirectoryRecursively(
             switch ($[0]) {
                 case "error":
                     pr.cc($[1], ($) => {
+                        console.error("HIERO1")
                         $p.onError({
                             error: $.type,
                             path: pr.join([$in.directoryPath])
@@ -33,6 +34,7 @@ export function readDirectoryRecursively(
                 case "success":
                     pr.cc($[1], ($) => {
                         $.files.forEach(($) => {
+                            
                             if ($in.nodesToSkip.includes($.name)) {
                                 return
                             }

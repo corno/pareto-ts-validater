@@ -5,9 +5,9 @@ export function logReadDirErrorType(
     log: (message: string) => void,
 ) {
     switch ($[0]) {
-        case "is directory":
+        case "is not directory":
             pr.cc($[1], ($) => {
-                log(`is directory`)
+                log(`is not directory`)
             })
             break
         case "no entity":

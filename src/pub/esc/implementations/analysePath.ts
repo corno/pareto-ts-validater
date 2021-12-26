@@ -1,10 +1,11 @@
 import * as pr from "pareto-runtime"
 
-import * as pth from "path"
-import { Node } from "../interfaces/fileSystemStructure"
+import * as path from "path"
+import { Directory, Node } from "../interfaces/fileSystemStructure"
 
 export type AnalysisResult = {
     pathPattern: string,
+    path: string[],
     error: string | null,
 }
 
@@ -13,8 +14,9 @@ type PathIterator<T> = {
     // splittedPath: string[],
     // posx: number,
     next(): PathIterator<T>,
-    isLast(): boolean,
+    hasMoreSteps(): boolean,
     getCurrentStepName(): T,
+    getCurrentSteps(): T[],
 }
 
 function createPathIterator<T>(
@@ -24,222 +26,230 @@ function createPathIterator<T>(
         pos: number
     ): PathIterator<T> {
         return {
-            next () {
-                return create(pos +1)
+            next() {
+                return create(pos + 1)
             },
-            isLast() {
-                return splittedPath.length === pos + 1
+            hasMoreSteps() {
+                return splittedPath.length > pos
             },
             getCurrentStepName() {
                 return splittedPath[pos]
+            },
+            getCurrentSteps() {
+                return splittedPath.slice(0, pos)
             }
         }
     }
     return create(0)
 }
 
+export type ParsedFilePath = {
+    directoryPath: string[]
+    fileName: string
+    extension: string | null
+}
+
+export function parseFilePath(
+    filePath: string,
+): ParsedFilePath {
+    const normalizedFilePath = path.normalize(filePath)
+    const extWithLeadingDot = path.extname(normalizedFilePath)
+    return {
+        directoryPath: (() => {
+            const dirname = path.dirname(normalizedFilePath)
+            if (dirname === ".") {
+                return []
+            } else {
+            return dirname.split(path.sep)
+            }
+        })(),
+        fileName: path.basename(normalizedFilePath, extWithLeadingDot),
+        extension: ((): null | string => {
+            if (extWithLeadingDot === "") {
+                return null
+            } else {
+                if (extWithLeadingDot[0] !== ".") {
+                    throw new Error(`unexpected extension format: ${extWithLeadingDot}`)
+                }
+                return extWithLeadingDot.slice(1)
+            }
+        })(),
+    }
+}
+
 export function analysePath(
-    def: Node,
-    $filePath: string,
+    def: Directory,
+    filePath: ParsedFilePath
 ): AnalysisResult {
+    const fileNameWithExtension = `${filePath.fileName}${filePath.extension === null ? "" : `.${filePath.extension}`}`
+
     function createAnalysisResult(
-        path: string,
+        pi: PathIterator<string>,
+        pathPattern: string,
         error: null | string,
     ): AnalysisResult {
-        return {
-            pathPattern: path,
-            error: error,
-        }
-    }
 
-    function expectFileOrDirectory(
-        pi: PathIterator<string>,
-        onFile: (
-            name: string,
-        ) => AnalysisResult,
-        onDirectory: (
-            name: string,
-            pi: PathIterator<string>,
-        ) => AnalysisResult,
-    ): AnalysisResult {
-        if (pi.isLast()) {
-            return onFile(
-                pi.getCurrentStepName(),
-            )
-        } else {
-            return onDirectory(
-                pi.getCurrentStepName(),
-                pi.next(),
-            )
+        return {
+            pathPattern: pathPattern,
+            path: ((): string[] => {
+                if (pi.hasMoreSteps()) {
+                    return pi.getCurrentSteps()
+
+                } else {
+                    return pi.getCurrentSteps().concat([fileNameWithExtension])
+
+                }
+            })(),
+            error: error,
         }
     }
 
     function analyseDictionary(
         pi: PathIterator<string>,
-        $d: Node,
-        path: string,
+        $d: Directory,
+        pathPattern: string,
     ): AnalysisResult {
-        switch ($d[0]) {
-            case "dictionary directory":
-                return pr.cc($d[1], ($d) => {
-                    switch ($d.type[0]) {
-                        case "directories":
-                            return pr.cc($d.type[1], ($d) => {
-                                if (pi.isLast()) {
-                                    return createAnalysisResult(
-                                        path,
-                                        `did not expect a file at this place`
-                                    )
-                                } else {
-                                    return analyseDictionary(
-                                        pi.next(),
-                                        $d.node,
-                                        path + "/*",
-                                    )
-                                }
-                            })
-                        case "files":
-                            return pr.cc($d.type[1], ($d) => {
-                                function handleFile(
-                                    path: string,
-                                    $: string,
-                                ): AnalysisResult {
-                                    const ext = pth.extname($)
-                                    if (ext[0] === ".") {
-                                        if (!$d.extensions.includes(ext.substr(1))) {
-                                            return createAnalysisResult(
-                                                path + "/*" + ext,
-                                                `unexpected extension: ${$}`,
-                                            )
-                                        } else {
-                                            return createAnalysisResult(
-                                                path + "/*" + ext,
-                                                null,
-                                            )
-                                        }
-                                    } else {
-                                        return createAnalysisResult(
-                                            path + "/*",
-                                            `unknown file extension: ${$} ${ext}`,
-                                        )
-                                    }
-                                }
-                                if ($d.recursive) {
-                                    function doRecursiveFilesDictionary(
-                                        pi: PathIterator<string>,
-                                    ): AnalysisResult {
-                                        return expectFileOrDirectory(
-                                            pi,
-                                            (name) => {
-                                                return handleFile(
-                                                    path + "/**",
-                                                    name
-                                                )
-                                            },
-                                            (name, pos) => {
-                                                if (pos === null) {
-                                                    return handleFile(
-                                                        path + "/**",
-                                                        name
-                                                    )
-                                                } else {
-                                                    return doRecursiveFilesDictionary(
-                                                        pos,
-                                                    )
-                                                }
-                                            },
-                                        )
+        switch ($d.type[0]) {
+            case "directory dictionary":
+                return pr.cc($d.type[1], ($d) => {
+                    if (pi.hasMoreSteps()) {
 
-                                    }
-                                    return doRecursiveFilesDictionary(pi)
-                                } else {
-                                    if (pi.isLast()) {
-                                        return handleFile(
-                                            path,
-                                            pi.getCurrentStepName(),
-                                        )
-                                    } else {
-                                        return createAnalysisResult(
-                                            path,
-                                            `did not expect a dictionary at this place`
-                                        )
-                                    }
-                                }
-                            })
-                        default:
-                            return pr.au($d.type[0])
+                        return analyseDictionary(
+                            pi.next(),
+                            $d.definition,
+                            `${pathPattern}/*`,
+                        )
+                    } else {
+                        return createAnalysisResult(
+                            pi,
+                            `${pathPattern}/*`,
+                            "expected directory (any name)",
+                        )
                     }
                 })
-            case "file":
-                return pr.cc($d[1], ($d) => {
-                    return createAnalysisResult(
-                        path,
-                        `expected this to be a file`,
-                    )
+            case "files dictionary":
+                return pr.cc($d.type[1], ($d) => {
+                    function handleFile(
+                        pi: PathIterator<string>,
+                    ): AnalysisResult {
+                        const newPathPattern = `${pathPattern}${$d.recursive ? "/**" : ""}/*.${filePath.extension}`
+
+                        if (filePath.extension === null) {
+                            throw new Error(`implement me ${filePath.fileName}`)
+                        }
+                        if ($d.extensions.includes(filePath.extension)) {
+                            return createAnalysisResult(
+                                pi,
+                                newPathPattern,
+                                null,
+                            )
+                        } else {
+                            return createAnalysisResult(
+                                pi,
+                                newPathPattern,
+                                `unexpected extension: '${filePath.extension}'`,
+                            )
+                        }
+                    }
+                    if ($d.recursive) {
+                        function recurse(
+                            pi: PathIterator<string>
+                        ): AnalysisResult {
+                            if (pi.hasMoreSteps()) {
+                                return recurse(pi.next())
+                            } else {
+                                return handleFile(
+                                    pi,
+                                )
+                            }
+                        }
+                        return recurse(pi)
+                    } else {
+                        if (pi.hasMoreSteps()) {
+                            return createAnalysisResult(
+                                pi,
+                                `${pathPattern}${$d.recursive ? "/**" : ""}/*[${$d.extensions.join(",")}]`,
+                                "did not expect a directory",
+                            )
+                        } else {
+                            return handleFile(
+                                pi,
+                            )
+                        }
+                    }
                 })
-            case "type directory":
-                return pr.cc($d[1], ($d) => {
-                    return expectFileOrDirectory(
-                        pi,
-                        (name) => {
-                            const childDef = $d[name]
-                            if (childDef === undefined) {
-                                return createAnalysisResult(
-                                    path,
-                                    `unexpected file or directory, options: ${Object.keys($d).map(($) => `'${$}'`).join(", ")}`,
-                                )
-                            } else {
-                                switch (childDef[0]) {
-                                    case "dictionary directory":
-                                        return pr.cc(childDef[1], ($) => {
-                                            return createAnalysisResult(
-                                                path + "/" + name + "#",
-                                                `expected this to be a directory`,
-                                            )
-                                        })
-                                    case "file":
-                                        return pr.cc(childDef[1], ($) => {
-                                            return createAnalysisResult(
-                                                path + "/" + name,
-                                                null,
-                                            )
-                                        })
-                                    case "type directory":
-                                        return pr.cc(childDef[1], ($d) => {
-                                            return createAnalysisResult(
-                                                path + "/" + name,
-                                                `expected this to be a directory`,
-                                            )
-                                        })
-                                    default:
-                                        return pr.au(childDef[0])
-                                }
+            case "type":
+                return pr.cc($d.type[1], ($d) => {
+                    if (pi.hasMoreSteps()) {
+                        const name = pi.getCurrentStepName()
+                        const node = $d.nodes[name]
+                        if (node === undefined) {
+                            return createAnalysisResult(
+                                pi,
+                                `${pathPattern}`,
+                                `unexpected directory: '${name}'`,
+                            )
+                        } else {
+                            switch (node.type[0]) {
+                                case "directory":
+                                    return pr.cc(node.type[1], ($) => {
+                                        return analyseDictionary(
+                                            pi.next(),
+                                            $,
+                                            `${pathPattern}/${name}`
+                                        )
+                                    })
+                                case "file":
+                                    return pr.cc(node.type[1], ($) => {
+                                        return createAnalysisResult(
+                                            pi,
+                                            `${pathPattern}/${name}`,
+                                            `expected file instead of directory`,
+                                        )
+                                    })
+                                default:
+                                    return pr.au(node.type[0])
                             }
-                        },
-                        (name, $) => {
-                            const childDef = $d[name]
-                            if (childDef === undefined) {
-                                return createAnalysisResult(
-                                    path,
-                                    `unexpected file or directory, options: ${Object.keys($d).map(($) => `'${$}'`).join(", ")}`,
-                                )
-                            } else {
-                                return analyseDictionary(
-                                    $,
-                                    childDef,
-                                    path + "/" + name,
-                                )
+                        }
+                    } else {
+                        const node = $d.nodes[fileNameWithExtension]
+                        if (node === undefined) {
+                            return createAnalysisResult(
+                                pi,
+                                `${pathPattern}`,
+                                `unexpected file: '${fileNameWithExtension}'`,
+                            )
+                        } else {
+                            switch (node.type[0]) {
+                                case "directory":
+                                    return pr.cc(node.type[1], ($) => {
+                                        return createAnalysisResult(
+                                            pi,
+                                            `${pathPattern}/${fileNameWithExtension}`,
+                                            `expected directory instead of file`,
+                                        )
+                                    })
+                                case "file":
+                                    return pr.cc(node.type[1], (node) => {
+                                        return createAnalysisResult(
+                                            pi,
+                                            `${pathPattern}/${fileNameWithExtension}`,
+                                            null,
+                                        )
+                                    })
+                                default:
+                                    return pr.au(node.type[0])
                             }
-                        },
-                    )
+                        }
+                    }
                 })
             default:
-                return pr.au($d[0])
+                return pr.au($d.type[0])
         }
     }
     return analyseDictionary(
         createPathIterator(
-            pth.normalize($filePath).split(pth.sep)
+            filePath.directoryPath,
         ),
         def,
         "",

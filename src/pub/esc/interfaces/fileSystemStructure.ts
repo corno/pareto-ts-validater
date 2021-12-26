@@ -1,20 +1,24 @@
 
-type TypeDirectory = { [key: string]: Node }
-
-type DD = {
-    "type":
-    | ["files", FilesDictionary]
-    | ["directories", {
-        node: Node
-    }]
+export type Node = {
+    type:
+    | ["file", {}]
+    | ["directory", Directory]
 }
 
-type FilesDictionary = {
+export type TypeDirectory = {
+    nodes: { [key: string]: Node }
+}
+
+export type FilesDictionary = {
     "extensions": string[]
     recursive: boolean
 }
 
-export type Node =
-    | ["file", {}]
-    | ["type directory", TypeDirectory]
-    | ["dictionary directory", DD]
+export type Directory = {
+    "type":
+    | ["directory dictionary", {
+        "definition": Directory
+    }]
+    | ["files dictionary", FilesDictionary]
+    | ["type", TypeDirectory]
+}
