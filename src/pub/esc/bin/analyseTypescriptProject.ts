@@ -4,8 +4,10 @@ import * as pr from "pareto-runtime"
 
 import * as path from "path"
 import * as tsmorph from "ts-morph"
-import { parse } from "../../../generatedASTs/esc/implementation/parser.generated"
-import { Node } from "../../../generatedASTs/esc/interface/uast.generated"
+import * as dataGrammar from "../../../dataGrammar/esc/implementation/parser.generated"
+import * as interfaceGrammar from "../../../dataGrammar/esc/implementation/parser.generated"
+import * as typeGrammar from "../../../typeGrammar/esc/implementation/parser.generated"
+import { Node } from "../../../dataGrammar/esc/interface/uast.generated"
 import { typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
 import { analysePath, parseFilePath } from "../implementations/analysePath"
@@ -30,57 +32,92 @@ project.getSourceFiles().forEach(($) => {
         typescriptFileStructure,
         parsedPath,
     )
+    function getLineInfo(
+        $: tsmorph.Node,
+    ) {
+        const lp = $.getSourceFile().getLineAndColumnAtPos($.getStart())
+        return `[${lp.line}, ${lp.column}]`
+    }
+    type Node2<Annotation> = {
+
+    }
+    function handle<RT>(
+        parse:(
+            $: Node<tsmorph.Node>,
+            callback: ($: RT) => void,
+            reportUnexpectedRoot: ($: { root: Node<tsmorph.Node>, }) => void,
+            reportUnexpectedChild: ($: { path: string, child: Node<tsmorph.Node>, }) => void,
+            reportMissingToken: ($: { parentAnnotation: tsmorph.Node, path: string, kindNameOptions: string[], }) => void,
+        ) => void,
+        callback: ($: RT) => void
+    ) {
+        function wrap(
+            $: tsmorph.Node
+        ): Node<tsmorph.Node> {
+            return {
+                kindName: $.getKindName(),
+                value: $.getText(),
+                annotation: $,
+                children: {
+                    forEach: (callback) => {
+                        $.forEachChild(($) => {
+                            callback(wrap($))
+                        })
+                    },
+                }
+            }
+        }
+
+        parse(
+            wrap($),
+            ($) => {
+                callback($)
+            },
+            //reportUnexpectedRoot
+            ($) => {
+                console.error("X2")
+            },
+            //reportUnexpectedChild
+            ($) => {
+                console.error(`unexpected child: ${$.path} ${$.child.kindName} @ ${fullFilePath}${getLineInfo($.child.annotation)}`)
+            },
+            //reportMissingToken
+            ($) => {
+                console.error("X4")
+            }
+        )
+    }
     const pathPatterns: { [key: string]: () => void } = {
         "/src/*/esc/**/*.ts": () => {
 
         },
         "/src/*/data/**/*.ts": () => {
-            function wrap(
-                $: tsmorph.Node
-            ): Node<tsmorph.Node> {
-                return {
-                    kindName: $.getKindName(),
-                    value: $.getText(),
-                    annotation: $,
-                    children: {
-                        forEach: (callback) => {
-                            $.forEachChild(($) => {
-                                callback(wrap($))
-                            })
-                        },
-                    }
-                }
-            }
-            function getLineInfo(
-                $: tsmorph.Node,
-            ) {
-                const lp = $.getSourceFile().getLineAndColumnAtPos($.getStart())
-                return `[${lp.line}, ${lp.column}]`
-            }
-            
-            parse(
-                wrap($),
-                //callback
+            handle(
+                dataGrammar.parse,
                 ($) => {
-                    //console.error("X1")
+                    //handle result
                 },
-                //reportUnexpectedRoot
+            )
+        },
+        "/src/*/interface/interfaces/**/*.ts": () => {
+            handle(
+                interfaceGrammar.parse,
                 ($) => {
-                    console.error("X2")
+                    //handle result
                 },
-                //reportUnexpectedChild
+            )
+        },
+        "/src/*/interface/types/**/*.ts": () => {
+            handle(
+                typeGrammar.parse,
                 ($) => {
-                    console.error(`unexpected child: ${$.path} ${$.child.kindName} @ ${fullFilePath}${getLineInfo($.child.annotation)}`)
+                    //handle result
                 },
-                //reportMissingToken
-                ($) => {
-                    console.error("X4")
-                }
             )
         },
     }
     if (pathPatterns[res.pathPattern] === undefined) {
-        console.error(`unknown path pattern: ${res.pathPattern}`)
+        console.error(`unknown path pattern: ${res.pathPattern} @ ${fullFilePath}`)
     } else {
         pathPatterns[res.pathPattern]()
     }

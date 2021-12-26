@@ -1,17 +1,17 @@
 
 export type Node = {
-    type:
+    "type":
     | ["file", {}]
     | ["directory", Directory]
 }
 
 export type TypeDirectory = {
-    nodes: { [key: string]: Node }
+    "nodes": { [key: string]: Node }
 }
 
 export type FilesDictionary = {
     "extensions": string[]
-    recursive: boolean
+    "recursive": boolean
 }
 
 export type Directory = {

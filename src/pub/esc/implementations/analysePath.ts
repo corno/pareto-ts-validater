@@ -1,7 +1,7 @@
 import * as pr from "pareto-runtime"
 
 import * as path from "path"
-import { Directory, Node } from "../interfaces/fileSystemStructure"
+import { Directory, Node } from "../../interface/types/fileSystemStructure"
 
 export type AnalysisResult = {
     pathPattern: string,

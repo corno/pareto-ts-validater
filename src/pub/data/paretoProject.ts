@@ -1,4 +1,4 @@
-import * as types from "../esc/interfaces/fileSystemStructure"
+import * as types from "../interface/types/fileSystemStructure"
 
 export const typescriptProject: types.Directory = {
     type: ["directory dictionary", {
@@ -10,6 +10,30 @@ export const typescriptProject: types.Directory = {
                             type: ["files dictionary", {
                                 extensions: ["ts"],
                                 recursive: true
+                            }]
+                        }],
+                    },
+                    "interface": {
+                        type: ["directory", {
+                            type: ["type", {
+                                nodes: {
+                                    "types": {
+                                        type: ["directory", {
+                                            type: ["files dictionary", {
+                                                extensions: ["ts"],
+                                                recursive: true
+                                            }]
+                                        }],
+                                    },
+                                    "interface": {
+                                        type: ["directory", {
+                                            type: ["files dictionary", {
+                                                extensions: ["ts"],
+                                                recursive: true
+                                            }]
+                                        }],
+                                    },
+                                }
                             }]
                         }],
                     },

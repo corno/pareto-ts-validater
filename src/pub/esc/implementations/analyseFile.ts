@@ -1,5 +1,5 @@
 import * as pr from "pareto-runtime"
-import { Directory } from "../interfaces/fileSystemStructure"
+import { Directory } from "../../interface/types/fileSystemStructure"
 import { analysePath, parseFilePath } from "./analysePath"
 
 export function analyseFile(

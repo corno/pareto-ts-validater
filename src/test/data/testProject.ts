@@ -1,4 +1,4 @@
-import * as fss from "../../pub/esc/interfaces/fileSystemStructure"
+import * as fss from "../../pub/interface/types/fileSystemStructure"
 
 export const testProject: fss.Directory = {
     type: ["type", {
