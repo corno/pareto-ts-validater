@@ -1,22 +1,16 @@
 {
-  "name": "pareto-ts-validater",
-  "version": "0.0.1",
-  "description": "validates if a typescript code base conforms the 'pareto' rules",
-  "main": "dist/index.js",
-  "scripts": {
-    "makeEscBinExecutable": "find ./dist/*/esc/bin/ -type f -name \"*.js\" -exec chmod 777 {} +",
-    "build": "rm -rf ./dist && tsc && npm run makeEscBinExecutable",
-    "update2latest": "ncu -u --packageFile package.json && nsi && tsc",
-    "generate": "npm run build && node  ./dist/generateASTs/esc/index.js && npm run build"
-  },
-  "author": "Corno",
-  "license": "ISC",
-  "dependencies": {
-    "pareto-runtime": "^0.15.0",
-    "ts-morph": "^13.0.2"
-  },
-  "devDependencies": {
-    "@types/node": "^17.0.5",
-    "generate-typesafe-ast": "^0.0.16"
-  }
+    "scripts": {
+        "generate": "npm run buildDev && node ./dev/dist/esc/index.js && npm run buildPubAndTest",
+
+        "buildDev": "rm -rf ./dev/dist && tsc -p ./dev",
+        "buildPubAndTest": "rm -rf ./pub/dist && tsc -p ./pub && rm -rf ./test/dist && tsc -p ./test",
+        "test": "npm run buildPubAndTest && node test/dist/esc/bin/index.js",
+        "validatePublishReadiness": "git diff --exit-code && ncu -u --packageFile package.json && npm install && npm run test",
+        "pubMin": "npm run validatePublishReadiness && cd ./pub && npm version minor && git push && npm publish",
+        "pubPatch": "npm run validatePublishReadiness && cd ./pub && npm version patch && git push && cd ./pub/dist && npm publish",
+        "update2latest": "cd ./pub && ncu -u --packageFile package.json && nsi && cd ../test && ncu -u --packageFile package.json && nsi && cd ../dev && ncu -u --packageFile package.json && nsi",
+        "updateAndCommit": "npm run validatePublishReadiness && npm run update2latest && npm run test && git commit -am \"u2l\"",
+        "update2latestAndPublishMinor": "npm run updateAndCommit && npm run pubMin",
+        "update2latestAndPublishPath": "npm run updateAndCommit && npm run pubPatch"
+    }
 }

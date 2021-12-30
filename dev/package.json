@@ -1,0 +1,8 @@
+{
+    "dependencies": {
+      "pareto-runtime": "^0.15.0",
+      "generate-typesafe-ast": "^0.0.24"
+
+    }
+  }
+  

@@ -1,0 +1,6 @@
+export * from "./interface/types/fileSystemStructure"
+export * from "./esc/implementations/analyseFile"
+export * from "./esc/implementations/analyseGitRepo"
+export * from "./esc/implementations/analysePath"
+export * from "./esc/implementations/analyseTypescriptFilesInWorkspace"
+export * from "./esc/implementations/readWorkspace"
