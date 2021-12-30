@@ -1,29 +1,80 @@
 import * as pr from "pareto-runtime"
-import * as tast from "../interface/ts_api.generated"
-import * as uast from "../interface/uast.generated"
+import * as tast from "../../interface/types/ts_api.generated"
+import * as uast from "../../interface/types/uast.generated"
 
 export function parse<Annotation>(
     $: uast.Node<Annotation>,
-    callback: ($: tast.TSourceFile<Annotation>) => void,
+    callback: ($: tast.Nroot<Annotation>) => void,
     reportUnexpectedRoot: ($: { root: uast.Node<Annotation>, }) => void,
-    reportUnexpectedChild: ($: { path: string, child: uast.Node<Annotation>, }) => void,
+    reportUnexpectedChild: ($: { path: string, child: uast.Node<Annotation>, expected: pr.optional<string[]> }) => void,
     reportMissingToken: ($: { parentAnnotation: Annotation, path: string, kindNameOptions: string[], }) => void,
 ): void {
-    function X_type(
+    function Gidentifier(
+        node: uast.Node<Annotation>,
+        children: uast.Node<Annotation>[],
+        callback: ($: tast.Gidentifier<Annotation>) => void,
+    ): void {
+        let currentChild: uast.Node<Annotation> | undefined
+        let nextChild: uast.Node<Annotation> | undefined
+        currentChild = children.pop()
+        if (currentChild === undefined) {
+            reportMissingToken({
+                parentAnnotation: node.annotation,
+                path: "Gidentifier",
+                kindNameOptions: [ "Identifier"],
+            })
+            return
+        }
+        if (currentChild.kindName !== "Identifier") {
+            reportUnexpectedChild({
+                path: "Gidentifier",
+                child: currentChild,
+                expected: ["Identifier"],
+            })
+            return
+        }
+        ((
+            $: uast.Node<Annotation>,
+            callback: ($: tast.NGidentifier$<Annotation>) => void,
+        ): void => {
+            const node = $
+            const children: uast.Node<Annotation>[] = []
+            $.children.forEach(($) => { children.push($) })
+            children.reverse()
+            callback({
+                annotation: $.annotation,
+                content: $.value
+            })
+            if (children.length > 0) {
+                reportUnexpectedChild({
+                    path: "Gidentifier$",
+                    child: children[children.length - 1],
+                    expected: null,
+                })
+                return
+            }
+        })(
+            currentChild,
+            ($) => {
+                callback($)
+            }
+        )
+    }
+    function Gtype(
         node: uast.Node<Annotation>,
         children: uast.Node<Annotation>[],
         callback: ($: tast.Gtype<Annotation>) => void,
     ): void {
         let currentChild: uast.Node<Annotation> | undefined
         let nextChild: uast.Node<Annotation> | undefined
-        const choiceEnd_Gtype = ($: tast.XGtype<Annotation>) => {
+        const choiceEnd_Gtype = ($: tast.VTGtype<Annotation>) => {
             callback($)
         }
         if (children.length === 0) {
             reportMissingToken({
                 parentAnnotation: node.annotation,
                 path: "Gtype",
-                kindNameOptions: ["ArrayType", "BooleanKeyword", "StringKeyword", "LiteralType", "TupleType", "TypeLiteral", "TypeReference", "UnionType"],
+                kindNameOptions: ["ArrayType", "BooleanKeyword", "StringKeyword", "NumberKeyword", "TypeLiteral", "TypeReference", "UnionType"],
             })
             return
         } else {
@@ -42,10 +93,35 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_array",
                         child: currentChild,
+                        expected: ["ArrayType"],
                     })
                     return
                 }
-                ArrayType(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_array$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    let currentChild: uast.Node<Annotation> | undefined
+                    let nextChild: uast.Node<Annotation> | undefined
+                    Gtype(node, children, ($) => {
+                        callback({
+                            annotation: node.annotation,
+                            content: $,
+                        })
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_array$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["array", $])
@@ -66,10 +142,30 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_boolean",
                         child: currentChild,
+                        expected: ["BooleanKeyword"],
                     })
                     return
                 }
-                BooleanKeyword(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_boolean$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    callback({
+                        annotation: $.annotation,
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_boolean$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["boolean", $])
@@ -90,61 +186,77 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_string",
                         child: currentChild,
+                        expected: ["StringKeyword"],
                     })
                     return
                 }
-                StringKeyword(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_string$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    callback({
+                        annotation: $.annotation,
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_string$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["string", $])
                     }
                 )
             }
-            const choose_literal = () => {
+            const choose_number = () => {
                 currentChild = children.pop()
                 if (currentChild === undefined) {
                     reportMissingToken({
                         parentAnnotation: node.annotation,
-                        path: "Gtype_literal",
-                        kindNameOptions: [ "LiteralType"],
+                        path: "Gtype_number",
+                        kindNameOptions: [ "NumberKeyword"],
                     })
                     return
                 }
-                if (currentChild.kindName !== "LiteralType") {
+                if (currentChild.kindName !== "NumberKeyword") {
                     reportUnexpectedChild({
-                        path: "Gtype_literal",
+                        path: "Gtype_number",
                         child: currentChild,
+                        expected: ["NumberKeyword"],
                     })
                     return
                 }
-                LiteralType(
-                    currentChild,
-                    ($) => {
-                        choiceEnd_Gtype(["literal", $])
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_number$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    callback({
+                        annotation: $.annotation,
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_number$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
                     }
-                )
-            }
-            const choose_tuple = () => {
-                currentChild = children.pop()
-                if (currentChild === undefined) {
-                    reportMissingToken({
-                        parentAnnotation: node.annotation,
-                        path: "Gtype_tuple",
-                        kindNameOptions: [ "TupleType"],
-                    })
-                    return
-                }
-                if (currentChild.kindName !== "TupleType") {
-                    reportUnexpectedChild({
-                        path: "Gtype_tuple",
-                        child: currentChild,
-                    })
-                    return
-                }
-                TupleType(
+                })(
                     currentChild,
                     ($) => {
-                        choiceEnd_Gtype(["tuple", $])
+                        choiceEnd_Gtype(["number", $])
                     }
                 )
             }
@@ -162,10 +274,492 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_typeLiteral",
                         child: currentChild,
+                        expected: ["TypeLiteral"],
                     })
                     return
                 }
-                TypeLiteral(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_typeLiteral$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    let currentChild: uast.Node<Annotation> | undefined
+                    let nextChild: uast.Node<Annotation> | undefined
+                    const elements: tast.VGtype_typeLiteral$<Annotation> = []
+                    const processElement = () => {
+                        const choiceEnd_Gtype_typeLiteral$ = ($: tast.VTGtype_typeLiteral$<Annotation>) => {
+                            elements.push($)
+                        }
+                        if (children.length === 0) {
+                            reportMissingToken({
+                                parentAnnotation: node.annotation,
+                                path: "Gtype_typeLiteral$",
+                                kindNameOptions: ["IndexSignature", "PropertySignature"],
+                            })
+                            return
+                        } else {
+                            nextChild = children[children.length - 1]
+                            const choose_index = () => {
+                                currentChild = children.pop()
+                                if (currentChild === undefined) {
+                                    reportMissingToken({
+                                        parentAnnotation: node.annotation,
+                                        path: "Gtype_typeLiteral$_index",
+                                        kindNameOptions: [ "IndexSignature"],
+                                    })
+                                    return
+                                }
+                                if (currentChild.kindName !== "IndexSignature") {
+                                    reportUnexpectedChild({
+                                        path: "Gtype_typeLiteral$_index",
+                                        child: currentChild,
+                                        expected: ["IndexSignature"],
+                                    })
+                                    return
+                                }
+                                ((
+                                    $: uast.Node<Annotation>,
+                                    callback: ($: tast.NGtype_typeLiteral$_index$<Annotation>) => void,
+                                ): void => {
+                                    const node = $
+                                    const children: uast.Node<Annotation>[] = []
+                                    $.children.forEach(($) => { children.push($) })
+                                    children.reverse()
+                                    let currentChild: uast.Node<Annotation> | undefined
+                                    let nextChild: uast.Node<Annotation> | undefined
+                                    const sequenceEnd = ($: tast.VTGtype_typeLiteral$_index$<Annotation>) => {
+                                        callback({
+                                            annotation: node.annotation,
+                                            content: $,
+                                        })
+                                    }
+                                    currentChild = children.pop()
+                                    if (currentChild === undefined) {
+                                        reportMissingToken({
+                                            parentAnnotation: node.annotation,
+                                            path: "Gtype_typeLiteral$_index$_key",
+                                            kindNameOptions: [ "Parameter"],
+                                        })
+                                        return
+                                    }
+                                    if (currentChild.kindName !== "Parameter") {
+                                        reportUnexpectedChild({
+                                            path: "Gtype_typeLiteral$_index$_key",
+                                            child: currentChild,
+                                            expected: ["Parameter"],
+                                        })
+                                        return
+                                    }
+                                    ((
+                                        $: uast.Node<Annotation>,
+                                        callback: ($: tast.NGtype_typeLiteral$_index$_key$<Annotation>) => void,
+                                    ): void => {
+                                        const node = $
+                                        const children: uast.Node<Annotation>[] = []
+                                        $.children.forEach(($) => { children.push($) })
+                                        children.reverse()
+                                        let currentChild: uast.Node<Annotation> | undefined
+                                        let nextChild: uast.Node<Annotation> | undefined
+                                        const sequenceEnd = ($: tast.VTGtype_typeLiteral$_index$_key$<Annotation>) => {
+                                            callback({
+                                                annotation: node.annotation,
+                                                content: $,
+                                            })
+                                        }
+                                        Gidentifier(node, children, ($) => {
+                                            const _name = $
+                                            let optional: tast.VGtype_typeLiteral$_index$_key$_type<Annotation> = null
+                                            const setOptional = () => {
+                                                Gtype(node, children, ($) => {
+                                                    optional = $
+                                                })
+                                            }
+                                            if (children.length === 0) {} else {
+                                                nextChild = children[children.length - 1]
+                                                switch (nextChild.kindName) {
+                                                    case "ArrayType":
+                                                        setOptional()
+                                                        break
+                                                    case "BooleanKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "StringKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "NumberKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "TypeLiteral":
+                                                        setOptional()
+                                                        break
+                                                    case "TypeReference":
+                                                        setOptional()
+                                                        break
+                                                    case "UnionType":
+                                                        setOptional()
+                                                        break
+                                                }
+                                            }
+                                            pr.cc(optional, ($) => {
+                                                const _type = $
+                                                sequenceEnd({
+                                                    "name": _name,
+                                                    "type": _type,
+                                                })
+                                            })
+                                        })
+                                        if (children.length > 0) {
+                                            reportUnexpectedChild({
+                                                path: "Gtype_typeLiteral$_index$_key$",
+                                                child: children[children.length - 1],
+                                                expected: null,
+                                            })
+                                            return
+                                        }
+                                    })(
+                                        currentChild,
+                                        ($) => {
+                                            const _key = $
+                                            let optional: tast.VGtype_typeLiteral$_index$_type<Annotation> = null
+                                            const setOptional = () => {
+                                                Gtype(node, children, ($) => {
+                                                    optional = $
+                                                })
+                                            }
+                                            if (children.length === 0) {} else {
+                                                nextChild = children[children.length - 1]
+                                                switch (nextChild.kindName) {
+                                                    case "ArrayType":
+                                                        setOptional()
+                                                        break
+                                                    case "BooleanKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "StringKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "NumberKeyword":
+                                                        setOptional()
+                                                        break
+                                                    case "TypeLiteral":
+                                                        setOptional()
+                                                        break
+                                                    case "TypeReference":
+                                                        setOptional()
+                                                        break
+                                                    case "UnionType":
+                                                        setOptional()
+                                                        break
+                                                }
+                                            }
+                                            pr.cc(optional, ($) => {
+                                                const _type = $
+                                                sequenceEnd({
+                                                    "key": _key,
+                                                    "type": _type,
+                                                })
+                                            })
+                                        }
+                                    )
+                                    if (children.length > 0) {
+                                        reportUnexpectedChild({
+                                            path: "Gtype_typeLiteral$_index$",
+                                            child: children[children.length - 1],
+                                            expected: null,
+                                        })
+                                        return
+                                    }
+                                })(
+                                    currentChild,
+                                    ($) => {
+                                        choiceEnd_Gtype_typeLiteral$(["index", $])
+                                    }
+                                )
+                            }
+                            const choose_property = () => {
+                                currentChild = children.pop()
+                                if (currentChild === undefined) {
+                                    reportMissingToken({
+                                        parentAnnotation: node.annotation,
+                                        path: "Gtype_typeLiteral$_property",
+                                        kindNameOptions: [ "PropertySignature"],
+                                    })
+                                    return
+                                }
+                                if (currentChild.kindName !== "PropertySignature") {
+                                    reportUnexpectedChild({
+                                        path: "Gtype_typeLiteral$_property",
+                                        child: currentChild,
+                                        expected: ["PropertySignature"],
+                                    })
+                                    return
+                                }
+                                ((
+                                    $: uast.Node<Annotation>,
+                                    callback: ($: tast.NGtype_typeLiteral$_property$<Annotation>) => void,
+                                ): void => {
+                                    const node = $
+                                    const children: uast.Node<Annotation>[] = []
+                                    $.children.forEach(($) => { children.push($) })
+                                    children.reverse()
+                                    let currentChild: uast.Node<Annotation> | undefined
+                                    let nextChild: uast.Node<Annotation> | undefined
+                                    const sequenceEnd = ($: tast.VTGtype_typeLiteral$_property$<Annotation>) => {
+                                        callback({
+                                            annotation: node.annotation,
+                                            content: $,
+                                        })
+                                    }
+                                    currentChild = children.pop()
+                                    if (currentChild === undefined) {
+                                        reportMissingToken({
+                                            parentAnnotation: node.annotation,
+                                            path: "Gtype_typeLiteral$_property$_readonly",
+                                            kindNameOptions: [ "ReadonlyKeyword"],
+                                        })
+                                        return
+                                    }
+                                    if (currentChild.kindName !== "ReadonlyKeyword") {
+                                        reportUnexpectedChild({
+                                            path: "Gtype_typeLiteral$_property$_readonly",
+                                            child: currentChild,
+                                            expected: ["ReadonlyKeyword"],
+                                        })
+                                        return
+                                    }
+                                    ((
+                                        $: uast.Node<Annotation>,
+                                        callback: ($: tast.NGtype_typeLiteral$_property$_readonly$<Annotation>) => void,
+                                    ): void => {
+                                        const node = $
+                                        const children: uast.Node<Annotation>[] = []
+                                        $.children.forEach(($) => { children.push($) })
+                                        children.reverse()
+                                        callback({
+                                            annotation: $.annotation,
+                                        })
+                                        if (children.length > 0) {
+                                            reportUnexpectedChild({
+                                                path: "Gtype_typeLiteral$_property$_readonly$",
+                                                child: children[children.length - 1],
+                                                expected: null,
+                                            })
+                                            return
+                                        }
+                                    })(
+                                        currentChild,
+                                        ($) => {
+                                            const _readonly = $
+                                            currentChild = children.pop()
+                                            if (currentChild === undefined) {
+                                                reportMissingToken({
+                                                    parentAnnotation: node.annotation,
+                                                    path: "Gtype_typeLiteral$_property$_name",
+                                                    kindNameOptions: [ "StringLiteral"],
+                                                })
+                                                return
+                                            }
+                                            if (currentChild.kindName !== "StringLiteral") {
+                                                reportUnexpectedChild({
+                                                    path: "Gtype_typeLiteral$_property$_name",
+                                                    child: currentChild,
+                                                    expected: ["StringLiteral"],
+                                                })
+                                                return
+                                            }
+                                            ((
+                                                $: uast.Node<Annotation>,
+                                                callback: ($: tast.NGtype_typeLiteral$_property$_name$<Annotation>) => void,
+                                            ): void => {
+                                                const node = $
+                                                const children: uast.Node<Annotation>[] = []
+                                                $.children.forEach(($) => { children.push($) })
+                                                children.reverse()
+                                                callback({
+                                                    annotation: $.annotation,
+                                                    content: $.value
+                                                })
+                                                if (children.length > 0) {
+                                                    reportUnexpectedChild({
+                                                        path: "Gtype_typeLiteral$_property$_name$",
+                                                        child: children[children.length - 1],
+                                                        expected: null,
+                                                    })
+                                                    return
+                                                }
+                                            })(
+                                                currentChild,
+                                                ($) => {
+                                                    const _name = $
+                                                    let optional: tast.VGtype_typeLiteral$_property$_questionToken<Annotation> = null
+                                                    const setOptional = () => {
+                                                        currentChild = children.pop()
+                                                        if (currentChild === undefined) {
+                                                            reportMissingToken({
+                                                                parentAnnotation: node.annotation,
+                                                                path: "Gtype_typeLiteral$_property$_questionToken",
+                                                                kindNameOptions: [ "QuestionToken"],
+                                                            })
+                                                            return
+                                                        }
+                                                        if (currentChild.kindName !== "QuestionToken") {
+                                                            reportUnexpectedChild({
+                                                                path: "Gtype_typeLiteral$_property$_questionToken",
+                                                                child: currentChild,
+                                                                expected: ["QuestionToken"],
+                                                            })
+                                                            return
+                                                        }
+                                                        ((
+                                                            $: uast.Node<Annotation>,
+                                                            callback: ($: tast.NGtype_typeLiteral$_property$_questionToken$<Annotation>) => void,
+                                                        ): void => {
+                                                            const node = $
+                                                            const children: uast.Node<Annotation>[] = []
+                                                            $.children.forEach(($) => { children.push($) })
+                                                            children.reverse()
+                                                            callback({
+                                                                annotation: $.annotation,
+                                                            })
+                                                            if (children.length > 0) {
+                                                                reportUnexpectedChild({
+                                                                    path: "Gtype_typeLiteral$_property$_questionToken$",
+                                                                    child: children[children.length - 1],
+                                                                    expected: null,
+                                                                })
+                                                                return
+                                                            }
+                                                        })(
+                                                            currentChild,
+                                                            ($) => {
+                                                                optional = $
+                                                            }
+                                                        )
+                                                    }
+                                                    if (children.length === 0) {} else {
+                                                        nextChild = children[children.length - 1]
+                                                        switch (nextChild.kindName) {
+                                                            case "QuestionToken":
+                                                                setOptional()
+                                                                break
+                                                        }
+                                                    }
+                                                    pr.cc(optional, ($) => {
+                                                        const _questionToken = $
+                                                        let optional: tast.VGtype_typeLiteral$_property$_type<Annotation> = null
+                                                        const setOptional = () => {
+                                                            Gtype(node, children, ($) => {
+                                                                optional = $
+                                                            })
+                                                        }
+                                                        if (children.length === 0) {} else {
+                                                            nextChild = children[children.length - 1]
+                                                            switch (nextChild.kindName) {
+                                                                case "ArrayType":
+                                                                    setOptional()
+                                                                    break
+                                                                case "BooleanKeyword":
+                                                                    setOptional()
+                                                                    break
+                                                                case "StringKeyword":
+                                                                    setOptional()
+                                                                    break
+                                                                case "NumberKeyword":
+                                                                    setOptional()
+                                                                    break
+                                                                case "TypeLiteral":
+                                                                    setOptional()
+                                                                    break
+                                                                case "TypeReference":
+                                                                    setOptional()
+                                                                    break
+                                                                case "UnionType":
+                                                                    setOptional()
+                                                                    break
+                                                            }
+                                                        }
+                                                        pr.cc(optional, ($) => {
+                                                            const _type = $
+                                                            sequenceEnd({
+                                                                "readonly": _readonly,
+                                                                "name": _name,
+                                                                "questionToken": _questionToken,
+                                                                "type": _type,
+                                                            })
+                                                        })
+                                                    })
+                                                }
+                                            )
+                                        }
+                                    )
+                                    if (children.length > 0) {
+                                        reportUnexpectedChild({
+                                            path: "Gtype_typeLiteral$_property$",
+                                            child: children[children.length - 1],
+                                            expected: null,
+                                        })
+                                        return
+                                    }
+                                })(
+                                    currentChild,
+                                    ($) => {
+                                        choiceEnd_Gtype_typeLiteral$(["property", $])
+                                    }
+                                )
+                            }
+                            switch (nextChild.kindName) {
+                                case "IndexSignature": {
+                                    choose_index()
+                                    break
+                                }
+                                case "PropertySignature": {
+                                    choose_property()
+                                    break
+                                }
+                                default: {
+                                    reportUnexpectedChild({
+                                        path: "Gtype_typeLiteral$",
+                                        child: nextChild,
+                                        expected: ["IndexSignature", "PropertySignature"],
+                                    })
+                                }
+                            }
+                        }
+                    }
+                    arrayLoop: while (true) {
+                        if (children.length === 0) {
+                            break arrayLoop
+                        } else {
+                            nextChild = children[children.length - 1]
+                            switch (nextChild.kindName) {
+                                case "IndexSignature":
+                                    processElement()
+                                    break
+                                case "PropertySignature":
+                                    processElement()
+                                    break
+                                default: break arrayLoop
+                            }
+                        }
+                    }
+                    pr.cc(elements, ($) => {
+                        callback({
+                            annotation: node.annotation,
+                            content: $,
+                        })
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_typeLiteral$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["typeLiteral", $])
@@ -186,10 +780,173 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_typeReference",
                         child: currentChild,
+                        expected: ["TypeReference"],
                     })
                     return
                 }
-                TypeReference(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_typeReference$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    let currentChild: uast.Node<Annotation> | undefined
+                    let nextChild: uast.Node<Annotation> | undefined
+                    const sequenceEnd = ($: tast.VTGtype_typeReference$<Annotation>) => {
+                        callback({
+                            annotation: node.annotation,
+                            content: $,
+                        })
+                    }
+                    const choiceEnd_Gtype_typeReference$_referencedType = ($: tast.VTGtype_typeReference$_referencedType<Annotation>) => {
+                        const _referencedType = $
+                        const elements: tast.VGtype_typeReference$_parameters<Annotation> = []
+                        const processElement = () => {
+                            Gtype(node, children, ($) => {
+                                elements.push($)
+                            })
+                        }
+                        arrayLoop: while (true) {
+                            if (children.length === 0) {
+                                break arrayLoop
+                            } else {
+                                nextChild = children[children.length - 1]
+                                switch (nextChild.kindName) {
+                                    case "ArrayType":
+                                        processElement()
+                                        break
+                                    case "BooleanKeyword":
+                                        processElement()
+                                        break
+                                    case "StringKeyword":
+                                        processElement()
+                                        break
+                                    case "NumberKeyword":
+                                        processElement()
+                                        break
+                                    case "TypeLiteral":
+                                        processElement()
+                                        break
+                                    case "TypeReference":
+                                        processElement()
+                                        break
+                                    case "UnionType":
+                                        processElement()
+                                        break
+                                    default: break arrayLoop
+                                }
+                            }
+                        }
+                        pr.cc(elements, ($) => {
+                            const _parameters = $
+                            sequenceEnd({
+                                "referencedType": _referencedType,
+                                "parameters": _parameters,
+                            })
+                        })
+                    }
+                    if (children.length === 0) {
+                        reportMissingToken({
+                            parentAnnotation: node.annotation,
+                            path: "Gtype_typeReference$_referencedType",
+                            kindNameOptions: ["Identifier", "QualifiedName"],
+                        })
+                        return
+                    } else {
+                        nextChild = children[children.length - 1]
+                        const choose_identifier = () => {
+                            Gidentifier(node, children, ($) => {
+                                choiceEnd_Gtype_typeReference$_referencedType(["identifier", $])
+                            })
+                        }
+                        const choose_qualifiedName = () => {
+                            currentChild = children.pop()
+                            if (currentChild === undefined) {
+                                reportMissingToken({
+                                    parentAnnotation: node.annotation,
+                                    path: "Gtype_typeReference$_referencedType_qualifiedName",
+                                    kindNameOptions: [ "QualifiedName"],
+                                })
+                                return
+                            }
+                            if (currentChild.kindName !== "QualifiedName") {
+                                reportUnexpectedChild({
+                                    path: "Gtype_typeReference$_referencedType_qualifiedName",
+                                    child: currentChild,
+                                    expected: ["QualifiedName"],
+                                })
+                                return
+                            }
+                            ((
+                                $: uast.Node<Annotation>,
+                                callback: ($: tast.NGtype_typeReference$_referencedType_qualifiedName$<Annotation>) => void,
+                            ): void => {
+                                const node = $
+                                const children: uast.Node<Annotation>[] = []
+                                $.children.forEach(($) => { children.push($) })
+                                children.reverse()
+                                let currentChild: uast.Node<Annotation> | undefined
+                                let nextChild: uast.Node<Annotation> | undefined
+                                const sequenceEnd = ($: tast.VTGtype_typeReference$_referencedType_qualifiedName$<Annotation>) => {
+                                    callback({
+                                        annotation: node.annotation,
+                                        content: $,
+                                    })
+                                }
+                                Gidentifier(node, children, ($) => {
+                                    const _context = $
+                                    Gidentifier(node, children, ($) => {
+                                        const _type = $
+                                        sequenceEnd({
+                                            "context": _context,
+                                            "type": _type,
+                                        })
+                                    })
+                                })
+                                if (children.length > 0) {
+                                    reportUnexpectedChild({
+                                        path: "Gtype_typeReference$_referencedType_qualifiedName$",
+                                        child: children[children.length - 1],
+                                        expected: null,
+                                    })
+                                    return
+                                }
+                            })(
+                                currentChild,
+                                ($) => {
+                                    choiceEnd_Gtype_typeReference$_referencedType(["qualifiedName", $])
+                                }
+                            )
+                        }
+                        switch (nextChild.kindName) {
+                            case "Identifier": {
+                                choose_identifier()
+                                break
+                            }
+                            case "QualifiedName": {
+                                choose_qualifiedName()
+                                break
+                            }
+                            default: {
+                                reportUnexpectedChild({
+                                    path: "Gtype_typeReference$_referencedType",
+                                    child: nextChild,
+                                    expected: ["Identifier", "QualifiedName"],
+                                })
+                            }
+                        }
+                    }
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_typeReference$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["typeReference", $])
@@ -210,10 +967,220 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype_union",
                         child: currentChild,
+                        expected: ["UnionType"],
                     })
                     return
                 }
-                UnionType(
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.NGtype_union$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    let currentChild: uast.Node<Annotation> | undefined
+                    let nextChild: uast.Node<Annotation> | undefined
+                    const elements: tast.VGtype_union$<Annotation> = []
+                    const processElement = () => {
+                        currentChild = children.pop()
+                        if (currentChild === undefined) {
+                            reportMissingToken({
+                                parentAnnotation: node.annotation,
+                                path: "Gtype_union$",
+                                kindNameOptions: [ "TupleType"],
+                            })
+                            return
+                        }
+                        if (currentChild.kindName !== "TupleType") {
+                            reportUnexpectedChild({
+                                path: "Gtype_union$",
+                                child: currentChild,
+                                expected: ["TupleType"],
+                            })
+                            return
+                        }
+                        ((
+                            $: uast.Node<Annotation>,
+                            callback: ($: tast.NGtype_union$$<Annotation>) => void,
+                        ): void => {
+                            const node = $
+                            const children: uast.Node<Annotation>[] = []
+                            $.children.forEach(($) => { children.push($) })
+                            children.reverse()
+                            let currentChild: uast.Node<Annotation> | undefined
+                            let nextChild: uast.Node<Annotation> | undefined
+                            const sequenceEnd = ($: tast.VTGtype_union$$<Annotation>) => {
+                                callback({
+                                    annotation: node.annotation,
+                                    content: $,
+                                })
+                            }
+                            currentChild = children.pop()
+                            if (currentChild === undefined) {
+                                reportMissingToken({
+                                    parentAnnotation: node.annotation,
+                                    path: "Gtype_union$$_state",
+                                    kindNameOptions: [ "LiteralType"],
+                                })
+                                return
+                            }
+                            if (currentChild.kindName !== "LiteralType") {
+                                reportUnexpectedChild({
+                                    path: "Gtype_union$$_state",
+                                    child: currentChild,
+                                    expected: ["LiteralType"],
+                                })
+                                return
+                            }
+                            ((
+                                $: uast.Node<Annotation>,
+                                callback: ($: tast.NGtype_union$$_state$<Annotation>) => void,
+                            ): void => {
+                                const node = $
+                                const children: uast.Node<Annotation>[] = []
+                                $.children.forEach(($) => { children.push($) })
+                                children.reverse()
+                                let currentChild: uast.Node<Annotation> | undefined
+                                let nextChild: uast.Node<Annotation> | undefined
+                                const choiceEnd_Gtype_union$$_state$ = ($: tast.VTGtype_union$$_state$<Annotation>) => {
+                                    callback({
+                                        annotation: node.annotation,
+                                        content: $,
+                                    })
+                                }
+                                if (children.length === 0) {
+                                    reportMissingToken({
+                                        parentAnnotation: node.annotation,
+                                        path: "Gtype_union$$_state$",
+                                        kindNameOptions: ["StringLiteral"],
+                                    })
+                                    return
+                                } else {
+                                    nextChild = children[children.length - 1]
+                                    const choose_string = () => {
+                                        currentChild = children.pop()
+                                        if (currentChild === undefined) {
+                                            reportMissingToken({
+                                                parentAnnotation: node.annotation,
+                                                path: "Gtype_union$$_state$_string",
+                                                kindNameOptions: [ "StringLiteral"],
+                                            })
+                                            return
+                                        }
+                                        if (currentChild.kindName !== "StringLiteral") {
+                                            reportUnexpectedChild({
+                                                path: "Gtype_union$$_state$_string",
+                                                child: currentChild,
+                                                expected: ["StringLiteral"],
+                                            })
+                                            return
+                                        }
+                                        ((
+                                            $: uast.Node<Annotation>,
+                                            callback: ($: tast.NGtype_union$$_state$_string$<Annotation>) => void,
+                                        ): void => {
+                                            const node = $
+                                            const children: uast.Node<Annotation>[] = []
+                                            $.children.forEach(($) => { children.push($) })
+                                            children.reverse()
+                                            callback({
+                                                annotation: $.annotation,
+                                                content: $.value
+                                            })
+                                            if (children.length > 0) {
+                                                reportUnexpectedChild({
+                                                    path: "Gtype_union$$_state$_string$",
+                                                    child: children[children.length - 1],
+                                                    expected: null,
+                                                })
+                                                return
+                                            }
+                                        })(
+                                            currentChild,
+                                            ($) => {
+                                                choiceEnd_Gtype_union$$_state$(["string", $])
+                                            }
+                                        )
+                                    }
+                                    switch (nextChild.kindName) {
+                                        case "StringLiteral": {
+                                            choose_string()
+                                            break
+                                        }
+                                        default: {
+                                            reportUnexpectedChild({
+                                                path: "Gtype_union$$_state$",
+                                                child: nextChild,
+                                                expected: ["StringLiteral"],
+                                            })
+                                        }
+                                    }
+                                }
+                                if (children.length > 0) {
+                                    reportUnexpectedChild({
+                                        path: "Gtype_union$$_state$",
+                                        child: children[children.length - 1],
+                                        expected: null,
+                                    })
+                                    return
+                                }
+                            })(
+                                currentChild,
+                                ($) => {
+                                    const _state = $
+                                    Gtype(node, children, ($) => {
+                                        const _data = $
+                                        sequenceEnd({
+                                            "state": _state,
+                                            "data": _data,
+                                        })
+                                    })
+                                }
+                            )
+                            if (children.length > 0) {
+                                reportUnexpectedChild({
+                                    path: "Gtype_union$$",
+                                    child: children[children.length - 1],
+                                    expected: null,
+                                })
+                                return
+                            }
+                        })(
+                            currentChild,
+                            ($) => {
+                                elements.push($)
+                            }
+                        )
+                    }
+                    arrayLoop: while (true) {
+                        if (children.length === 0) {
+                            break arrayLoop
+                        } else {
+                            nextChild = children[children.length - 1]
+                            switch (nextChild.kindName) {
+                                case "TupleType":
+                                    processElement()
+                                    break
+                                default: break arrayLoop
+                            }
+                        }
+                    }
+                    pr.cc(elements, ($) => {
+                        callback({
+                            annotation: node.annotation,
+                            content: $,
+                        })
+                    })
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "Gtype_union$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
                     currentChild,
                     ($) => {
                         choiceEnd_Gtype(["union", $])
@@ -233,12 +1200,8 @@ export function parse<Annotation>(
                     choose_string()
                     break
                 }
-                case "LiteralType": {
-                    choose_literal()
-                    break
-                }
-                case "TupleType": {
-                    choose_tuple()
+                case "NumberKeyword": {
+                    choose_number()
                     break
                 }
                 case "TypeLiteral": {
@@ -257,1165 +1220,11 @@ export function parse<Annotation>(
                     reportUnexpectedChild({
                         path: "Gtype",
                         child: nextChild,
+                        expected: ["ArrayType", "BooleanKeyword", "StringKeyword", "NumberKeyword", "TypeLiteral", "TypeReference", "UnionType"],
                     })
                 }
             }
         }
-    }
-    function ArrayType(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TArrayType<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        X_type(node, children, ($) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        })
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "ArrayType",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function BooleanKeyword(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TBooleanKeyword<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "BooleanKeyword",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: null
-        })
-        return
-    }
-    function EndOfFileToken(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TEndOfFileToken<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "EndOfFileToken",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: null
-        })
-        return
-    }
-    function ExportKeyword(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TExportKeyword<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "ExportKeyword",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: null
-        })
-        return
-    }
-    function Identifier(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TIdentifier<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "Identifier",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: $.value
-        })
-        return
-    }
-    function IndexSignature(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TIndexSignature<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTIndexSignature<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        currentChild = children.pop()
-        if (currentChild === undefined) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TIndexSignature_key",
-                kindNameOptions: [ "Parameter"],
-            })
-            return
-        }
-        if (currentChild.kindName !== "Parameter") {
-            reportUnexpectedChild({
-                path: "TIndexSignature_key",
-                child: currentChild,
-            })
-            return
-        }
-        Parameter(
-            currentChild,
-            ($) => {
-                const _key = $
-                let optional: tast.STIndexSignature_type<Annotation> = null
-                const setOptional = () => {
-                    X_type(node, children, ($) => {
-                        optional = $
-                    })
-                }
-                if (children.length === 0) {} else {
-                    nextChild = children[children.length - 1]
-                    switch (nextChild.kindName) {
-                        case "ArrayType":
-                            setOptional()
-                            break
-                        case "BooleanKeyword":
-                            setOptional()
-                            break
-                        case "StringKeyword":
-                            setOptional()
-                            break
-                        case "LiteralType":
-                            setOptional()
-                            break
-                        case "TupleType":
-                            setOptional()
-                            break
-                        case "TypeLiteral":
-                            setOptional()
-                            break
-                        case "TypeReference":
-                            setOptional()
-                            break
-                        case "UnionType":
-                            setOptional()
-                            break
-                    }
-                }
-                pr.cc(optional, ($) => {
-                    const _type = $
-                    sequenceEnd({
-                        "key": _key,
-                        "type": _type,
-                    })
-                })
-            }
-        )
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "IndexSignature",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function LiteralType(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TLiteralType<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const choiceEnd_TLiteralType = ($: tast.XTLiteralType<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        if (children.length === 0) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TLiteralType",
-                kindNameOptions: ["StringLiteral"],
-            })
-            return
-        } else {
-            nextChild = children[children.length - 1]
-            const choose_string = () => {
-                currentChild = children.pop()
-                if (currentChild === undefined) {
-                    reportMissingToken({
-                        parentAnnotation: node.annotation,
-                        path: "TLiteralType_string",
-                        kindNameOptions: [ "StringLiteral"],
-                    })
-                    return
-                }
-                if (currentChild.kindName !== "StringLiteral") {
-                    reportUnexpectedChild({
-                        path: "TLiteralType_string",
-                        child: currentChild,
-                    })
-                    return
-                }
-                StringLiteral(
-                    currentChild,
-                    ($) => {
-                        choiceEnd_TLiteralType(["string", $])
-                    }
-                )
-            }
-            switch (nextChild.kindName) {
-                case "StringLiteral": {
-                    choose_string()
-                    break
-                }
-                default: {
-                    reportUnexpectedChild({
-                        path: "TLiteralType",
-                        child: nextChild,
-                    })
-                }
-            }
-        }
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "LiteralType",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function Parameter(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TParameter<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTParameter<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        currentChild = children.pop()
-        if (currentChild === undefined) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TParameter_name",
-                kindNameOptions: [ "Identifier"],
-            })
-            return
-        }
-        if (currentChild.kindName !== "Identifier") {
-            reportUnexpectedChild({
-                path: "TParameter_name",
-                child: currentChild,
-            })
-            return
-        }
-        Identifier(
-            currentChild,
-            ($) => {
-                const _name = $
-                let optional: tast.STParameter_type<Annotation> = null
-                const setOptional = () => {
-                    X_type(node, children, ($) => {
-                        optional = $
-                    })
-                }
-                if (children.length === 0) {} else {
-                    nextChild = children[children.length - 1]
-                    switch (nextChild.kindName) {
-                        case "ArrayType":
-                            setOptional()
-                            break
-                        case "BooleanKeyword":
-                            setOptional()
-                            break
-                        case "StringKeyword":
-                            setOptional()
-                            break
-                        case "LiteralType":
-                            setOptional()
-                            break
-                        case "TupleType":
-                            setOptional()
-                            break
-                        case "TypeLiteral":
-                            setOptional()
-                            break
-                        case "TypeReference":
-                            setOptional()
-                            break
-                        case "UnionType":
-                            setOptional()
-                            break
-                    }
-                }
-                pr.cc(optional, ($) => {
-                    const _type = $
-                    sequenceEnd({
-                        "name": _name,
-                        "type": _type,
-                    })
-                })
-            }
-        )
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "Parameter",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function PropertySignature(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TPropertySignature<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTPropertySignature<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        currentChild = children.pop()
-        if (currentChild === undefined) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TPropertySignature_name",
-                kindNameOptions: [ "StringLiteral"],
-            })
-            return
-        }
-        if (currentChild.kindName !== "StringLiteral") {
-            reportUnexpectedChild({
-                path: "TPropertySignature_name",
-                child: currentChild,
-            })
-            return
-        }
-        StringLiteral(
-            currentChild,
-            ($) => {
-                const _name = $
-                let optional: tast.STPropertySignature_quesionToken<Annotation> = null
-                const setOptional = () => {
-                    currentChild = children.pop()
-                    if (currentChild === undefined) {
-                        reportMissingToken({
-                            parentAnnotation: node.annotation,
-                            path: "TPropertySignature_quesionToken",
-                            kindNameOptions: [ "QuestionToken"],
-                        })
-                        return
-                    }
-                    if (currentChild.kindName !== "QuestionToken") {
-                        reportUnexpectedChild({
-                            path: "TPropertySignature_quesionToken",
-                            child: currentChild,
-                        })
-                        return
-                    }
-                    QuestionToken(
-                        currentChild,
-                        ($) => {
-                            optional = $
-                        }
-                    )
-                }
-                if (children.length === 0) {} else {
-                    nextChild = children[children.length - 1]
-                    switch (nextChild.kindName) {
-                        case "QuestionToken":
-                            setOptional()
-                            break
-                    }
-                }
-                pr.cc(optional, ($) => {
-                    const _quesionToken = $
-                    let optional: tast.STPropertySignature_type<Annotation> = null
-                    const setOptional = () => {
-                        X_type(node, children, ($) => {
-                            optional = $
-                        })
-                    }
-                    if (children.length === 0) {} else {
-                        nextChild = children[children.length - 1]
-                        switch (nextChild.kindName) {
-                            case "ArrayType":
-                                setOptional()
-                                break
-                            case "BooleanKeyword":
-                                setOptional()
-                                break
-                            case "StringKeyword":
-                                setOptional()
-                                break
-                            case "LiteralType":
-                                setOptional()
-                                break
-                            case "TupleType":
-                                setOptional()
-                                break
-                            case "TypeLiteral":
-                                setOptional()
-                                break
-                            case "TypeReference":
-                                setOptional()
-                                break
-                            case "UnionType":
-                                setOptional()
-                                break
-                        }
-                    }
-                    pr.cc(optional, ($) => {
-                        const _type = $
-                        sequenceEnd({
-                            "name": _name,
-                            "quesionToken": _quesionToken,
-                            "type": _type,
-                        })
-                    })
-                })
-            }
-        )
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "PropertySignature",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function QuestionToken(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TQuestionToken<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "QuestionToken",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: null
-        })
-        return
-    }
-    function SourceFile(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TSourceFile<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTSourceFile<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        const elements: tast.STSourceFile_typeAliases<Annotation> = []
-        const processElement = () => {
-            currentChild = children.pop()
-            if (currentChild === undefined) {
-                reportMissingToken({
-                    parentAnnotation: node.annotation,
-                    path: "TSourceFile_typeAliases",
-                    kindNameOptions: [ "TypeAliasDeclaration"],
-                })
-                return
-            }
-            if (currentChild.kindName !== "TypeAliasDeclaration") {
-                reportUnexpectedChild({
-                    path: "TSourceFile_typeAliases",
-                    child: currentChild,
-                })
-                return
-            }
-            TypeAliasDeclaration(
-                currentChild,
-                ($) => {
-                    elements.push($)
-                }
-            )
-        }
-        arrayLoop: while (true) {
-            if (children.length === 0) {
-                break arrayLoop
-            } else {
-                nextChild = children[children.length - 1]
-                switch (nextChild.kindName) {
-                    case "TypeAliasDeclaration":
-                        processElement()
-                        break
-                    default: break arrayLoop
-                }
-            }
-        }
-        pr.cc(elements, ($) => {
-            const _typeAliases = $
-            currentChild = children.pop()
-            if (currentChild === undefined) {
-                reportMissingToken({
-                    parentAnnotation: node.annotation,
-                    path: "TSourceFile_endOfFile",
-                    kindNameOptions: [ "EndOfFileToken"],
-                })
-                return
-            }
-            if (currentChild.kindName !== "EndOfFileToken") {
-                reportUnexpectedChild({
-                    path: "TSourceFile_endOfFile",
-                    child: currentChild,
-                })
-                return
-            }
-            EndOfFileToken(
-                currentChild,
-                ($) => {
-                    const _endOfFile = $
-                    sequenceEnd({
-                        "typeAliases": _typeAliases,
-                        "endOfFile": _endOfFile,
-                    })
-                }
-            )
-        })
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "SourceFile",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function StringKeyword(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TStringKeyword<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "StringKeyword",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: null
-        })
-        return
-    }
-    function StringLiteral(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TStringLiteral<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "StringLiteral",
-                child: children[0],
-            })
-        }
-        callback({
-            annotation: $.annotation,
-            content: $.value
-        })
-        return
-    }
-    function TupleType(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TTupleType<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const elements: tast.STTupleType<Annotation> = []
-        const processElement = () => {
-            X_type(node, children, ($) => {
-                elements.push($)
-            })
-        }
-        arrayLoop: while (true) {
-            if (children.length === 0) {
-                break arrayLoop
-            } else {
-                nextChild = children[children.length - 1]
-                switch (nextChild.kindName) {
-                    case "ArrayType":
-                        processElement()
-                        break
-                    case "BooleanKeyword":
-                        processElement()
-                        break
-                    case "StringKeyword":
-                        processElement()
-                        break
-                    case "LiteralType":
-                        processElement()
-                        break
-                    case "TupleType":
-                        processElement()
-                        break
-                    case "TypeLiteral":
-                        processElement()
-                        break
-                    case "TypeReference":
-                        processElement()
-                        break
-                    case "UnionType":
-                        processElement()
-                        break
-                    default: break arrayLoop
-                }
-            }
-        }
-        pr.cc(elements, ($) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        })
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "TupleType",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function TypeAliasDeclaration(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TTypeAliasDeclaration<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTTypeAliasDeclaration<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        currentChild = children.pop()
-        if (currentChild === undefined) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TTypeAliasDeclaration_export",
-                kindNameOptions: [ "ExportKeyword"],
-            })
-            return
-        }
-        if (currentChild.kindName !== "ExportKeyword") {
-            reportUnexpectedChild({
-                path: "TTypeAliasDeclaration_export",
-                child: currentChild,
-            })
-            return
-        }
-        ExportKeyword(
-            currentChild,
-            ($) => {
-                const _export = $
-                currentChild = children.pop()
-                if (currentChild === undefined) {
-                    reportMissingToken({
-                        parentAnnotation: node.annotation,
-                        path: "TTypeAliasDeclaration_name",
-                        kindNameOptions: [ "Identifier"],
-                    })
-                    return
-                }
-                if (currentChild.kindName !== "Identifier") {
-                    reportUnexpectedChild({
-                        path: "TTypeAliasDeclaration_name",
-                        child: currentChild,
-                    })
-                    return
-                }
-                Identifier(
-                    currentChild,
-                    ($) => {
-                        const _name = $
-                        const elements: tast.STTypeAliasDeclaration_typeParameters<Annotation> = []
-                        const processElement = () => {
-                            currentChild = children.pop()
-                            if (currentChild === undefined) {
-                                reportMissingToken({
-                                    parentAnnotation: node.annotation,
-                                    path: "TTypeAliasDeclaration_typeParameters",
-                                    kindNameOptions: [ "TypeParameter"],
-                                })
-                                return
-                            }
-                            if (currentChild.kindName !== "TypeParameter") {
-                                reportUnexpectedChild({
-                                    path: "TTypeAliasDeclaration_typeParameters",
-                                    child: currentChild,
-                                })
-                                return
-                            }
-                            TypeParameter(
-                                currentChild,
-                                ($) => {
-                                    elements.push($)
-                                }
-                            )
-                        }
-                        arrayLoop: while (true) {
-                            if (children.length === 0) {
-                                break arrayLoop
-                            } else {
-                                nextChild = children[children.length - 1]
-                                switch (nextChild.kindName) {
-                                    case "TypeParameter":
-                                        processElement()
-                                        break
-                                    default: break arrayLoop
-                                }
-                            }
-                        }
-                        pr.cc(elements, ($) => {
-                            const _typeParameters = $
-                            X_type(node, children, ($) => {
-                                const _type = $
-                                sequenceEnd({
-                                    "export": _export,
-                                    "name": _name,
-                                    "typeParameters": _typeParameters,
-                                    "type": _type,
-                                })
-                            })
-                        })
-                    }
-                )
-            }
-        )
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "TypeAliasDeclaration",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function TypeLiteral(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TTypeLiteral<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const elements: tast.STTypeLiteral<Annotation> = []
-        const processElement = () => {
-            const choiceEnd_TTypeLiteral = ($: tast.XTTypeLiteral<Annotation>) => {
-                elements.push($)
-            }
-            if (children.length === 0) {
-                reportMissingToken({
-                    parentAnnotation: node.annotation,
-                    path: "TTypeLiteral",
-                    kindNameOptions: ["IndexSignature", "PropertySignature"],
-                })
-                return
-            } else {
-                nextChild = children[children.length - 1]
-                const choose_index = () => {
-                    currentChild = children.pop()
-                    if (currentChild === undefined) {
-                        reportMissingToken({
-                            parentAnnotation: node.annotation,
-                            path: "TTypeLiteral_index",
-                            kindNameOptions: [ "IndexSignature"],
-                        })
-                        return
-                    }
-                    if (currentChild.kindName !== "IndexSignature") {
-                        reportUnexpectedChild({
-                            path: "TTypeLiteral_index",
-                            child: currentChild,
-                        })
-                        return
-                    }
-                    IndexSignature(
-                        currentChild,
-                        ($) => {
-                            choiceEnd_TTypeLiteral(["index", $])
-                        }
-                    )
-                }
-                const choose_property = () => {
-                    currentChild = children.pop()
-                    if (currentChild === undefined) {
-                        reportMissingToken({
-                            parentAnnotation: node.annotation,
-                            path: "TTypeLiteral_property",
-                            kindNameOptions: [ "PropertySignature"],
-                        })
-                        return
-                    }
-                    if (currentChild.kindName !== "PropertySignature") {
-                        reportUnexpectedChild({
-                            path: "TTypeLiteral_property",
-                            child: currentChild,
-                        })
-                        return
-                    }
-                    PropertySignature(
-                        currentChild,
-                        ($) => {
-                            choiceEnd_TTypeLiteral(["property", $])
-                        }
-                    )
-                }
-                switch (nextChild.kindName) {
-                    case "IndexSignature": {
-                        choose_index()
-                        break
-                    }
-                    case "PropertySignature": {
-                        choose_property()
-                        break
-                    }
-                    default: {
-                        reportUnexpectedChild({
-                            path: "TTypeLiteral",
-                            child: nextChild,
-                        })
-                    }
-                }
-            }
-        }
-        arrayLoop: while (true) {
-            if (children.length === 0) {
-                break arrayLoop
-            } else {
-                nextChild = children[children.length - 1]
-                switch (nextChild.kindName) {
-                    case "IndexSignature":
-                        processElement()
-                        break
-                    case "PropertySignature":
-                        processElement()
-                        break
-                    default: break arrayLoop
-                }
-            }
-        }
-        pr.cc(elements, ($) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        })
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "TypeLiteral",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function TypeParameter(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TTypeParameter<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        currentChild = children.pop()
-        if (currentChild === undefined) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TTypeParameter",
-                kindNameOptions: [ "Identifier"],
-            })
-            return
-        }
-        if (currentChild.kindName !== "Identifier") {
-            reportUnexpectedChild({
-                path: "TTypeParameter",
-                child: currentChild,
-            })
-            return
-        }
-        Identifier(
-            currentChild,
-            ($) => {
-                callback({
-                    annotation: node.annotation,
-                    content: $,
-                })
-            }
-        )
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "TypeParameter",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function TypeReference(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TTypeReference<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const sequenceEnd = ($: tast.XTTypeReference<Annotation>) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        }
-        const choiceEnd_TTypeReference_referencedType = ($: tast.XTTypeReference_referencedType<Annotation>) => {
-            const _referencedType = $
-            const elements: tast.STTypeReference_parameters<Annotation> = []
-            const processElement = () => {
-                X_type(node, children, ($) => {
-                    elements.push($)
-                })
-            }
-            arrayLoop: while (true) {
-                if (children.length === 0) {
-                    break arrayLoop
-                } else {
-                    nextChild = children[children.length - 1]
-                    switch (nextChild.kindName) {
-                        case "ArrayType":
-                            processElement()
-                            break
-                        case "BooleanKeyword":
-                            processElement()
-                            break
-                        case "StringKeyword":
-                            processElement()
-                            break
-                        case "LiteralType":
-                            processElement()
-                            break
-                        case "TupleType":
-                            processElement()
-                            break
-                        case "TypeLiteral":
-                            processElement()
-                            break
-                        case "TypeReference":
-                            processElement()
-                            break
-                        case "UnionType":
-                            processElement()
-                            break
-                        default: break arrayLoop
-                    }
-                }
-            }
-            pr.cc(elements, ($) => {
-                const _parameters = $
-                sequenceEnd({
-                    "referencedType": _referencedType,
-                    "parameters": _parameters,
-                })
-            })
-        }
-        if (children.length === 0) {
-            reportMissingToken({
-                parentAnnotation: node.annotation,
-                path: "TTypeReference_referencedType",
-                kindNameOptions: ["Identifier"],
-            })
-            return
-        } else {
-            nextChild = children[children.length - 1]
-            const choose_identifier = () => {
-                currentChild = children.pop()
-                if (currentChild === undefined) {
-                    reportMissingToken({
-                        parentAnnotation: node.annotation,
-                        path: "TTypeReference_referencedType_identifier",
-                        kindNameOptions: [ "Identifier"],
-                    })
-                    return
-                }
-                if (currentChild.kindName !== "Identifier") {
-                    reportUnexpectedChild({
-                        path: "TTypeReference_referencedType_identifier",
-                        child: currentChild,
-                    })
-                    return
-                }
-                Identifier(
-                    currentChild,
-                    ($) => {
-                        choiceEnd_TTypeReference_referencedType(["identifier", $])
-                    }
-                )
-            }
-            switch (nextChild.kindName) {
-                case "Identifier": {
-                    choose_identifier()
-                    break
-                }
-                default: {
-                    reportUnexpectedChild({
-                        path: "TTypeReference_referencedType",
-                        child: nextChild,
-                    })
-                }
-            }
-        }
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "TypeReference",
-                child: children[children.length - 1],
-            })
-        }
-        return
-    }
-    function UnionType(
-        $: uast.Node<Annotation>,
-        callback: ($: tast.TUnionType<Annotation>) => void,
-    ): void {
-        const node = $
-        const children: uast.Node<Annotation>[] = []
-        $.children.forEach(($) => { children.push($) })
-        children.reverse()
-        let currentChild: uast.Node<Annotation> | undefined
-        let nextChild: uast.Node<Annotation> | undefined
-        const elements: tast.STUnionType<Annotation> = []
-        const processElement = () => {
-            X_type(node, children, ($) => {
-                elements.push($)
-            })
-        }
-        arrayLoop: while (true) {
-            if (children.length === 0) {
-                break arrayLoop
-            } else {
-                nextChild = children[children.length - 1]
-                switch (nextChild.kindName) {
-                    case "ArrayType":
-                        processElement()
-                        break
-                    case "BooleanKeyword":
-                        processElement()
-                        break
-                    case "StringKeyword":
-                        processElement()
-                        break
-                    case "LiteralType":
-                        processElement()
-                        break
-                    case "TupleType":
-                        processElement()
-                        break
-                    case "TypeLiteral":
-                        processElement()
-                        break
-                    case "TypeReference":
-                        processElement()
-                        break
-                    case "UnionType":
-                        processElement()
-                        break
-                    default: break arrayLoop
-                }
-            }
-        }
-        pr.cc(elements, ($) => {
-            callback({
-                annotation: node.annotation,
-                content: $,
-            })
-        })
-        if (children.length > 0) {
-            reportUnexpectedChild({
-                path: "UnionType",
-                child: children[children.length - 1],
-            })
-        }
-        return
     }
     if ($.kindName !== "SourceFile") {
         reportUnexpectedRoot({
@@ -1423,12 +1232,640 @@ export function parse<Annotation>(
         })
         return
     } else {
-        SourceFile(
+        ((
+            $: uast.Node<Annotation>,
+            callback: ($: tast.Nroot<Annotation>) => void,
+        ): void => {
+            const node = $
+            const children: uast.Node<Annotation>[] = []
+            $.children.forEach(($) => { children.push($) })
+            children.reverse()
+            let currentChild: uast.Node<Annotation> | undefined
+            let nextChild: uast.Node<Annotation> | undefined
+            const sequenceEnd = ($: tast.VTroot<Annotation>) => {
+                callback({
+                    annotation: node.annotation,
+                    content: $,
+                })
+            }
+            const elements: tast.Vroot_imports<Annotation> = []
+            const processElement = () => {
+                currentChild = children.pop()
+                if (currentChild === undefined) {
+                    reportMissingToken({
+                        parentAnnotation: node.annotation,
+                        path: "root_imports",
+                        kindNameOptions: [ "ImportDeclaration"],
+                    })
+                    return
+                }
+                if (currentChild.kindName !== "ImportDeclaration") {
+                    reportUnexpectedChild({
+                        path: "root_imports",
+                        child: currentChild,
+                        expected: ["ImportDeclaration"],
+                    })
+                    return
+                }
+                ((
+                    $: uast.Node<Annotation>,
+                    callback: ($: tast.Nroot_imports$<Annotation>) => void,
+                ): void => {
+                    const node = $
+                    const children: uast.Node<Annotation>[] = []
+                    $.children.forEach(($) => { children.push($) })
+                    children.reverse()
+                    let currentChild: uast.Node<Annotation> | undefined
+                    let nextChild: uast.Node<Annotation> | undefined
+                    const sequenceEnd = ($: tast.VTroot_imports$<Annotation>) => {
+                        callback({
+                            annotation: node.annotation,
+                            content: $,
+                        })
+                    }
+                    currentChild = children.pop()
+                    if (currentChild === undefined) {
+                        reportMissingToken({
+                            parentAnnotation: node.annotation,
+                            path: "root_imports$_clause",
+                            kindNameOptions: [ "ImportClause"],
+                        })
+                        return
+                    }
+                    if (currentChild.kindName !== "ImportClause") {
+                        reportUnexpectedChild({
+                            path: "root_imports$_clause",
+                            child: currentChild,
+                            expected: ["ImportClause"],
+                        })
+                        return
+                    }
+                    ((
+                        $: uast.Node<Annotation>,
+                        callback: ($: tast.Nroot_imports$_clause$<Annotation>) => void,
+                    ): void => {
+                        const node = $
+                        const children: uast.Node<Annotation>[] = []
+                        $.children.forEach(($) => { children.push($) })
+                        children.reverse()
+                        let currentChild: uast.Node<Annotation> | undefined
+                        let nextChild: uast.Node<Annotation> | undefined
+                        const choiceEnd_root_imports$_clause$ = ($: tast.VTroot_imports$_clause$<Annotation>) => {
+                            callback({
+                                annotation: node.annotation,
+                                content: $,
+                            })
+                        }
+                        if (children.length === 0) {
+                            reportMissingToken({
+                                parentAnnotation: node.annotation,
+                                path: "root_imports$_clause$",
+                                kindNameOptions: ["NamespaceImport", "NamedImports"],
+                            })
+                            return
+                        } else {
+                            nextChild = children[children.length - 1]
+                            const choose_namespace = () => {
+                                currentChild = children.pop()
+                                if (currentChild === undefined) {
+                                    reportMissingToken({
+                                        parentAnnotation: node.annotation,
+                                        path: "root_imports$_clause$_namespace",
+                                        kindNameOptions: [ "NamespaceImport"],
+                                    })
+                                    return
+                                }
+                                if (currentChild.kindName !== "NamespaceImport") {
+                                    reportUnexpectedChild({
+                                        path: "root_imports$_clause$_namespace",
+                                        child: currentChild,
+                                        expected: ["NamespaceImport"],
+                                    })
+                                    return
+                                }
+                                ((
+                                    $: uast.Node<Annotation>,
+                                    callback: ($: tast.Nroot_imports$_clause$_namespace$<Annotation>) => void,
+                                ): void => {
+                                    const node = $
+                                    const children: uast.Node<Annotation>[] = []
+                                    $.children.forEach(($) => { children.push($) })
+                                    children.reverse()
+                                    let currentChild: uast.Node<Annotation> | undefined
+                                    let nextChild: uast.Node<Annotation> | undefined
+                                    Gidentifier(node, children, ($) => {
+                                        callback({
+                                            annotation: node.annotation,
+                                            content: $,
+                                        })
+                                    })
+                                    if (children.length > 0) {
+                                        reportUnexpectedChild({
+                                            path: "root_imports$_clause$_namespace$",
+                                            child: children[children.length - 1],
+                                            expected: null,
+                                        })
+                                        return
+                                    }
+                                })(
+                                    currentChild,
+                                    ($) => {
+                                        choiceEnd_root_imports$_clause$(["namespace", $])
+                                    }
+                                )
+                            }
+                            const choose_named = () => {
+                                currentChild = children.pop()
+                                if (currentChild === undefined) {
+                                    reportMissingToken({
+                                        parentAnnotation: node.annotation,
+                                        path: "root_imports$_clause$_named",
+                                        kindNameOptions: [ "NamedImports"],
+                                    })
+                                    return
+                                }
+                                if (currentChild.kindName !== "NamedImports") {
+                                    reportUnexpectedChild({
+                                        path: "root_imports$_clause$_named",
+                                        child: currentChild,
+                                        expected: ["NamedImports"],
+                                    })
+                                    return
+                                }
+                                ((
+                                    $: uast.Node<Annotation>,
+                                    callback: ($: tast.Nroot_imports$_clause$_named$<Annotation>) => void,
+                                ): void => {
+                                    const node = $
+                                    const children: uast.Node<Annotation>[] = []
+                                    $.children.forEach(($) => { children.push($) })
+                                    children.reverse()
+                                    let currentChild: uast.Node<Annotation> | undefined
+                                    let nextChild: uast.Node<Annotation> | undefined
+                                    const elements: tast.Vroot_imports$_clause$_named$<Annotation> = []
+                                    const processElement = () => {
+                                        currentChild = children.pop()
+                                        if (currentChild === undefined) {
+                                            reportMissingToken({
+                                                parentAnnotation: node.annotation,
+                                                path: "root_imports$_clause$_named$",
+                                                kindNameOptions: [ "ImportSpecifier"],
+                                            })
+                                            return
+                                        }
+                                        if (currentChild.kindName !== "ImportSpecifier") {
+                                            reportUnexpectedChild({
+                                                path: "root_imports$_clause$_named$",
+                                                child: currentChild,
+                                                expected: ["ImportSpecifier"],
+                                            })
+                                            return
+                                        }
+                                        ((
+                                            $: uast.Node<Annotation>,
+                                            callback: ($: tast.Nroot_imports$_clause$_named$$<Annotation>) => void,
+                                        ): void => {
+                                            const node = $
+                                            const children: uast.Node<Annotation>[] = []
+                                            $.children.forEach(($) => { children.push($) })
+                                            children.reverse()
+                                            let currentChild: uast.Node<Annotation> | undefined
+                                            let nextChild: uast.Node<Annotation> | undefined
+                                            const sequenceEnd = ($: tast.VTroot_imports$_clause$_named$$<Annotation>) => {
+                                                callback({
+                                                    annotation: node.annotation,
+                                                    content: $,
+                                                })
+                                            }
+                                            Gidentifier(node, children, ($) => {
+                                                const _name = $
+                                                let optional: tast.Vroot_imports$_clause$_named$$_as<Annotation> = null
+                                                const setOptional = () => {
+                                                    Gidentifier(node, children, ($) => {
+                                                        optional = $
+                                                    })
+                                                }
+                                                if (children.length === 0) {} else {
+                                                    nextChild = children[children.length - 1]
+                                                    switch (nextChild.kindName) {
+                                                        case "Identifier":
+                                                            setOptional()
+                                                            break
+                                                    }
+                                                }
+                                                pr.cc(optional, ($) => {
+                                                    const _as = $
+                                                    sequenceEnd({
+                                                        "name": _name,
+                                                        "as": _as,
+                                                    })
+                                                })
+                                            })
+                                            if (children.length > 0) {
+                                                reportUnexpectedChild({
+                                                    path: "root_imports$_clause$_named$$",
+                                                    child: children[children.length - 1],
+                                                    expected: null,
+                                                })
+                                                return
+                                            }
+                                        })(
+                                            currentChild,
+                                            ($) => {
+                                                elements.push($)
+                                            }
+                                        )
+                                    }
+                                    arrayLoop: while (true) {
+                                        if (children.length === 0) {
+                                            break arrayLoop
+                                        } else {
+                                            nextChild = children[children.length - 1]
+                                            switch (nextChild.kindName) {
+                                                case "ImportSpecifier":
+                                                    processElement()
+                                                    break
+                                                default: break arrayLoop
+                                            }
+                                        }
+                                    }
+                                    pr.cc(elements, ($) => {
+                                        callback({
+                                            annotation: node.annotation,
+                                            content: $,
+                                        })
+                                    })
+                                    if (children.length > 0) {
+                                        reportUnexpectedChild({
+                                            path: "root_imports$_clause$_named$",
+                                            child: children[children.length - 1],
+                                            expected: null,
+                                        })
+                                        return
+                                    }
+                                })(
+                                    currentChild,
+                                    ($) => {
+                                        choiceEnd_root_imports$_clause$(["named", $])
+                                    }
+                                )
+                            }
+                            switch (nextChild.kindName) {
+                                case "NamespaceImport": {
+                                    choose_namespace()
+                                    break
+                                }
+                                case "NamedImports": {
+                                    choose_named()
+                                    break
+                                }
+                                default: {
+                                    reportUnexpectedChild({
+                                        path: "root_imports$_clause$",
+                                        child: nextChild,
+                                        expected: ["NamespaceImport", "NamedImports"],
+                                    })
+                                }
+                            }
+                        }
+                        if (children.length > 0) {
+                            reportUnexpectedChild({
+                                path: "root_imports$_clause$",
+                                child: children[children.length - 1],
+                                expected: null,
+                            })
+                            return
+                        }
+                    })(
+                        currentChild,
+                        ($) => {
+                            const _clause = $
+                            currentChild = children.pop()
+                            if (currentChild === undefined) {
+                                reportMissingToken({
+                                    parentAnnotation: node.annotation,
+                                    path: "root_imports$_file",
+                                    kindNameOptions: [ "StringLiteral"],
+                                })
+                                return
+                            }
+                            if (currentChild.kindName !== "StringLiteral") {
+                                reportUnexpectedChild({
+                                    path: "root_imports$_file",
+                                    child: currentChild,
+                                    expected: ["StringLiteral"],
+                                })
+                                return
+                            }
+                            ((
+                                $: uast.Node<Annotation>,
+                                callback: ($: tast.Nroot_imports$_file$<Annotation>) => void,
+                            ): void => {
+                                const node = $
+                                const children: uast.Node<Annotation>[] = []
+                                $.children.forEach(($) => { children.push($) })
+                                children.reverse()
+                                callback({
+                                    annotation: $.annotation,
+                                    content: $.value
+                                })
+                                if (children.length > 0) {
+                                    reportUnexpectedChild({
+                                        path: "root_imports$_file$",
+                                        child: children[children.length - 1],
+                                        expected: null,
+                                    })
+                                    return
+                                }
+                            })(
+                                currentChild,
+                                ($) => {
+                                    const _file = $
+                                    sequenceEnd({
+                                        "clause": _clause,
+                                        "file": _file,
+                                    })
+                                }
+                            )
+                        }
+                    )
+                    if (children.length > 0) {
+                        reportUnexpectedChild({
+                            path: "root_imports$",
+                            child: children[children.length - 1],
+                            expected: null,
+                        })
+                        return
+                    }
+                })(
+                    currentChild,
+                    ($) => {
+                        elements.push($)
+                    }
+                )
+            }
+            arrayLoop: while (true) {
+                if (children.length === 0) {
+                    break arrayLoop
+                } else {
+                    nextChild = children[children.length - 1]
+                    switch (nextChild.kindName) {
+                        case "ImportDeclaration":
+                            processElement()
+                            break
+                        default: break arrayLoop
+                    }
+                }
+            }
+            pr.cc(elements, ($) => {
+                const _imports = $
+                const elements: tast.Vroot_typeAliases<Annotation> = []
+                const processElement = () => {
+                    currentChild = children.pop()
+                    if (currentChild === undefined) {
+                        reportMissingToken({
+                            parentAnnotation: node.annotation,
+                            path: "root_typeAliases",
+                            kindNameOptions: [ "TypeAliasDeclaration"],
+                        })
+                        return
+                    }
+                    if (currentChild.kindName !== "TypeAliasDeclaration") {
+                        reportUnexpectedChild({
+                            path: "root_typeAliases",
+                            child: currentChild,
+                            expected: ["TypeAliasDeclaration"],
+                        })
+                        return
+                    }
+                    ((
+                        $: uast.Node<Annotation>,
+                        callback: ($: tast.Nroot_typeAliases$<Annotation>) => void,
+                    ): void => {
+                        const node = $
+                        const children: uast.Node<Annotation>[] = []
+                        $.children.forEach(($) => { children.push($) })
+                        children.reverse()
+                        let currentChild: uast.Node<Annotation> | undefined
+                        let nextChild: uast.Node<Annotation> | undefined
+                        const sequenceEnd = ($: tast.VTroot_typeAliases$<Annotation>) => {
+                            callback({
+                                annotation: node.annotation,
+                                content: $,
+                            })
+                        }
+                        currentChild = children.pop()
+                        if (currentChild === undefined) {
+                            reportMissingToken({
+                                parentAnnotation: node.annotation,
+                                path: "root_typeAliases$_export",
+                                kindNameOptions: [ "ExportKeyword"],
+                            })
+                            return
+                        }
+                        if (currentChild.kindName !== "ExportKeyword") {
+                            reportUnexpectedChild({
+                                path: "root_typeAliases$_export",
+                                child: currentChild,
+                                expected: ["ExportKeyword"],
+                            })
+                            return
+                        }
+                        ((
+                            $: uast.Node<Annotation>,
+                            callback: ($: tast.Nroot_typeAliases$_export$<Annotation>) => void,
+                        ): void => {
+                            const node = $
+                            const children: uast.Node<Annotation>[] = []
+                            $.children.forEach(($) => { children.push($) })
+                            children.reverse()
+                            callback({
+                                annotation: $.annotation,
+                            })
+                            if (children.length > 0) {
+                                reportUnexpectedChild({
+                                    path: "root_typeAliases$_export$",
+                                    child: children[children.length - 1],
+                                    expected: null,
+                                })
+                                return
+                            }
+                        })(
+                            currentChild,
+                            ($) => {
+                                const _export = $
+                                Gidentifier(node, children, ($) => {
+                                    const _name = $
+                                    const elements: tast.Vroot_typeAliases$_typeParameters<Annotation> = []
+                                    const processElement = () => {
+                                        currentChild = children.pop()
+                                        if (currentChild === undefined) {
+                                            reportMissingToken({
+                                                parentAnnotation: node.annotation,
+                                                path: "root_typeAliases$_typeParameters",
+                                                kindNameOptions: [ "TypeParameter"],
+                                            })
+                                            return
+                                        }
+                                        if (currentChild.kindName !== "TypeParameter") {
+                                            reportUnexpectedChild({
+                                                path: "root_typeAliases$_typeParameters",
+                                                child: currentChild,
+                                                expected: ["TypeParameter"],
+                                            })
+                                            return
+                                        }
+                                        ((
+                                            $: uast.Node<Annotation>,
+                                            callback: ($: tast.Nroot_typeAliases$_typeParameters$<Annotation>) => void,
+                                        ): void => {
+                                            const node = $
+                                            const children: uast.Node<Annotation>[] = []
+                                            $.children.forEach(($) => { children.push($) })
+                                            children.reverse()
+                                            let currentChild: uast.Node<Annotation> | undefined
+                                            let nextChild: uast.Node<Annotation> | undefined
+                                            Gidentifier(node, children, ($) => {
+                                                callback({
+                                                    annotation: node.annotation,
+                                                    content: $,
+                                                })
+                                            })
+                                            if (children.length > 0) {
+                                                reportUnexpectedChild({
+                                                    path: "root_typeAliases$_typeParameters$",
+                                                    child: children[children.length - 1],
+                                                    expected: null,
+                                                })
+                                                return
+                                            }
+                                        })(
+                                            currentChild,
+                                            ($) => {
+                                                elements.push($)
+                                            }
+                                        )
+                                    }
+                                    arrayLoop: while (true) {
+                                        if (children.length === 0) {
+                                            break arrayLoop
+                                        } else {
+                                            nextChild = children[children.length - 1]
+                                            switch (nextChild.kindName) {
+                                                case "TypeParameter":
+                                                    processElement()
+                                                    break
+                                                default: break arrayLoop
+                                            }
+                                        }
+                                    }
+                                    pr.cc(elements, ($) => {
+                                        const _typeParameters = $
+                                        Gtype(node, children, ($) => {
+                                            const _type = $
+                                            sequenceEnd({
+                                                "export": _export,
+                                                "name": _name,
+                                                "typeParameters": _typeParameters,
+                                                "type": _type,
+                                            })
+                                        })
+                                    })
+                                })
+                            }
+                        )
+                        if (children.length > 0) {
+                            reportUnexpectedChild({
+                                path: "root_typeAliases$",
+                                child: children[children.length - 1],
+                                expected: null,
+                            })
+                            return
+                        }
+                    })(
+                        currentChild,
+                        ($) => {
+                            elements.push($)
+                        }
+                    )
+                }
+                arrayLoop: while (true) {
+                    if (children.length === 0) {
+                        break arrayLoop
+                    } else {
+                        nextChild = children[children.length - 1]
+                        switch (nextChild.kindName) {
+                            case "TypeAliasDeclaration":
+                                processElement()
+                                break
+                            default: break arrayLoop
+                        }
+                    }
+                }
+                pr.cc(elements, ($) => {
+                    const _typeAliases = $
+                    currentChild = children.pop()
+                    if (currentChild === undefined) {
+                        reportMissingToken({
+                            parentAnnotation: node.annotation,
+                            path: "root_endOfFile",
+                            kindNameOptions: [ "EndOfFileToken"],
+                        })
+                        return
+                    }
+                    if (currentChild.kindName !== "EndOfFileToken") {
+                        reportUnexpectedChild({
+                            path: "root_endOfFile",
+                            child: currentChild,
+                            expected: ["EndOfFileToken"],
+                        })
+                        return
+                    }
+                    ((
+                        $: uast.Node<Annotation>,
+                        callback: ($: tast.Nroot_endOfFile$<Annotation>) => void,
+                    ): void => {
+                        const node = $
+                        const children: uast.Node<Annotation>[] = []
+                        $.children.forEach(($) => { children.push($) })
+                        children.reverse()
+                        callback({
+                            annotation: $.annotation,
+                        })
+                        if (children.length > 0) {
+                            reportUnexpectedChild({
+                                path: "root_endOfFile$",
+                                child: children[children.length - 1],
+                                expected: null,
+                            })
+                            return
+                        }
+                    })(
+                        currentChild,
+                        ($) => {
+                            const _endOfFile = $
+                            sequenceEnd({
+                                "imports": _imports,
+                                "typeAliases": _typeAliases,
+                                "endOfFile": _endOfFile,
+                            })
+                        }
+                    )
+                })
+            })
+            if (children.length > 0) {
+                reportUnexpectedChild({
+                    path: "root",
+                    child: children[children.length - 1],
+                    expected: null,
+                })
+                return
+            }
+        })(
             $,
             ($) => {
                 callback($)
             },
         )
-        return
     }
 }

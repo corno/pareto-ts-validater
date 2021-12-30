@@ -1,409 +1,478 @@
 import * as pr from "pareto-runtime"
-import * as api from "../interface/ts_api.generated"
+import * as api from "../../interface/types/ts_api.generated"
 
 export type FOO<Annotation> = {
-    "ArrayLiteralExpression"?: {
-        begin: ($: api.TArrayLiteralExpression<Annotation>) => void,
-        end: ($: api.TArrayLiteralExpression<Annotation>) => void,
+    "Gidentifier$"?: ($: api.NGidentifier$<Annotation>) => void
+    "Ginitialization_arrayLiteral$"?: {
+        begin: ($: api.NGinitialization_arrayLiteral$<Annotation>) => void,
+        end: ($: api.NGinitialization_arrayLiteral$<Annotation>) => void,
     }
-    "EndOfFileToken"?: ($: api.TEndOfFileToken<Annotation>) => void
-    "ExportKeyword"?: ($: api.TExportKeyword<Annotation>) => void
-    "FalseKeyword"?: ($: api.TFalseKeyword<Annotation>) => void
-    "Identifier"?: ($: api.TIdentifier<Annotation>) => void
-    "ImportClause"?: {
-        begin: ($: api.TImportClause<Annotation>) => void,
-        end: ($: api.TImportClause<Annotation>) => void,
+    "Ginitialization_false$"?: ($: api.NGinitialization_false$<Annotation>) => void
+    "Ginitialization_identifier$"?: ($: api.NGinitialization_identifier$<Annotation>) => void
+    "Ginitialization_noSubstitutionTemplateLiteral$"?: ($: api.NGinitialization_noSubstitutionTemplateLiteral$<Annotation>) => void
+    "Ginitialization_numericLiteral$"?: ($: api.NGinitialization_numericLiteral$<Annotation>) => void
+    "Ginitialization_objectLiteral$$_name_identifier$"?: ($: api.NGinitialization_objectLiteral$$_name_identifier$<Annotation>) => void
+    "Ginitialization_objectLiteral$$_name_stringLiteral$"?: ($: api.NGinitialization_objectLiteral$$_name_stringLiteral$<Annotation>) => void
+    "Ginitialization_objectLiteral$$"?: {
+        begin: ($: api.NGinitialization_objectLiteral$$<Annotation>) => void,
+        end: ($: api.NGinitialization_objectLiteral$$<Annotation>) => void,
     }
-    "ImportDeclaration"?: {
-        begin: ($: api.TImportDeclaration<Annotation>) => void,
-        end: ($: api.TImportDeclaration<Annotation>) => void,
+    "Ginitialization_objectLiteral$"?: {
+        begin: ($: api.NGinitialization_objectLiteral$<Annotation>) => void,
+        end: ($: api.NGinitialization_objectLiteral$<Annotation>) => void,
     }
-    "NamespaceImport"?: {
-        begin: ($: api.TNamespaceImport<Annotation>) => void,
-        end: ($: api.TNamespaceImport<Annotation>) => void,
+    "Ginitialization_stringLiteral$"?: ($: api.NGinitialization_stringLiteral$<Annotation>) => void
+    "Ginitialization_true$"?: ($: api.NGinitialization_true$<Annotation>) => void
+    "root_import$_clause$_namespace$"?: {
+        begin: ($: api.Nroot_import$_clause$_namespace$<Annotation>) => void,
+        end: ($: api.Nroot_import$_clause$_namespace$<Annotation>) => void,
     }
-    "NoSubstitutionTemplateLiteral"?: ($: api.TNoSubstitutionTemplateLiteral<Annotation>) => void
-    "NumericLiteral"?: ($: api.TNumericLiteral<Annotation>) => void
-    "NullKeyword"?: ($: api.TNullKeyword<Annotation>) => void
-    "ObjectLiteralExpression"?: {
-        begin: ($: api.TObjectLiteralExpression<Annotation>) => void,
-        end: ($: api.TObjectLiteralExpression<Annotation>) => void,
+    "root_import$_clause$_named$$"?: {
+        begin: ($: api.Nroot_import$_clause$_named$$<Annotation>) => void,
+        end: ($: api.Nroot_import$_clause$_named$$<Annotation>) => void,
     }
-    "PropertyAssignment"?: {
-        begin: ($: api.TPropertyAssignment<Annotation>) => void,
-        end: ($: api.TPropertyAssignment<Annotation>) => void,
+    "root_import$_clause$_named$"?: {
+        begin: ($: api.Nroot_import$_clause$_named$<Annotation>) => void,
+        end: ($: api.Nroot_import$_clause$_named$<Annotation>) => void,
     }
-    "QualifiedName"?: {
-        begin: ($: api.TQualifiedName<Annotation>) => void,
-        end: ($: api.TQualifiedName<Annotation>) => void,
+    "root_import$_clause$"?: {
+        begin: ($: api.Nroot_import$_clause$<Annotation>) => void,
+        end: ($: api.Nroot_import$_clause$<Annotation>) => void,
     }
-    "SourceFile"?: {
-        begin: ($: api.TSourceFile<Annotation>) => void,
-        end: ($: api.TSourceFile<Annotation>) => void,
+    "root_import$_file$"?: ($: api.Nroot_import$_file$<Annotation>) => void
+    "root_import$"?: {
+        begin: ($: api.Nroot_import$<Annotation>) => void,
+        end: ($: api.Nroot_import$<Annotation>) => void,
     }
-    "StringLiteral"?: ($: api.TStringLiteral<Annotation>) => void
-    "TrueKeyword"?: ($: api.TTrueKeyword<Annotation>) => void
-    "TypeReference"?: {
-        begin: ($: api.TTypeReference<Annotation>) => void,
-        end: ($: api.TTypeReference<Annotation>) => void,
+    "root_variables$_export$"?: ($: api.Nroot_variables$_export$<Annotation>) => void
+    "root_variables$_variableDeclarationList$$_name$"?: ($: api.Nroot_variables$_variableDeclarationList$$_name$<Annotation>) => void
+    "root_variables$_variableDeclarationList$$_type$_name$_context$"?: ($: api.Nroot_variables$_variableDeclarationList$$_type$_name$_context$<Annotation>) => void
+    "root_variables$_variableDeclarationList$$_type$_name$_type$"?: ($: api.Nroot_variables$_variableDeclarationList$$_type$_name$_type$<Annotation>) => void
+    "root_variables$_variableDeclarationList$$_type$_name$"?: {
+        begin: ($: api.Nroot_variables$_variableDeclarationList$$_type$_name$<Annotation>) => void,
+        end: ($: api.Nroot_variables$_variableDeclarationList$$_type$_name$<Annotation>) => void,
     }
-    "VariableDeclaration"?: {
-        begin: ($: api.TVariableDeclaration<Annotation>) => void,
-        end: ($: api.TVariableDeclaration<Annotation>) => void,
+    "root_variables$_variableDeclarationList$$_type$"?: {
+        begin: ($: api.Nroot_variables$_variableDeclarationList$$_type$<Annotation>) => void,
+        end: ($: api.Nroot_variables$_variableDeclarationList$$_type$<Annotation>) => void,
     }
-    "VariableDeclarationList"?: {
-        begin: ($: api.TVariableDeclarationList<Annotation>) => void,
-        end: ($: api.TVariableDeclarationList<Annotation>) => void,
+    "root_variables$_variableDeclarationList$$"?: {
+        begin: ($: api.Nroot_variables$_variableDeclarationList$$<Annotation>) => void,
+        end: ($: api.Nroot_variables$_variableDeclarationList$$<Annotation>) => void,
     }
-    "VariableStatement"?: {
-        begin: ($: api.TVariableStatement<Annotation>) => void,
-        end: ($: api.TVariableStatement<Annotation>) => void,
+    "root_variables$_variableDeclarationList$"?: {
+        begin: ($: api.Nroot_variables$_variableDeclarationList$<Annotation>) => void,
+        end: ($: api.Nroot_variables$_variableDeclarationList$<Annotation>) => void,
+    }
+    "root_variables$"?: {
+        begin: ($: api.Nroot_variables$<Annotation>) => void,
+        end: ($: api.Nroot_variables$<Annotation>) => void,
+    }
+    "root_endOfFile$"?: ($: api.Nroot_endOfFile$<Annotation>) => void
+    "root"?: {
+        begin: ($: api.Nroot<Annotation>) => void,
+        end: ($: api.Nroot<Annotation>) => void,
     }
 }
 
 export const foo: FOO<string> = {
-    "ArrayLiteralExpression": {
-        begin: ($) => { console.log("ArrayLiteralExpression begin") },
-        end: ($) => { console.log("ArrayLiteralExpression end") },
+    "Gidentifier$": ($) => { console.log("Gidentifier$") },
+    "Ginitialization_arrayLiteral$": {
+        begin: ($) => { console.log("Ginitialization_arrayLiteral$ begin") },
+        end: ($) => { console.log("Ginitialization_arrayLiteral$ end") },
     },
-    "EndOfFileToken": ($) => { console.log("EndOfFileToken") },
-    "ExportKeyword": ($) => { console.log("ExportKeyword") },
-    "FalseKeyword": ($) => { console.log("FalseKeyword") },
-    "Identifier": ($) => { console.log("Identifier") },
-    "ImportClause": {
-        begin: ($) => { console.log("ImportClause begin") },
-        end: ($) => { console.log("ImportClause end") },
+    "Ginitialization_false$": ($) => { console.log("Ginitialization_false$") },
+    "Ginitialization_identifier$": ($) => { console.log("Ginitialization_identifier$") },
+    "Ginitialization_noSubstitutionTemplateLiteral$": ($) => { console.log("Ginitialization_noSubstitutionTemplateLiteral$") },
+    "Ginitialization_numericLiteral$": ($) => { console.log("Ginitialization_numericLiteral$") },
+    "Ginitialization_objectLiteral$$_name_identifier$": ($) => { console.log("Ginitialization_objectLiteral$$_name_identifier$") },
+    "Ginitialization_objectLiteral$$_name_stringLiteral$": ($) => { console.log("Ginitialization_objectLiteral$$_name_stringLiteral$") },
+    "Ginitialization_objectLiteral$$": {
+        begin: ($) => { console.log("Ginitialization_objectLiteral$$ begin") },
+        end: ($) => { console.log("Ginitialization_objectLiteral$$ end") },
     },
-    "ImportDeclaration": {
-        begin: ($) => { console.log("ImportDeclaration begin") },
-        end: ($) => { console.log("ImportDeclaration end") },
+    "Ginitialization_objectLiteral$": {
+        begin: ($) => { console.log("Ginitialization_objectLiteral$ begin") },
+        end: ($) => { console.log("Ginitialization_objectLiteral$ end") },
     },
-    "NamespaceImport": {
-        begin: ($) => { console.log("NamespaceImport begin") },
-        end: ($) => { console.log("NamespaceImport end") },
+    "Ginitialization_stringLiteral$": ($) => { console.log("Ginitialization_stringLiteral$") },
+    "Ginitialization_true$": ($) => { console.log("Ginitialization_true$") },
+    "root_import$_clause$_namespace$": {
+        begin: ($) => { console.log("root_import$_clause$_namespace$ begin") },
+        end: ($) => { console.log("root_import$_clause$_namespace$ end") },
     },
-    "NoSubstitutionTemplateLiteral": ($) => { console.log("NoSubstitutionTemplateLiteral") },
-    "NumericLiteral": ($) => { console.log("NumericLiteral") },
-    "NullKeyword": ($) => { console.log("NullKeyword") },
-    "ObjectLiteralExpression": {
-        begin: ($) => { console.log("ObjectLiteralExpression begin") },
-        end: ($) => { console.log("ObjectLiteralExpression end") },
+    "root_import$_clause$_named$$": {
+        begin: ($) => { console.log("root_import$_clause$_named$$ begin") },
+        end: ($) => { console.log("root_import$_clause$_named$$ end") },
     },
-    "PropertyAssignment": {
-        begin: ($) => { console.log("PropertyAssignment begin") },
-        end: ($) => { console.log("PropertyAssignment end") },
+    "root_import$_clause$_named$": {
+        begin: ($) => { console.log("root_import$_clause$_named$ begin") },
+        end: ($) => { console.log("root_import$_clause$_named$ end") },
     },
-    "QualifiedName": {
-        begin: ($) => { console.log("QualifiedName begin") },
-        end: ($) => { console.log("QualifiedName end") },
+    "root_import$_clause$": {
+        begin: ($) => { console.log("root_import$_clause$ begin") },
+        end: ($) => { console.log("root_import$_clause$ end") },
     },
-    "SourceFile": {
-        begin: ($) => { console.log("SourceFile begin") },
-        end: ($) => { console.log("SourceFile end") },
+    "root_import$_file$": ($) => { console.log("root_import$_file$") },
+    "root_import$": {
+        begin: ($) => { console.log("root_import$ begin") },
+        end: ($) => { console.log("root_import$ end") },
     },
-    "StringLiteral": ($) => { console.log("StringLiteral") },
-    "TrueKeyword": ($) => { console.log("TrueKeyword") },
-    "TypeReference": {
-        begin: ($) => { console.log("TypeReference begin") },
-        end: ($) => { console.log("TypeReference end") },
+    "root_variables$_export$": ($) => { console.log("root_variables$_export$") },
+    "root_variables$_variableDeclarationList$$_name$": ($) => { console.log("root_variables$_variableDeclarationList$$_name$") },
+    "root_variables$_variableDeclarationList$$_type$_name$_context$": ($) => { console.log("root_variables$_variableDeclarationList$$_type$_name$_context$") },
+    "root_variables$_variableDeclarationList$$_type$_name$_type$": ($) => { console.log("root_variables$_variableDeclarationList$$_type$_name$_type$") },
+    "root_variables$_variableDeclarationList$$_type$_name$": {
+        begin: ($) => { console.log("root_variables$_variableDeclarationList$$_type$_name$ begin") },
+        end: ($) => { console.log("root_variables$_variableDeclarationList$$_type$_name$ end") },
     },
-    "VariableDeclaration": {
-        begin: ($) => { console.log("VariableDeclaration begin") },
-        end: ($) => { console.log("VariableDeclaration end") },
+    "root_variables$_variableDeclarationList$$_type$": {
+        begin: ($) => { console.log("root_variables$_variableDeclarationList$$_type$ begin") },
+        end: ($) => { console.log("root_variables$_variableDeclarationList$$_type$ end") },
     },
-    "VariableDeclarationList": {
-        begin: ($) => { console.log("VariableDeclarationList begin") },
-        end: ($) => { console.log("VariableDeclarationList end") },
+    "root_variables$_variableDeclarationList$$": {
+        begin: ($) => { console.log("root_variables$_variableDeclarationList$$ begin") },
+        end: ($) => { console.log("root_variables$_variableDeclarationList$$ end") },
     },
-    "VariableStatement": {
-        begin: ($) => { console.log("VariableStatement begin") },
-        end: ($) => { console.log("VariableStatement end") },
+    "root_variables$_variableDeclarationList$": {
+        begin: ($) => { console.log("root_variables$_variableDeclarationList$ begin") },
+        end: ($) => { console.log("root_variables$_variableDeclarationList$ end") },
+    },
+    "root_variables$": {
+        begin: ($) => { console.log("root_variables$ begin") },
+        end: ($) => { console.log("root_variables$ end") },
+    },
+    "root_endOfFile$": ($) => { console.log("root_endOfFile$") },
+    "root": {
+        begin: ($) => { console.log("root begin") },
+        end: ($) => { console.log("root end") },
     },
 }
 
 export function visit<Annotation>(
-    $: api.TSourceFile<Annotation>,
+    $: api.Nroot<Annotation>,
     foo: FOO<Annotation>,
 ): void {
-    function X_expression(
-        $: api.Gexpression<Annotation>,
+    function X_identifier(
+        $: api.Gidentifier<Annotation>,
+    ) {
+        ((
+            $: api.NGidentifier$<Annotation>,
+        ) => {
+            if (foo["Gidentifier$"] !== undefined) { foo["Gidentifier$"]($) }
+        })($)
+    }
+    function X_initialization(
+        $: api.Ginitialization<Annotation>,
     ) {
         switch ($[0]) {
             case "arrayLiteral": {
                 pr.cc($[1], ($) => {
-                    _ArrayLiteralExpression($)
+                    ((
+                        $: api.NGinitialization_arrayLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_arrayLiteral$"] !== undefined) { foo["Ginitialization_arrayLiteral$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            $.forEach(($) => {
+                                X_initialization($)
+                            })
+                        })
+                        if (foo["Ginitialization_arrayLiteral$"] !== undefined) { foo["Ginitialization_arrayLiteral$"].end($) }
+                    })($)
                 })
                 break
             }
             case "false": {
                 pr.cc($[1], ($) => {
-                    _FalseKeyword($)
+                    ((
+                        $: api.NGinitialization_false$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_false$"] !== undefined) { foo["Ginitialization_false$"]($) }
+                    })($)
                 })
                 break
             }
             case "identifier": {
                 pr.cc($[1], ($) => {
-                    _Identifier($)
+                    ((
+                        $: api.NGinitialization_identifier$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_identifier$"] !== undefined) { foo["Ginitialization_identifier$"]($) }
+                    })($)
                 })
                 break
             }
             case "noSubstitutionTemplateLiteral": {
                 pr.cc($[1], ($) => {
-                    _NoSubstitutionTemplateLiteral($)
+                    ((
+                        $: api.NGinitialization_noSubstitutionTemplateLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_noSubstitutionTemplateLiteral$"] !== undefined) { foo["Ginitialization_noSubstitutionTemplateLiteral$"]($) }
+                    })($)
                 })
                 break
             }
             case "numericLiteral": {
                 pr.cc($[1], ($) => {
-                    _NumericLiteral($)
-                })
-                break
-            }
-            case "nullKeyword": {
-                pr.cc($[1], ($) => {
-                    _NullKeyword($)
+                    ((
+                        $: api.NGinitialization_numericLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_numericLiteral$"] !== undefined) { foo["Ginitialization_numericLiteral$"]($) }
+                    })($)
                 })
                 break
             }
             case "objectLiteral": {
                 pr.cc($[1], ($) => {
-                    _ObjectLiteralExpression($)
+                    ((
+                        $: api.NGinitialization_objectLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_objectLiteral$"] !== undefined) { foo["Ginitialization_objectLiteral$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            $.forEach(($) => {
+                                ((
+                                    $: api.NGinitialization_objectLiteral$$<Annotation>,
+                                ) => {
+                                    if (foo["Ginitialization_objectLiteral$$"] !== undefined) { foo["Ginitialization_objectLiteral$$"].begin($) }
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["name"], ($) => {
+                                            switch ($[0]) {
+                                                case "identifier": {
+                                                    pr.cc($[1], ($) => {
+                                                        ((
+                                                            $: api.NGinitialization_objectLiteral$$_name_identifier$<Annotation>,
+                                                        ) => {
+                                                            if (foo["Ginitialization_objectLiteral$$_name_identifier$"] !== undefined) { foo["Ginitialization_objectLiteral$$_name_identifier$"]($) }
+                                                        })($)
+                                                    })
+                                                    break
+                                                }
+                                                case "stringLiteral": {
+                                                    pr.cc($[1], ($) => {
+                                                        ((
+                                                            $: api.NGinitialization_objectLiteral$$_name_stringLiteral$<Annotation>,
+                                                        ) => {
+                                                            if (foo["Ginitialization_objectLiteral$$_name_stringLiteral$"] !== undefined) { foo["Ginitialization_objectLiteral$$_name_stringLiteral$"]($) }
+                                                        })($)
+                                                    })
+                                                    break
+                                                }
+                                                default: pr.au($[0])
+                                            }
+                                        })
+                                        pr.cc($["initialization"], ($) => {
+                                            X_initialization($)
+                                        })
+                                    })
+                                    if (foo["Ginitialization_objectLiteral$$"] !== undefined) { foo["Ginitialization_objectLiteral$$"].end($) }
+                                })($)
+                            })
+                        })
+                        if (foo["Ginitialization_objectLiteral$"] !== undefined) { foo["Ginitialization_objectLiteral$"].end($) }
+                    })($)
                 })
                 break
             }
             case "stringLiteral": {
                 pr.cc($[1], ($) => {
-                    _StringLiteral($)
+                    ((
+                        $: api.NGinitialization_stringLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_stringLiteral$"] !== undefined) { foo["Ginitialization_stringLiteral$"]($) }
+                    })($)
                 })
                 break
             }
             case "true": {
                 pr.cc($[1], ($) => {
-                    _TrueKeyword($)
+                    ((
+                        $: api.NGinitialization_true$<Annotation>,
+                    ) => {
+                        if (foo["Ginitialization_true$"] !== undefined) { foo["Ginitialization_true$"]($) }
+                    })($)
                 })
                 break
             }
             default: pr.au($[0])
         }
     }
-    function _ArrayLiteralExpression(
-        $: api.TArrayLiteralExpression<Annotation>,
-    ) {
-        if (foo["ArrayLiteralExpression"] !== undefined) { foo["ArrayLiteralExpression"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                X_expression($)
-            })
-        })
-        if (foo["ArrayLiteralExpression"] !== undefined) { foo["ArrayLiteralExpression"].end($) }
-    }
-    function _EndOfFileToken(
-        $: api.TEndOfFileToken<Annotation>,
-    ) {
-        if (foo["EndOfFileToken"] !== undefined) { foo["EndOfFileToken"]($) }
-    }
-    function _ExportKeyword(
-        $: api.TExportKeyword<Annotation>,
-    ) {
-        if (foo["ExportKeyword"] !== undefined) { foo["ExportKeyword"]($) }
-    }
-    function _FalseKeyword(
-        $: api.TFalseKeyword<Annotation>,
-    ) {
-        if (foo["FalseKeyword"] !== undefined) { foo["FalseKeyword"]($) }
-    }
-    function _Identifier(
-        $: api.TIdentifier<Annotation>,
-    ) {
-        if (foo["Identifier"] !== undefined) { foo["Identifier"]($) }
-    }
-    function _ImportClause(
-        $: api.TImportClause<Annotation>,
-    ) {
-        if (foo["ImportClause"] !== undefined) { foo["ImportClause"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["namespace"], ($) => {
-                _NamespaceImport($)
-            })
-        })
-        if (foo["ImportClause"] !== undefined) { foo["ImportClause"].end($) }
-    }
-    function _ImportDeclaration(
-        $: api.TImportDeclaration<Annotation>,
-    ) {
-        if (foo["ImportDeclaration"] !== undefined) { foo["ImportDeclaration"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["clause"], ($) => {
-                _ImportClause($)
-            })
-            pr.cc($["file"], ($) => {
-                _StringLiteral($)
-            })
-        })
-        if (foo["ImportDeclaration"] !== undefined) { foo["ImportDeclaration"].end($) }
-    }
-    function _NamespaceImport(
-        $: api.TNamespaceImport<Annotation>,
-    ) {
-        if (foo["NamespaceImport"] !== undefined) { foo["NamespaceImport"].begin($) }
-        pr.cc($.content, ($) => {
-            _Identifier($)
-        })
-        if (foo["NamespaceImport"] !== undefined) { foo["NamespaceImport"].end($) }
-    }
-    function _NoSubstitutionTemplateLiteral(
-        $: api.TNoSubstitutionTemplateLiteral<Annotation>,
-    ) {
-        if (foo["NoSubstitutionTemplateLiteral"] !== undefined) { foo["NoSubstitutionTemplateLiteral"]($) }
-    }
-    function _NumericLiteral(
-        $: api.TNumericLiteral<Annotation>,
-    ) {
-        if (foo["NumericLiteral"] !== undefined) { foo["NumericLiteral"]($) }
-    }
-    function _NullKeyword(
-        $: api.TNullKeyword<Annotation>,
-    ) {
-        if (foo["NullKeyword"] !== undefined) { foo["NullKeyword"]($) }
-    }
-    function _ObjectLiteralExpression(
-        $: api.TObjectLiteralExpression<Annotation>,
-    ) {
-        if (foo["ObjectLiteralExpression"] !== undefined) { foo["ObjectLiteralExpression"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                _PropertyAssignment($)
-            })
-        })
-        if (foo["ObjectLiteralExpression"] !== undefined) { foo["ObjectLiteralExpression"].end($) }
-    }
-    function _PropertyAssignment(
-        $: api.TPropertyAssignment<Annotation>,
-    ) {
-        if (foo["PropertyAssignment"] !== undefined) { foo["PropertyAssignment"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["name"], ($) => {
-                switch ($[0]) {
-                    case "identifier": {
-                        pr.cc($[1], ($) => {
-                            _Identifier($)
-                        })
-                        break
-                    }
-                    case "stringLiteral": {
-                        pr.cc($[1], ($) => {
-                            _StringLiteral($)
-                        })
-                        break
-                    }
-                    default: pr.au($[0])
-                }
-            })
-            pr.cc($["expression"], ($) => {
-                X_expression($)
-            })
-        })
-        if (foo["PropertyAssignment"] !== undefined) { foo["PropertyAssignment"].end($) }
-    }
-    function _QualifiedName(
-        $: api.TQualifiedName<Annotation>,
-    ) {
-        if (foo["QualifiedName"] !== undefined) { foo["QualifiedName"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["context"], ($) => {
-                _Identifier($)
-            })
-            pr.cc($["type"], ($) => {
-                _Identifier($)
-            })
-        })
-        if (foo["QualifiedName"] !== undefined) { foo["QualifiedName"].end($) }
-    }
-    function _SourceFile(
-        $: api.TSourceFile<Annotation>,
-    ) {
-        if (foo["SourceFile"] !== undefined) { foo["SourceFile"].begin($) }
+    ((
+        $: api.Nroot<Annotation>,
+    ) => {
+        if (foo["root"] !== undefined) { foo["root"].begin($) }
         pr.cc($.content, ($) => {
             pr.cc($["import"], ($) => {
-                _ImportDeclaration($)
+                ((
+                    $: api.Nroot_import$<Annotation>,
+                ) => {
+                    if (foo["root_import$"] !== undefined) { foo["root_import$"].begin($) }
+                    pr.cc($.content, ($) => {
+                        pr.cc($["clause"], ($) => {
+                            ((
+                                $: api.Nroot_import$_clause$<Annotation>,
+                            ) => {
+                                if (foo["root_import$_clause$"] !== undefined) { foo["root_import$_clause$"].begin($) }
+                                pr.cc($.content, ($) => {
+                                    switch ($[0]) {
+                                        case "namespace": {
+                                            pr.cc($[1], ($) => {
+                                                ((
+                                                    $: api.Nroot_import$_clause$_namespace$<Annotation>,
+                                                ) => {
+                                                    if (foo["root_import$_clause$_namespace$"] !== undefined) { foo["root_import$_clause$_namespace$"].begin($) }
+                                                    pr.cc($.content, ($) => {
+                                                        X_identifier($)
+                                                    })
+                                                    if (foo["root_import$_clause$_namespace$"] !== undefined) { foo["root_import$_clause$_namespace$"].end($) }
+                                                })($)
+                                            })
+                                            break
+                                        }
+                                        case "named": {
+                                            pr.cc($[1], ($) => {
+                                                ((
+                                                    $: api.Nroot_import$_clause$_named$<Annotation>,
+                                                ) => {
+                                                    if (foo["root_import$_clause$_named$"] !== undefined) { foo["root_import$_clause$_named$"].begin($) }
+                                                    pr.cc($.content, ($) => {
+                                                        $.forEach(($) => {
+                                                            ((
+                                                                $: api.Nroot_import$_clause$_named$$<Annotation>,
+                                                            ) => {
+                                                                if (foo["root_import$_clause$_named$$"] !== undefined) { foo["root_import$_clause$_named$$"].begin($) }
+                                                                pr.cc($.content, ($) => {
+                                                                    pr.cc($["name"], ($) => {
+                                                                        X_identifier($)
+                                                                    })
+                                                                    pr.cc($["as"], ($) => {
+                                                                        if ($ === null) {
+                                                                            //FIXME??
+                                                                        } else {
+                                                                            X_identifier($)
+                                                                        }
+                                                                    })
+                                                                })
+                                                                if (foo["root_import$_clause$_named$$"] !== undefined) { foo["root_import$_clause$_named$$"].end($) }
+                                                            })($)
+                                                        })
+                                                    })
+                                                    if (foo["root_import$_clause$_named$"] !== undefined) { foo["root_import$_clause$_named$"].end($) }
+                                                })($)
+                                            })
+                                            break
+                                        }
+                                        default: pr.au($[0])
+                                    }
+                                })
+                                if (foo["root_import$_clause$"] !== undefined) { foo["root_import$_clause$"].end($) }
+                            })($)
+                        })
+                        pr.cc($["file"], ($) => {
+                            ((
+                                $: api.Nroot_import$_file$<Annotation>,
+                            ) => {
+                                if (foo["root_import$_file$"] !== undefined) { foo["root_import$_file$"]($) }
+                            })($)
+                        })
+                    })
+                    if (foo["root_import$"] !== undefined) { foo["root_import$"].end($) }
+                })($)
             })
             pr.cc($["variables"], ($) => {
                 $.forEach(($) => {
-                    _VariableStatement($)
+                    ((
+                        $: api.Nroot_variables$<Annotation>,
+                    ) => {
+                        if (foo["root_variables$"] !== undefined) { foo["root_variables$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            pr.cc($["export"], ($) => {
+                                ((
+                                    $: api.Nroot_variables$_export$<Annotation>,
+                                ) => {
+                                    if (foo["root_variables$_export$"] !== undefined) { foo["root_variables$_export$"]($) }
+                                })($)
+                            })
+                            pr.cc($["variableDeclarationList"], ($) => {
+                                ((
+                                    $: api.Nroot_variables$_variableDeclarationList$<Annotation>,
+                                ) => {
+                                    if (foo["root_variables$_variableDeclarationList$"] !== undefined) { foo["root_variables$_variableDeclarationList$"].begin($) }
+                                    pr.cc($.content, ($) => {
+                                        $.forEach(($) => {
+                                            ((
+                                                $: api.Nroot_variables$_variableDeclarationList$$<Annotation>,
+                                            ) => {
+                                                if (foo["root_variables$_variableDeclarationList$$"] !== undefined) { foo["root_variables$_variableDeclarationList$$"].begin($) }
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["name"], ($) => {
+                                                        ((
+                                                            $: api.Nroot_variables$_variableDeclarationList$$_name$<Annotation>,
+                                                        ) => {
+                                                            if (foo["root_variables$_variableDeclarationList$$_name$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_name$"]($) }
+                                                        })($)
+                                                    })
+                                                    pr.cc($["type"], ($) => {
+                                                        ((
+                                                            $: api.Nroot_variables$_variableDeclarationList$$_type$<Annotation>,
+                                                        ) => {
+                                                            if (foo["root_variables$_variableDeclarationList$$_type$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$"].begin($) }
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["name"], ($) => {
+                                                                    ((
+                                                                        $: api.Nroot_variables$_variableDeclarationList$$_type$_name$<Annotation>,
+                                                                    ) => {
+                                                                        if (foo["root_variables$_variableDeclarationList$$_type$_name$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$_name$"].begin($) }
+                                                                        pr.cc($.content, ($) => {
+                                                                            pr.cc($["context"], ($) => {
+                                                                                ((
+                                                                                    $: api.Nroot_variables$_variableDeclarationList$$_type$_name$_context$<Annotation>,
+                                                                                ) => {
+                                                                                    if (foo["root_variables$_variableDeclarationList$$_type$_name$_context$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$_name$_context$"]($) }
+                                                                                })($)
+                                                                            })
+                                                                            pr.cc($["type"], ($) => {
+                                                                                ((
+                                                                                    $: api.Nroot_variables$_variableDeclarationList$$_type$_name$_type$<Annotation>,
+                                                                                ) => {
+                                                                                    if (foo["root_variables$_variableDeclarationList$$_type$_name$_type$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$_name$_type$"]($) }
+                                                                                })($)
+                                                                            })
+                                                                        })
+                                                                        if (foo["root_variables$_variableDeclarationList$$_type$_name$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$_name$"].end($) }
+                                                                    })($)
+                                                                })
+                                                            })
+                                                            if (foo["root_variables$_variableDeclarationList$$_type$"] !== undefined) { foo["root_variables$_variableDeclarationList$$_type$"].end($) }
+                                                        })($)
+                                                    })
+                                                    pr.cc($["one"], ($) => {
+                                                        if ($ === null) {
+                                                            //FIXME??
+                                                        } else {
+                                                            X_initialization($)
+                                                        }
+                                                    })
+                                                })
+                                                if (foo["root_variables$_variableDeclarationList$$"] !== undefined) { foo["root_variables$_variableDeclarationList$$"].end($) }
+                                            })($)
+                                        })
+                                    })
+                                    if (foo["root_variables$_variableDeclarationList$"] !== undefined) { foo["root_variables$_variableDeclarationList$"].end($) }
+                                })($)
+                            })
+                        })
+                        if (foo["root_variables$"] !== undefined) { foo["root_variables$"].end($) }
+                    })($)
                 })
             })
             pr.cc($["endOfFile"], ($) => {
-                _EndOfFileToken($)
+                ((
+                    $: api.Nroot_endOfFile$<Annotation>,
+                ) => {
+                    if (foo["root_endOfFile$"] !== undefined) { foo["root_endOfFile$"]($) }
+                })($)
             })
         })
-        if (foo["SourceFile"] !== undefined) { foo["SourceFile"].end($) }
-    }
-    function _StringLiteral(
-        $: api.TStringLiteral<Annotation>,
-    ) {
-        if (foo["StringLiteral"] !== undefined) { foo["StringLiteral"]($) }
-    }
-    function _TrueKeyword(
-        $: api.TTrueKeyword<Annotation>,
-    ) {
-        if (foo["TrueKeyword"] !== undefined) { foo["TrueKeyword"]($) }
-    }
-    function _TypeReference(
-        $: api.TTypeReference<Annotation>,
-    ) {
-        if (foo["TypeReference"] !== undefined) { foo["TypeReference"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["name"], ($) => {
-                _QualifiedName($)
-            })
-        })
-        if (foo["TypeReference"] !== undefined) { foo["TypeReference"].end($) }
-    }
-    function _VariableDeclaration(
-        $: api.TVariableDeclaration<Annotation>,
-    ) {
-        if (foo["VariableDeclaration"] !== undefined) { foo["VariableDeclaration"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["name"], ($) => {
-                _Identifier($)
-            })
-            pr.cc($["type"], ($) => {
-                _TypeReference($)
-            })
-            pr.cc($["one"], ($) => {
-                if ($ === null) {
-                    //FIXME??
-                } else {
-                    X_expression($)
-                }
-            })
-        })
-        if (foo["VariableDeclaration"] !== undefined) { foo["VariableDeclaration"].end($) }
-    }
-    function _VariableDeclarationList(
-        $: api.TVariableDeclarationList<Annotation>,
-    ) {
-        if (foo["VariableDeclarationList"] !== undefined) { foo["VariableDeclarationList"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                _VariableDeclaration($)
-            })
-        })
-        if (foo["VariableDeclarationList"] !== undefined) { foo["VariableDeclarationList"].end($) }
-    }
-    function _VariableStatement(
-        $: api.TVariableStatement<Annotation>,
-    ) {
-        if (foo["VariableStatement"] !== undefined) { foo["VariableStatement"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["export"], ($) => {
-                _ExportKeyword($)
-            })
-            pr.cc($["variableDeclarationList"], ($) => {
-                _VariableDeclarationList($)
-            })
-        })
-        if (foo["VariableStatement"] !== undefined) { foo["VariableStatement"].end($) }
-    }
-    return _SourceFile($)
+        if (foo["root"] !== undefined) { foo["root"].end($) }
+    })($)
 }

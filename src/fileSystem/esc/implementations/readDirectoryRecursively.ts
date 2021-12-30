@@ -11,7 +11,7 @@ export function readDirectoryRecursively(
             direntType: pr.DirentType
         }) => void,
         onError: ($: {
-            error: pr.ReadDirErrorType,
+            error: pr.ReadDirError,
             path: string
         }) => void
         //FIXME add onEnd: () => void

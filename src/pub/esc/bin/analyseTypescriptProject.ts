@@ -4,10 +4,13 @@ import * as pr from "pareto-runtime"
 
 import * as path from "path"
 import * as tsmorph from "ts-morph"
-import * as dataGrammar from "../../../dataGrammar/esc/implementation/parser.generated"
-import * as interfaceGrammar from "../../../dataGrammar/esc/implementation/parser.generated"
-import * as typeGrammar from "../../../typeGrammar/esc/implementation/parser.generated"
-import { Node } from "../../../dataGrammar/esc/interface/uast.generated"
+import * as dataParser from "../../../dataGrammar/esc/implementation/parser.generated"
+import * as dataTypes from "../../../dataGrammar/interface/types/ts_api.generated"
+import * as interfaceParser from "../../../interfaceGrammar/esc/implementation/parser.generated"
+import * as interfaceTypes from "../../../interfaceGrammar/interface/types/ts_api.generated"
+import * as typeParser from "../../../typeGrammar/esc/implementation/parser.generated"
+import * as typeTypes from "../../../typeGrammar/interface/types/ts_api.generated"
+import { Node } from "../../../dataGrammar/interface/types/uast.generated"
 import { typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
 import { analysePath, parseFilePath } from "../implementations/analysePath"
@@ -32,21 +35,22 @@ project.getSourceFiles().forEach(($) => {
         typescriptFileStructure,
         parsedPath,
     )
-    function getLineInfo(
+    function onError(
         $: tsmorph.Node,
+        message: string,
     ) {
         const lp = $.getSourceFile().getLineAndColumnAtPos($.getStart())
-        return `[${lp.line}, ${lp.column}]`
+        console.error(`${message} @ ${fullFilePath}[${lp.line}, ${lp.column}]`)
     }
     type Node2<Annotation> = {
 
     }
     function handle<RT>(
-        parse:(
+        parse: (
             $: Node<tsmorph.Node>,
             callback: ($: RT) => void,
             reportUnexpectedRoot: ($: { root: Node<tsmorph.Node>, }) => void,
-            reportUnexpectedChild: ($: { path: string, child: Node<tsmorph.Node>, }) => void,
+            reportUnexpectedChild: ($: { path: string, child: Node<tsmorph.Node>, expected: null | string[] }) => void,
             reportMissingToken: ($: { parentAnnotation: tsmorph.Node, path: string, kindNameOptions: string[], }) => void,
         ) => void,
         callback: ($: RT) => void
@@ -79,7 +83,7 @@ project.getSourceFiles().forEach(($) => {
             },
             //reportUnexpectedChild
             ($) => {
-                console.error(`unexpected child: ${$.path} ${$.child.kindName} @ ${fullFilePath}${getLineInfo($.child.annotation)}`)
+                onError($.child.annotation, `unexpected child: ${$.path} ${$.child.kindName}, expected ${$.expected === null ? "nothing" : $.expected.map(($) => `'${$}'`).join(" or ")}`)
             },
             //reportMissingToken
             ($) => {
@@ -87,34 +91,100 @@ project.getSourceFiles().forEach(($) => {
             }
         )
     }
+    function doType() {
+        handle<typeTypes.Nroot<tsmorph.Node>>(
+            typeParser.parse,
+            ($) => {
+
+                $.content.imports.forEach(($) => {
+                    switch ($.content.clause.content[0]) {
+                        case "named":
+                            pr.cc($.content.clause.content[1], ($) => {
+                            })
+                            break
+                        case "namespace":
+                            pr.cc($.content.clause.content[1], ($) => {
+                                if ($.content.content !== "pr") {
+                                    onError($.content.annotation, `expected 'pr'`)
+                                }
+                            })
+                            break
+                        default:
+                            pr.au($.content.clause.content[0])
+                    }
+                })
+            },
+        )
+    }
+    function doInterface() {
+        handle<interfaceTypes.Nroot<tsmorph.Node>>(
+            interfaceParser.parse,
+            ($) => {
+
+                $.content.imports.forEach(($) => {
+                    switch ($.content.clause.content[0]) {
+                        case "named":
+                            pr.cc($.content.clause.content[1], ($) => {
+                            })
+                            break
+                        case "namespace":
+                            pr.cc($.content.clause.content[1], ($) => {
+                                if ($.content.content !== "pr") {
+                                    onError($.content.annotation, `expected 'pr'`)
+                                }
+                            })
+                            break
+                        default:
+                            pr.au($.content.clause.content[0])
+                    }
+                })
+            },
+        )
+    }
     const pathPatterns: { [key: string]: () => void } = {
         "/src/*/esc/**/*.ts": () => {
+            $.forEachChild(($) => {
+                const allowed: { [key: string]: () => void } = {
+                    "EndOfFileToken": () => { },
+                    "ExportDeclaration": () => { },
+                    "ExpressionStatement": () => {
+                        if ($.getChildCount() !== 1) {
+                            //onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT IN ESC: ${$.getKindName()}`)
+                        } else {
+                            pr.cc($.getChildAtIndex(0), ($) => {
 
+                                if ($.getKindName() !== "CallExpression") {
+                                    //onError($, `UNEXECTED EXPRESSION STATEMENT IN ESC: ${$.getKindName()}`)
+    
+                                }
+                            })
+                        }
+                    },
+                    "FunctionDeclaration": () => { },
+                    "ImportDeclaration": () => { },
+                }
+                const entry = allowed[$.getKindName()]
+                if (entry === undefined) {
+                    //onError($, `UNEXPECTED GLOBAL IN ESC: ${$.getKindName()}`)
+                } else {
+                    entry()
+                }
+            })
         },
-        "/src/*/data/**/*.ts": () => {
-            handle(
-                dataGrammar.parse,
+        "/src/*/data/*.ts": () => {
+            handle<dataTypes.Nroot<tsmorph.Node>>(
+                dataParser.parse,
                 ($) => {
+                    $.content.import.content
                     //handle result
                 },
             )
         },
-        "/src/*/interface/interfaces/**/*.ts": () => {
-            handle(
-                interfaceGrammar.parse,
-                ($) => {
-                    //handle result
-                },
-            )
-        },
-        "/src/*/interface/types/**/*.ts": () => {
-            handle(
-                typeGrammar.parse,
-                ($) => {
-                    //handle result
-                },
-            )
-        },
+        "/src/*/interfaces/*/types/*.ts": doType,
+        "/src/*/interface/types/*.ts": doType,
+        "/src/*/interfaces/*/interfaces/*.ts": doInterface,
+        "/src/*/interface/interfaces/*.ts": doInterface,
+        //"/src/*/interfaces/*/types/**/*.ts": doType,
     }
     if (pathPatterns[res.pathPattern] === undefined) {
         console.error(`unknown path pattern: ${res.pathPattern} @ ${fullFilePath}`)

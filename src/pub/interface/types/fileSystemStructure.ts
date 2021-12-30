@@ -1,23 +1,23 @@
 
 export type Node = {
-    "type":
+    readonly "type":
     | ["file", {}]
     | ["directory", Directory]
 }
 
 export type TypeDirectory = {
-    "nodes": { [key: string]: Node }
+    readonly "nodes": { [key: string]: Node }
 }
 
 export type FilesDictionary = {
-    "extensions": string[]
-    "recursive": boolean
+    readonly "extensions": string[]
+    readonly "recursive": boolean
 }
 
 export type Directory = {
-    "type":
+    readonly "type":
     | ["directory dictionary", {
-        "definition": Directory
+        readonly "definition": Directory
     }]
     | ["files dictionary", FilesDictionary]
     | ["type", TypeDirectory]

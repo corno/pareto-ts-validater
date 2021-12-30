@@ -1,5 +1,28 @@
 import * as types from "../interface/types/fileSystemStructure"
 
+export const iface: types.Directory = {
+    type: ["type", {
+        nodes: {
+            "types": {
+                type: ["directory", {
+                    type: ["files dictionary", {
+                        extensions: ["ts"],
+                        recursive: false
+                    }]
+                }],
+            },
+            "interfaces": {
+                type: ["directory", {
+                    type: ["files dictionary", {
+                        extensions: ["ts"],
+                        recursive: false
+                    }]
+                }],
+            },
+        }
+    }]
+}
+
 export const typescriptProject: types.Directory = {
     type: ["directory dictionary", {
         definition: {
@@ -9,33 +32,12 @@ export const typescriptProject: types.Directory = {
                         type: ["directory", {
                             type: ["files dictionary", {
                                 extensions: ["ts"],
-                                recursive: true
+                                recursive: false
                             }]
                         }],
                     },
                     "interface": {
-                        type: ["directory", {
-                            type: ["type", {
-                                nodes: {
-                                    "types": {
-                                        type: ["directory", {
-                                            type: ["files dictionary", {
-                                                extensions: ["ts"],
-                                                recursive: true
-                                            }]
-                                        }],
-                                    },
-                                    "interface": {
-                                        type: ["directory", {
-                                            type: ["files dictionary", {
-                                                extensions: ["ts"],
-                                                recursive: true
-                                            }]
-                                        }],
-                                    },
-                                }
-                            }]
-                        }],
+                        type: ["directory", iface]
                     },
                     "esc": {
                         type: ["directory", {
@@ -45,7 +47,14 @@ export const typescriptProject: types.Directory = {
                             }]
 
                         }],
-                    }
+                    },
+                    "interfaces": {
+                        type: ["directory", {
+                            type: ["directory dictionary", {
+                                definition: iface
+                            }]
+                        }],
+                    },
                 }
             }]
         }

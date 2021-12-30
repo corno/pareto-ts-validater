@@ -1,7 +1,7 @@
 import * as pr from "pareto-runtime"
 
 export function logReadDirErrorType(
-    $: pr.ReadDirErrorType,
+    $: pr.ReadDirError,
     log: (message: string) => void,
 ) {
     switch ($[0]) {

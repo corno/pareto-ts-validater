@@ -1,420 +1,572 @@
 import * as pr from "pareto-runtime"
-import * as api from "../interface/ts_api.generated"
+import * as api from "../../interface/types/ts_api.generated"
 
 export type FOO<Annotation> = {
-    "ArrayType"?: {
-        begin: ($: api.TArrayType<Annotation>) => void,
-        end: ($: api.TArrayType<Annotation>) => void,
+    "Gidentifier$"?: ($: api.NGidentifier$<Annotation>) => void
+    "Gtype_array$"?: {
+        begin: ($: api.NGtype_array$<Annotation>) => void,
+        end: ($: api.NGtype_array$<Annotation>) => void,
     }
-    "BooleanKeyword"?: ($: api.TBooleanKeyword<Annotation>) => void
-    "EndOfFileToken"?: ($: api.TEndOfFileToken<Annotation>) => void
-    "ExportKeyword"?: ($: api.TExportKeyword<Annotation>) => void
-    "Identifier"?: ($: api.TIdentifier<Annotation>) => void
-    "IndexSignature"?: {
-        begin: ($: api.TIndexSignature<Annotation>) => void,
-        end: ($: api.TIndexSignature<Annotation>) => void,
+    "Gtype_boolean$"?: ($: api.NGtype_boolean$<Annotation>) => void
+    "Gtype_string$"?: ($: api.NGtype_string$<Annotation>) => void
+    "Gtype_number$"?: ($: api.NGtype_number$<Annotation>) => void
+    "Gtype_typeLiteral$_index$_key$"?: {
+        begin: ($: api.NGtype_typeLiteral$_index$_key$<Annotation>) => void,
+        end: ($: api.NGtype_typeLiteral$_index$_key$<Annotation>) => void,
     }
-    "LiteralType"?: {
-        begin: ($: api.TLiteralType<Annotation>) => void,
-        end: ($: api.TLiteralType<Annotation>) => void,
+    "Gtype_typeLiteral$_index$"?: {
+        begin: ($: api.NGtype_typeLiteral$_index$<Annotation>) => void,
+        end: ($: api.NGtype_typeLiteral$_index$<Annotation>) => void,
     }
-    "Parameter"?: {
-        begin: ($: api.TParameter<Annotation>) => void,
-        end: ($: api.TParameter<Annotation>) => void,
+    "Gtype_typeLiteral$_property$_readonly$"?: ($: api.NGtype_typeLiteral$_property$_readonly$<Annotation>) => void
+    "Gtype_typeLiteral$_property$_name$"?: ($: api.NGtype_typeLiteral$_property$_name$<Annotation>) => void
+    "Gtype_typeLiteral$_property$_questionToken$"?: ($: api.NGtype_typeLiteral$_property$_questionToken$<Annotation>) => void
+    "Gtype_typeLiteral$_property$"?: {
+        begin: ($: api.NGtype_typeLiteral$_property$<Annotation>) => void,
+        end: ($: api.NGtype_typeLiteral$_property$<Annotation>) => void,
     }
-    "PropertySignature"?: {
-        begin: ($: api.TPropertySignature<Annotation>) => void,
-        end: ($: api.TPropertySignature<Annotation>) => void,
+    "Gtype_typeLiteral$"?: {
+        begin: ($: api.NGtype_typeLiteral$<Annotation>) => void,
+        end: ($: api.NGtype_typeLiteral$<Annotation>) => void,
     }
-    "QuestionToken"?: ($: api.TQuestionToken<Annotation>) => void
-    "SourceFile"?: {
-        begin: ($: api.TSourceFile<Annotation>) => void,
-        end: ($: api.TSourceFile<Annotation>) => void,
+    "Gtype_typeReference$_referencedType_qualifiedName$"?: {
+        begin: ($: api.NGtype_typeReference$_referencedType_qualifiedName$<Annotation>) => void,
+        end: ($: api.NGtype_typeReference$_referencedType_qualifiedName$<Annotation>) => void,
     }
-    "StringKeyword"?: ($: api.TStringKeyword<Annotation>) => void
-    "StringLiteral"?: ($: api.TStringLiteral<Annotation>) => void
-    "TupleType"?: {
-        begin: ($: api.TTupleType<Annotation>) => void,
-        end: ($: api.TTupleType<Annotation>) => void,
+    "Gtype_typeReference$"?: {
+        begin: ($: api.NGtype_typeReference$<Annotation>) => void,
+        end: ($: api.NGtype_typeReference$<Annotation>) => void,
     }
-    "TypeAliasDeclaration"?: {
-        begin: ($: api.TTypeAliasDeclaration<Annotation>) => void,
-        end: ($: api.TTypeAliasDeclaration<Annotation>) => void,
+    "Gtype_union$$_state$_string$"?: ($: api.NGtype_union$$_state$_string$<Annotation>) => void
+    "Gtype_union$$_state$"?: {
+        begin: ($: api.NGtype_union$$_state$<Annotation>) => void,
+        end: ($: api.NGtype_union$$_state$<Annotation>) => void,
     }
-    "TypeLiteral"?: {
-        begin: ($: api.TTypeLiteral<Annotation>) => void,
-        end: ($: api.TTypeLiteral<Annotation>) => void,
+    "Gtype_union$$"?: {
+        begin: ($: api.NGtype_union$$<Annotation>) => void,
+        end: ($: api.NGtype_union$$<Annotation>) => void,
     }
-    "TypeParameter"?: {
-        begin: ($: api.TTypeParameter<Annotation>) => void,
-        end: ($: api.TTypeParameter<Annotation>) => void,
+    "Gtype_union$"?: {
+        begin: ($: api.NGtype_union$<Annotation>) => void,
+        end: ($: api.NGtype_union$<Annotation>) => void,
     }
-    "TypeReference"?: {
-        begin: ($: api.TTypeReference<Annotation>) => void,
-        end: ($: api.TTypeReference<Annotation>) => void,
+    "root_imports$_clause$_namespace$"?: {
+        begin: ($: api.Nroot_imports$_clause$_namespace$<Annotation>) => void,
+        end: ($: api.Nroot_imports$_clause$_namespace$<Annotation>) => void,
     }
-    "UnionType"?: {
-        begin: ($: api.TUnionType<Annotation>) => void,
-        end: ($: api.TUnionType<Annotation>) => void,
+    "root_imports$_clause$_named$$"?: {
+        begin: ($: api.Nroot_imports$_clause$_named$$<Annotation>) => void,
+        end: ($: api.Nroot_imports$_clause$_named$$<Annotation>) => void,
+    }
+    "root_imports$_clause$_named$"?: {
+        begin: ($: api.Nroot_imports$_clause$_named$<Annotation>) => void,
+        end: ($: api.Nroot_imports$_clause$_named$<Annotation>) => void,
+    }
+    "root_imports$_clause$"?: {
+        begin: ($: api.Nroot_imports$_clause$<Annotation>) => void,
+        end: ($: api.Nroot_imports$_clause$<Annotation>) => void,
+    }
+    "root_imports$_file$"?: ($: api.Nroot_imports$_file$<Annotation>) => void
+    "root_imports$"?: {
+        begin: ($: api.Nroot_imports$<Annotation>) => void,
+        end: ($: api.Nroot_imports$<Annotation>) => void,
+    }
+    "root_typeAliases$_export$"?: ($: api.Nroot_typeAliases$_export$<Annotation>) => void
+    "root_typeAliases$_typeParameters$"?: {
+        begin: ($: api.Nroot_typeAliases$_typeParameters$<Annotation>) => void,
+        end: ($: api.Nroot_typeAliases$_typeParameters$<Annotation>) => void,
+    }
+    "root_typeAliases$"?: {
+        begin: ($: api.Nroot_typeAliases$<Annotation>) => void,
+        end: ($: api.Nroot_typeAliases$<Annotation>) => void,
+    }
+    "root_endOfFile$"?: ($: api.Nroot_endOfFile$<Annotation>) => void
+    "root"?: {
+        begin: ($: api.Nroot<Annotation>) => void,
+        end: ($: api.Nroot<Annotation>) => void,
     }
 }
 
 export const foo: FOO<string> = {
-    "ArrayType": {
-        begin: ($) => { console.log("ArrayType begin") },
-        end: ($) => { console.log("ArrayType end") },
+    "Gidentifier$": ($) => { console.log("Gidentifier$") },
+    "Gtype_array$": {
+        begin: ($) => { console.log("Gtype_array$ begin") },
+        end: ($) => { console.log("Gtype_array$ end") },
     },
-    "BooleanKeyword": ($) => { console.log("BooleanKeyword") },
-    "EndOfFileToken": ($) => { console.log("EndOfFileToken") },
-    "ExportKeyword": ($) => { console.log("ExportKeyword") },
-    "Identifier": ($) => { console.log("Identifier") },
-    "IndexSignature": {
-        begin: ($) => { console.log("IndexSignature begin") },
-        end: ($) => { console.log("IndexSignature end") },
+    "Gtype_boolean$": ($) => { console.log("Gtype_boolean$") },
+    "Gtype_string$": ($) => { console.log("Gtype_string$") },
+    "Gtype_number$": ($) => { console.log("Gtype_number$") },
+    "Gtype_typeLiteral$_index$_key$": {
+        begin: ($) => { console.log("Gtype_typeLiteral$_index$_key$ begin") },
+        end: ($) => { console.log("Gtype_typeLiteral$_index$_key$ end") },
     },
-    "LiteralType": {
-        begin: ($) => { console.log("LiteralType begin") },
-        end: ($) => { console.log("LiteralType end") },
+    "Gtype_typeLiteral$_index$": {
+        begin: ($) => { console.log("Gtype_typeLiteral$_index$ begin") },
+        end: ($) => { console.log("Gtype_typeLiteral$_index$ end") },
     },
-    "Parameter": {
-        begin: ($) => { console.log("Parameter begin") },
-        end: ($) => { console.log("Parameter end") },
+    "Gtype_typeLiteral$_property$_readonly$": ($) => { console.log("Gtype_typeLiteral$_property$_readonly$") },
+    "Gtype_typeLiteral$_property$_name$": ($) => { console.log("Gtype_typeLiteral$_property$_name$") },
+    "Gtype_typeLiteral$_property$_questionToken$": ($) => { console.log("Gtype_typeLiteral$_property$_questionToken$") },
+    "Gtype_typeLiteral$_property$": {
+        begin: ($) => { console.log("Gtype_typeLiteral$_property$ begin") },
+        end: ($) => { console.log("Gtype_typeLiteral$_property$ end") },
     },
-    "PropertySignature": {
-        begin: ($) => { console.log("PropertySignature begin") },
-        end: ($) => { console.log("PropertySignature end") },
+    "Gtype_typeLiteral$": {
+        begin: ($) => { console.log("Gtype_typeLiteral$ begin") },
+        end: ($) => { console.log("Gtype_typeLiteral$ end") },
     },
-    "QuestionToken": ($) => { console.log("QuestionToken") },
-    "SourceFile": {
-        begin: ($) => { console.log("SourceFile begin") },
-        end: ($) => { console.log("SourceFile end") },
+    "Gtype_typeReference$_referencedType_qualifiedName$": {
+        begin: ($) => { console.log("Gtype_typeReference$_referencedType_qualifiedName$ begin") },
+        end: ($) => { console.log("Gtype_typeReference$_referencedType_qualifiedName$ end") },
     },
-    "StringKeyword": ($) => { console.log("StringKeyword") },
-    "StringLiteral": ($) => { console.log("StringLiteral") },
-    "TupleType": {
-        begin: ($) => { console.log("TupleType begin") },
-        end: ($) => { console.log("TupleType end") },
+    "Gtype_typeReference$": {
+        begin: ($) => { console.log("Gtype_typeReference$ begin") },
+        end: ($) => { console.log("Gtype_typeReference$ end") },
     },
-    "TypeAliasDeclaration": {
-        begin: ($) => { console.log("TypeAliasDeclaration begin") },
-        end: ($) => { console.log("TypeAliasDeclaration end") },
+    "Gtype_union$$_state$_string$": ($) => { console.log("Gtype_union$$_state$_string$") },
+    "Gtype_union$$_state$": {
+        begin: ($) => { console.log("Gtype_union$$_state$ begin") },
+        end: ($) => { console.log("Gtype_union$$_state$ end") },
     },
-    "TypeLiteral": {
-        begin: ($) => { console.log("TypeLiteral begin") },
-        end: ($) => { console.log("TypeLiteral end") },
+    "Gtype_union$$": {
+        begin: ($) => { console.log("Gtype_union$$ begin") },
+        end: ($) => { console.log("Gtype_union$$ end") },
     },
-    "TypeParameter": {
-        begin: ($) => { console.log("TypeParameter begin") },
-        end: ($) => { console.log("TypeParameter end") },
+    "Gtype_union$": {
+        begin: ($) => { console.log("Gtype_union$ begin") },
+        end: ($) => { console.log("Gtype_union$ end") },
     },
-    "TypeReference": {
-        begin: ($) => { console.log("TypeReference begin") },
-        end: ($) => { console.log("TypeReference end") },
+    "root_imports$_clause$_namespace$": {
+        begin: ($) => { console.log("root_imports$_clause$_namespace$ begin") },
+        end: ($) => { console.log("root_imports$_clause$_namespace$ end") },
     },
-    "UnionType": {
-        begin: ($) => { console.log("UnionType begin") },
-        end: ($) => { console.log("UnionType end") },
+    "root_imports$_clause$_named$$": {
+        begin: ($) => { console.log("root_imports$_clause$_named$$ begin") },
+        end: ($) => { console.log("root_imports$_clause$_named$$ end") },
+    },
+    "root_imports$_clause$_named$": {
+        begin: ($) => { console.log("root_imports$_clause$_named$ begin") },
+        end: ($) => { console.log("root_imports$_clause$_named$ end") },
+    },
+    "root_imports$_clause$": {
+        begin: ($) => { console.log("root_imports$_clause$ begin") },
+        end: ($) => { console.log("root_imports$_clause$ end") },
+    },
+    "root_imports$_file$": ($) => { console.log("root_imports$_file$") },
+    "root_imports$": {
+        begin: ($) => { console.log("root_imports$ begin") },
+        end: ($) => { console.log("root_imports$ end") },
+    },
+    "root_typeAliases$_export$": ($) => { console.log("root_typeAliases$_export$") },
+    "root_typeAliases$_typeParameters$": {
+        begin: ($) => { console.log("root_typeAliases$_typeParameters$ begin") },
+        end: ($) => { console.log("root_typeAliases$_typeParameters$ end") },
+    },
+    "root_typeAliases$": {
+        begin: ($) => { console.log("root_typeAliases$ begin") },
+        end: ($) => { console.log("root_typeAliases$ end") },
+    },
+    "root_endOfFile$": ($) => { console.log("root_endOfFile$") },
+    "root": {
+        begin: ($) => { console.log("root begin") },
+        end: ($) => { console.log("root end") },
     },
 }
 
 export function visit<Annotation>(
-    $: api.TSourceFile<Annotation>,
+    $: api.Nroot<Annotation>,
     foo: FOO<Annotation>,
 ): void {
+    function X_identifier(
+        $: api.Gidentifier<Annotation>,
+    ) {
+        ((
+            $: api.NGidentifier$<Annotation>,
+        ) => {
+            if (foo["Gidentifier$"] !== undefined) { foo["Gidentifier$"]($) }
+        })($)
+    }
     function X_type(
         $: api.Gtype<Annotation>,
     ) {
         switch ($[0]) {
             case "array": {
                 pr.cc($[1], ($) => {
-                    _ArrayType($)
+                    ((
+                        $: api.NGtype_array$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_array$"] !== undefined) { foo["Gtype_array$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            X_type($)
+                        })
+                        if (foo["Gtype_array$"] !== undefined) { foo["Gtype_array$"].end($) }
+                    })($)
                 })
                 break
             }
             case "boolean": {
                 pr.cc($[1], ($) => {
-                    _BooleanKeyword($)
+                    ((
+                        $: api.NGtype_boolean$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_boolean$"] !== undefined) { foo["Gtype_boolean$"]($) }
+                    })($)
                 })
                 break
             }
             case "string": {
                 pr.cc($[1], ($) => {
-                    _StringKeyword($)
+                    ((
+                        $: api.NGtype_string$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_string$"] !== undefined) { foo["Gtype_string$"]($) }
+                    })($)
                 })
                 break
             }
-            case "literal": {
+            case "number": {
                 pr.cc($[1], ($) => {
-                    _LiteralType($)
-                })
-                break
-            }
-            case "tuple": {
-                pr.cc($[1], ($) => {
-                    _TupleType($)
+                    ((
+                        $: api.NGtype_number$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_number$"] !== undefined) { foo["Gtype_number$"]($) }
+                    })($)
                 })
                 break
             }
             case "typeLiteral": {
                 pr.cc($[1], ($) => {
-                    _TypeLiteral($)
+                    ((
+                        $: api.NGtype_typeLiteral$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_typeLiteral$"] !== undefined) { foo["Gtype_typeLiteral$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            $.forEach(($) => {
+                                switch ($[0]) {
+                                    case "index": {
+                                        pr.cc($[1], ($) => {
+                                            ((
+                                                $: api.NGtype_typeLiteral$_index$<Annotation>,
+                                            ) => {
+                                                if (foo["Gtype_typeLiteral$_index$"] !== undefined) { foo["Gtype_typeLiteral$_index$"].begin($) }
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["key"], ($) => {
+                                                        ((
+                                                            $: api.NGtype_typeLiteral$_index$_key$<Annotation>,
+                                                        ) => {
+                                                            if (foo["Gtype_typeLiteral$_index$_key$"] !== undefined) { foo["Gtype_typeLiteral$_index$_key$"].begin($) }
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["name"], ($) => {
+                                                                    X_identifier($)
+                                                                })
+                                                                pr.cc($["type"], ($) => {
+                                                                    if ($ === null) {
+                                                                        //FIXME??
+                                                                    } else {
+                                                                        X_type($)
+                                                                    }
+                                                                })
+                                                            })
+                                                            if (foo["Gtype_typeLiteral$_index$_key$"] !== undefined) { foo["Gtype_typeLiteral$_index$_key$"].end($) }
+                                                        })($)
+                                                    })
+                                                    pr.cc($["type"], ($) => {
+                                                        if ($ === null) {
+                                                            //FIXME??
+                                                        } else {
+                                                            X_type($)
+                                                        }
+                                                    })
+                                                })
+                                                if (foo["Gtype_typeLiteral$_index$"] !== undefined) { foo["Gtype_typeLiteral$_index$"].end($) }
+                                            })($)
+                                        })
+                                        break
+                                    }
+                                    case "property": {
+                                        pr.cc($[1], ($) => {
+                                            ((
+                                                $: api.NGtype_typeLiteral$_property$<Annotation>,
+                                            ) => {
+                                                if (foo["Gtype_typeLiteral$_property$"] !== undefined) { foo["Gtype_typeLiteral$_property$"].begin($) }
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["readonly"], ($) => {
+                                                        ((
+                                                            $: api.NGtype_typeLiteral$_property$_readonly$<Annotation>,
+                                                        ) => {
+                                                            if (foo["Gtype_typeLiteral$_property$_readonly$"] !== undefined) { foo["Gtype_typeLiteral$_property$_readonly$"]($) }
+                                                        })($)
+                                                    })
+                                                    pr.cc($["name"], ($) => {
+                                                        ((
+                                                            $: api.NGtype_typeLiteral$_property$_name$<Annotation>,
+                                                        ) => {
+                                                            if (foo["Gtype_typeLiteral$_property$_name$"] !== undefined) { foo["Gtype_typeLiteral$_property$_name$"]($) }
+                                                        })($)
+                                                    })
+                                                    pr.cc($["questionToken"], ($) => {
+                                                        if ($ === null) {
+                                                            //FIXME??
+                                                        } else {
+                                                            ((
+                                                                $: api.NGtype_typeLiteral$_property$_questionToken$<Annotation>,
+                                                            ) => {
+                                                                if (foo["Gtype_typeLiteral$_property$_questionToken$"] !== undefined) { foo["Gtype_typeLiteral$_property$_questionToken$"]($) }
+                                                            })($)
+                                                        }
+                                                    })
+                                                    pr.cc($["type"], ($) => {
+                                                        if ($ === null) {
+                                                            //FIXME??
+                                                        } else {
+                                                            X_type($)
+                                                        }
+                                                    })
+                                                })
+                                                if (foo["Gtype_typeLiteral$_property$"] !== undefined) { foo["Gtype_typeLiteral$_property$"].end($) }
+                                            })($)
+                                        })
+                                        break
+                                    }
+                                    default: pr.au($[0])
+                                }
+                            })
+                        })
+                        if (foo["Gtype_typeLiteral$"] !== undefined) { foo["Gtype_typeLiteral$"].end($) }
+                    })($)
                 })
                 break
             }
             case "typeReference": {
                 pr.cc($[1], ($) => {
-                    _TypeReference($)
+                    ((
+                        $: api.NGtype_typeReference$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_typeReference$"] !== undefined) { foo["Gtype_typeReference$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            pr.cc($["referencedType"], ($) => {
+                                switch ($[0]) {
+                                    case "identifier": {
+                                        pr.cc($[1], ($) => {
+                                            X_identifier($)
+                                        })
+                                        break
+                                    }
+                                    case "qualifiedName": {
+                                        pr.cc($[1], ($) => {
+                                            ((
+                                                $: api.NGtype_typeReference$_referencedType_qualifiedName$<Annotation>,
+                                            ) => {
+                                                if (foo["Gtype_typeReference$_referencedType_qualifiedName$"] !== undefined) { foo["Gtype_typeReference$_referencedType_qualifiedName$"].begin($) }
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["context"], ($) => {
+                                                        X_identifier($)
+                                                    })
+                                                    pr.cc($["type"], ($) => {
+                                                        X_identifier($)
+                                                    })
+                                                })
+                                                if (foo["Gtype_typeReference$_referencedType_qualifiedName$"] !== undefined) { foo["Gtype_typeReference$_referencedType_qualifiedName$"].end($) }
+                                            })($)
+                                        })
+                                        break
+                                    }
+                                    default: pr.au($[0])
+                                }
+                            })
+                            pr.cc($["parameters"], ($) => {
+                                $.forEach(($) => {
+                                    X_type($)
+                                })
+                            })
+                        })
+                        if (foo["Gtype_typeReference$"] !== undefined) { foo["Gtype_typeReference$"].end($) }
+                    })($)
                 })
                 break
             }
             case "union": {
                 pr.cc($[1], ($) => {
-                    _UnionType($)
+                    ((
+                        $: api.NGtype_union$<Annotation>,
+                    ) => {
+                        if (foo["Gtype_union$"] !== undefined) { foo["Gtype_union$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            $.forEach(($) => {
+                                ((
+                                    $: api.NGtype_union$$<Annotation>,
+                                ) => {
+                                    if (foo["Gtype_union$$"] !== undefined) { foo["Gtype_union$$"].begin($) }
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["state"], ($) => {
+                                            ((
+                                                $: api.NGtype_union$$_state$<Annotation>,
+                                            ) => {
+                                                if (foo["Gtype_union$$_state$"] !== undefined) { foo["Gtype_union$$_state$"].begin($) }
+                                                pr.cc($.content, ($) => {
+                                                    switch ($[0]) {
+                                                        case "string": {
+                                                            pr.cc($[1], ($) => {
+                                                                ((
+                                                                    $: api.NGtype_union$$_state$_string$<Annotation>,
+                                                                ) => {
+                                                                    if (foo["Gtype_union$$_state$_string$"] !== undefined) { foo["Gtype_union$$_state$_string$"]($) }
+                                                                })($)
+                                                            })
+                                                            break
+                                                        }
+                                                        default: pr.au($[0])
+                                                    }
+                                                })
+                                                if (foo["Gtype_union$$_state$"] !== undefined) { foo["Gtype_union$$_state$"].end($) }
+                                            })($)
+                                        })
+                                        pr.cc($["data"], ($) => {
+                                            X_type($)
+                                        })
+                                    })
+                                    if (foo["Gtype_union$$"] !== undefined) { foo["Gtype_union$$"].end($) }
+                                })($)
+                            })
+                        })
+                        if (foo["Gtype_union$"] !== undefined) { foo["Gtype_union$"].end($) }
+                    })($)
                 })
                 break
             }
             default: pr.au($[0])
         }
     }
-    function _ArrayType(
-        $: api.TArrayType<Annotation>,
-    ) {
-        if (foo["ArrayType"] !== undefined) { foo["ArrayType"].begin($) }
+    ((
+        $: api.Nroot<Annotation>,
+    ) => {
+        if (foo["root"] !== undefined) { foo["root"].begin($) }
         pr.cc($.content, ($) => {
-            X_type($)
-        })
-        if (foo["ArrayType"] !== undefined) { foo["ArrayType"].end($) }
-    }
-    function _BooleanKeyword(
-        $: api.TBooleanKeyword<Annotation>,
-    ) {
-        if (foo["BooleanKeyword"] !== undefined) { foo["BooleanKeyword"]($) }
-    }
-    function _EndOfFileToken(
-        $: api.TEndOfFileToken<Annotation>,
-    ) {
-        if (foo["EndOfFileToken"] !== undefined) { foo["EndOfFileToken"]($) }
-    }
-    function _ExportKeyword(
-        $: api.TExportKeyword<Annotation>,
-    ) {
-        if (foo["ExportKeyword"] !== undefined) { foo["ExportKeyword"]($) }
-    }
-    function _Identifier(
-        $: api.TIdentifier<Annotation>,
-    ) {
-        if (foo["Identifier"] !== undefined) { foo["Identifier"]($) }
-    }
-    function _IndexSignature(
-        $: api.TIndexSignature<Annotation>,
-    ) {
-        if (foo["IndexSignature"] !== undefined) { foo["IndexSignature"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["key"], ($) => {
-                _Parameter($)
+            pr.cc($["imports"], ($) => {
+                $.forEach(($) => {
+                    ((
+                        $: api.Nroot_imports$<Annotation>,
+                    ) => {
+                        if (foo["root_imports$"] !== undefined) { foo["root_imports$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            pr.cc($["clause"], ($) => {
+                                ((
+                                    $: api.Nroot_imports$_clause$<Annotation>,
+                                ) => {
+                                    if (foo["root_imports$_clause$"] !== undefined) { foo["root_imports$_clause$"].begin($) }
+                                    pr.cc($.content, ($) => {
+                                        switch ($[0]) {
+                                            case "namespace": {
+                                                pr.cc($[1], ($) => {
+                                                    ((
+                                                        $: api.Nroot_imports$_clause$_namespace$<Annotation>,
+                                                    ) => {
+                                                        if (foo["root_imports$_clause$_namespace$"] !== undefined) { foo["root_imports$_clause$_namespace$"].begin($) }
+                                                        pr.cc($.content, ($) => {
+                                                            X_identifier($)
+                                                        })
+                                                        if (foo["root_imports$_clause$_namespace$"] !== undefined) { foo["root_imports$_clause$_namespace$"].end($) }
+                                                    })($)
+                                                })
+                                                break
+                                            }
+                                            case "named": {
+                                                pr.cc($[1], ($) => {
+                                                    ((
+                                                        $: api.Nroot_imports$_clause$_named$<Annotation>,
+                                                    ) => {
+                                                        if (foo["root_imports$_clause$_named$"] !== undefined) { foo["root_imports$_clause$_named$"].begin($) }
+                                                        pr.cc($.content, ($) => {
+                                                            $.forEach(($) => {
+                                                                ((
+                                                                    $: api.Nroot_imports$_clause$_named$$<Annotation>,
+                                                                ) => {
+                                                                    if (foo["root_imports$_clause$_named$$"] !== undefined) { foo["root_imports$_clause$_named$$"].begin($) }
+                                                                    pr.cc($.content, ($) => {
+                                                                        pr.cc($["name"], ($) => {
+                                                                            X_identifier($)
+                                                                        })
+                                                                        pr.cc($["as"], ($) => {
+                                                                            if ($ === null) {
+                                                                                //FIXME??
+                                                                            } else {
+                                                                                X_identifier($)
+                                                                            }
+                                                                        })
+                                                                    })
+                                                                    if (foo["root_imports$_clause$_named$$"] !== undefined) { foo["root_imports$_clause$_named$$"].end($) }
+                                                                })($)
+                                                            })
+                                                        })
+                                                        if (foo["root_imports$_clause$_named$"] !== undefined) { foo["root_imports$_clause$_named$"].end($) }
+                                                    })($)
+                                                })
+                                                break
+                                            }
+                                            default: pr.au($[0])
+                                        }
+                                    })
+                                    if (foo["root_imports$_clause$"] !== undefined) { foo["root_imports$_clause$"].end($) }
+                                })($)
+                            })
+                            pr.cc($["file"], ($) => {
+                                ((
+                                    $: api.Nroot_imports$_file$<Annotation>,
+                                ) => {
+                                    if (foo["root_imports$_file$"] !== undefined) { foo["root_imports$_file$"]($) }
+                                })($)
+                            })
+                        })
+                        if (foo["root_imports$"] !== undefined) { foo["root_imports$"].end($) }
+                    })($)
+                })
             })
-            pr.cc($["type"], ($) => {
-                if ($ === null) {
-                    //FIXME??
-                } else {
-                    X_type($)
-                }
-            })
-        })
-        if (foo["IndexSignature"] !== undefined) { foo["IndexSignature"].end($) }
-    }
-    function _LiteralType(
-        $: api.TLiteralType<Annotation>,
-    ) {
-        if (foo["LiteralType"] !== undefined) { foo["LiteralType"].begin($) }
-        pr.cc($.content, ($) => {
-            switch ($[0]) {
-                case "string": {
-                    pr.cc($[1], ($) => {
-                        _StringLiteral($)
-                    })
-                    break
-                }
-                default: pr.au($[0])
-            }
-        })
-        if (foo["LiteralType"] !== undefined) { foo["LiteralType"].end($) }
-    }
-    function _Parameter(
-        $: api.TParameter<Annotation>,
-    ) {
-        if (foo["Parameter"] !== undefined) { foo["Parameter"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["name"], ($) => {
-                _Identifier($)
-            })
-            pr.cc($["type"], ($) => {
-                if ($ === null) {
-                    //FIXME??
-                } else {
-                    X_type($)
-                }
-            })
-        })
-        if (foo["Parameter"] !== undefined) { foo["Parameter"].end($) }
-    }
-    function _PropertySignature(
-        $: api.TPropertySignature<Annotation>,
-    ) {
-        if (foo["PropertySignature"] !== undefined) { foo["PropertySignature"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["name"], ($) => {
-                _StringLiteral($)
-            })
-            pr.cc($["quesionToken"], ($) => {
-                if ($ === null) {
-                    //FIXME??
-                } else {
-                    _QuestionToken($)
-                }
-            })
-            pr.cc($["type"], ($) => {
-                if ($ === null) {
-                    //FIXME??
-                } else {
-                    X_type($)
-                }
-            })
-        })
-        if (foo["PropertySignature"] !== undefined) { foo["PropertySignature"].end($) }
-    }
-    function _QuestionToken(
-        $: api.TQuestionToken<Annotation>,
-    ) {
-        if (foo["QuestionToken"] !== undefined) { foo["QuestionToken"]($) }
-    }
-    function _SourceFile(
-        $: api.TSourceFile<Annotation>,
-    ) {
-        if (foo["SourceFile"] !== undefined) { foo["SourceFile"].begin($) }
-        pr.cc($.content, ($) => {
             pr.cc($["typeAliases"], ($) => {
                 $.forEach(($) => {
-                    _TypeAliasDeclaration($)
+                    ((
+                        $: api.Nroot_typeAliases$<Annotation>,
+                    ) => {
+                        if (foo["root_typeAliases$"] !== undefined) { foo["root_typeAliases$"].begin($) }
+                        pr.cc($.content, ($) => {
+                            pr.cc($["export"], ($) => {
+                                ((
+                                    $: api.Nroot_typeAliases$_export$<Annotation>,
+                                ) => {
+                                    if (foo["root_typeAliases$_export$"] !== undefined) { foo["root_typeAliases$_export$"]($) }
+                                })($)
+                            })
+                            pr.cc($["name"], ($) => {
+                                X_identifier($)
+                            })
+                            pr.cc($["typeParameters"], ($) => {
+                                $.forEach(($) => {
+                                    ((
+                                        $: api.Nroot_typeAliases$_typeParameters$<Annotation>,
+                                    ) => {
+                                        if (foo["root_typeAliases$_typeParameters$"] !== undefined) { foo["root_typeAliases$_typeParameters$"].begin($) }
+                                        pr.cc($.content, ($) => {
+                                            X_identifier($)
+                                        })
+                                        if (foo["root_typeAliases$_typeParameters$"] !== undefined) { foo["root_typeAliases$_typeParameters$"].end($) }
+                                    })($)
+                                })
+                            })
+                            pr.cc($["type"], ($) => {
+                                X_type($)
+                            })
+                        })
+                        if (foo["root_typeAliases$"] !== undefined) { foo["root_typeAliases$"].end($) }
+                    })($)
                 })
             })
             pr.cc($["endOfFile"], ($) => {
-                _EndOfFileToken($)
+                ((
+                    $: api.Nroot_endOfFile$<Annotation>,
+                ) => {
+                    if (foo["root_endOfFile$"] !== undefined) { foo["root_endOfFile$"]($) }
+                })($)
             })
         })
-        if (foo["SourceFile"] !== undefined) { foo["SourceFile"].end($) }
-    }
-    function _StringKeyword(
-        $: api.TStringKeyword<Annotation>,
-    ) {
-        if (foo["StringKeyword"] !== undefined) { foo["StringKeyword"]($) }
-    }
-    function _StringLiteral(
-        $: api.TStringLiteral<Annotation>,
-    ) {
-        if (foo["StringLiteral"] !== undefined) { foo["StringLiteral"]($) }
-    }
-    function _TupleType(
-        $: api.TTupleType<Annotation>,
-    ) {
-        if (foo["TupleType"] !== undefined) { foo["TupleType"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                X_type($)
-            })
-        })
-        if (foo["TupleType"] !== undefined) { foo["TupleType"].end($) }
-    }
-    function _TypeAliasDeclaration(
-        $: api.TTypeAliasDeclaration<Annotation>,
-    ) {
-        if (foo["TypeAliasDeclaration"] !== undefined) { foo["TypeAliasDeclaration"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["export"], ($) => {
-                _ExportKeyword($)
-            })
-            pr.cc($["name"], ($) => {
-                _Identifier($)
-            })
-            pr.cc($["typeParameters"], ($) => {
-                $.forEach(($) => {
-                    _TypeParameter($)
-                })
-            })
-            pr.cc($["type"], ($) => {
-                X_type($)
-            })
-        })
-        if (foo["TypeAliasDeclaration"] !== undefined) { foo["TypeAliasDeclaration"].end($) }
-    }
-    function _TypeLiteral(
-        $: api.TTypeLiteral<Annotation>,
-    ) {
-        if (foo["TypeLiteral"] !== undefined) { foo["TypeLiteral"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                switch ($[0]) {
-                    case "index": {
-                        pr.cc($[1], ($) => {
-                            _IndexSignature($)
-                        })
-                        break
-                    }
-                    case "property": {
-                        pr.cc($[1], ($) => {
-                            _PropertySignature($)
-                        })
-                        break
-                    }
-                    default: pr.au($[0])
-                }
-            })
-        })
-        if (foo["TypeLiteral"] !== undefined) { foo["TypeLiteral"].end($) }
-    }
-    function _TypeParameter(
-        $: api.TTypeParameter<Annotation>,
-    ) {
-        if (foo["TypeParameter"] !== undefined) { foo["TypeParameter"].begin($) }
-        pr.cc($.content, ($) => {
-            _Identifier($)
-        })
-        if (foo["TypeParameter"] !== undefined) { foo["TypeParameter"].end($) }
-    }
-    function _TypeReference(
-        $: api.TTypeReference<Annotation>,
-    ) {
-        if (foo["TypeReference"] !== undefined) { foo["TypeReference"].begin($) }
-        pr.cc($.content, ($) => {
-            pr.cc($["referencedType"], ($) => {
-                switch ($[0]) {
-                    case "identifier": {
-                        pr.cc($[1], ($) => {
-                            _Identifier($)
-                        })
-                        break
-                    }
-                    default: pr.au($[0])
-                }
-            })
-            pr.cc($["parameters"], ($) => {
-                $.forEach(($) => {
-                    X_type($)
-                })
-            })
-        })
-        if (foo["TypeReference"] !== undefined) { foo["TypeReference"].end($) }
-    }
-    function _UnionType(
-        $: api.TUnionType<Annotation>,
-    ) {
-        if (foo["UnionType"] !== undefined) { foo["UnionType"].begin($) }
-        pr.cc($.content, ($) => {
-            $.forEach(($) => {
-                X_type($)
-            })
-        })
-        if (foo["UnionType"] !== undefined) { foo["UnionType"].end($) }
-    }
-    return _SourceFile($)
+        if (foo["root"] !== undefined) { foo["root"].end($) }
+    })($)
 }
