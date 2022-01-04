@@ -1,6 +1,6 @@
 {
   "name": "pareto-ts-validater",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,8 +8,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^17.0.7",
-    "analyse-path": "^0.0.5",
-    "pareto-runtime": "^0.16.1",
+    "analyse-path": "^0.0.6",
+    "pareto-runtime": "^0.16.2",
     "ts-morph": "^13.0.2"
   }
 }
