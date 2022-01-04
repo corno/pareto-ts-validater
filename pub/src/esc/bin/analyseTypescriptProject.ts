@@ -13,7 +13,7 @@ import * as typeTypes from "../../modules/typeGrammar/interface/types/ts_api.gen
 import { Node } from "../../modules/dataGrammar/interface/types/uast.generated"
 import { _typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
-import { analysePath, parseFilePath } from "../implementations/analysePath"
+import * as ap from "../../modules/analysePath"
 
 const [, , tsconfigPath] = process.argv
 
@@ -28,8 +28,8 @@ console.log(tsconfigPath)
 project.getSourceFiles().forEach(($) => {
     const fullFilePath = $.getFilePath()
     const filePath = path.relative(path.dirname(tsconfigPath), $.getFilePath())
-    const parsedPath = parseFilePath(filePath)
-    const res = analysePath(
+    const parsedPath = ap.parseFilePath(filePath)
+    const res = ap.analysePath(
         _typescriptFileStructure,
         parsedPath,
     )

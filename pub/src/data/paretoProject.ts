@@ -1,6 +1,6 @@
-import * as types from "../interface/types/fileSystemStructure"
+import * as ap from "../modules/analysePath"
 
-export const _iface: types.TDirectory = {
+export const _iface: ap.TDirectory = {
     type: ["type", {
         nodes: {
             "types": {
@@ -23,7 +23,7 @@ export const _iface: types.TDirectory = {
     }]
 }
 
-export const _moduleDirectory: types.TDirectory = {
+export const _moduleDirectory: ap.TDirectory = {
     type: ["type", {
         nodes: {
             "index.ts": {
@@ -95,7 +95,7 @@ export const _moduleDirectory: types.TDirectory = {
     }]
 }
 
-export const _dataDirectory: types.TNode = {
+export const _dataDirectory: ap.TNode = {
     type: ["directory", {
         type: ["files dictionary", {
             extensions: [
@@ -113,7 +113,7 @@ export const _dataDirectory: types.TNode = {
     }],
 }
 
-export const _sourceCodeDirectory: types.TNode = {
+export const _sourceCodeDirectory: ap.TNode = {
     type: ["directory", {
         type: ["type", {
             nodes: {
@@ -134,7 +134,7 @@ export const _sourceCodeDirectory: types.TNode = {
     }]
 }
 
-export const _paretoProject: types.TDirectory = {
+export const _paretoProject: ap.TDirectory = {
     type: ["type", {
         nodes: {
             ".gitignore": {
@@ -165,7 +165,7 @@ export const _paretoProject: types.TDirectory = {
         }
     }]
 }
-export const _typescriptFileStructure: types.TDirectory = {
+export const _typescriptFileStructure: ap.TDirectory = {
     type: ["type", {
         nodes: {
             "src": {

@@ -1,7 +1,7 @@
 import * as pr from "pareto-runtime"
 
 import { readGitRepoWithLineCounts } from "../../modules/git/esc/implementation/readGitRepoWithLineCounts"
-import { analysePath, AnalysisResult, parseFilePath } from "./analysePath"
+import * as ap from "../../modules/analysePath"
 import { _paretoProject } from "../../data/paretoProject"
 import * as path from "path"
 
@@ -11,7 +11,7 @@ export function analyseGitRepo(
     callback: (
         repoPath: string,
         filePath: string,
-        analysis: AnalysisResult,
+        analysis: ap.AnalysisResult,
         lineCount: number,
     ) => void,
 ) {
@@ -19,9 +19,9 @@ export function analyseGitRepo(
     readGitRepoWithLineCounts(
         repoPath,
         ($) => {
-            const analysis = analysePath(
+            const analysis = ap.analysePath(
                 _paretoProject,
-                parseFilePath($.filePath),
+                ap.parseFilePath($.filePath),
             )
             callback(
                 repoPath,

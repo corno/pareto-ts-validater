@@ -3,7 +3,7 @@
 import * as pr from "pareto-runtime"
 import * as pt from "pareto-test"
 
-import { analysePath, parseFilePath } from "../../../../pub"
+import * as ap from "../../../../pub/dist/modules/analysePath"
 import { testProject } from "../../data/testProject"
 
 pt.createTestContext(
@@ -26,9 +26,9 @@ pt.createTestContext(
                         $i.subset(
                             pathString,
                             ($i) => {
-                                const res = analysePath(
+                                const res = ap.analysePath(
                                     testProject,
-                                    parseFilePath(pathString)
+                                    ap.parseFilePath(pathString)
                                 )
                                 if (expectedError === null) {
                                     $i.assert({

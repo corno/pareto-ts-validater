@@ -1,81 +1,9 @@
 import * as pr from "pareto-runtime"
 
 import * as path from "path"
-import { TDirectory, TNode } from "../../interface/types/fileSystemStructure"
-
-export type AnalysisResult = {
-    pathPattern: string,
-    path: string[],
-    error: string | null,
-}
-
-
-type PathIterator<T> = {
-    // splittedPath: string[],
-    // posx: number,
-    next(): PathIterator<T>,
-    hasMoreSteps(): boolean,
-    getCurrentStepName(): T,
-    getCurrentSteps(): T[],
-}
-
-function createPathIterator<T>(
-    splittedPath: T[]
-): PathIterator<T> {
-    function create(
-        pos: number
-    ): PathIterator<T> {
-        return {
-            next() {
-                return create(pos + 1)
-            },
-            hasMoreSteps() {
-                return splittedPath.length > pos
-            },
-            getCurrentStepName() {
-                return splittedPath[pos]
-            },
-            getCurrentSteps() {
-                return splittedPath.slice(0, pos)
-            }
-        }
-    }
-    return create(0)
-}
-
-export type ParsedFilePath = {
-    directoryPath: string[]
-    fileName: string
-    extension: string | null
-}
-
-export function parseFilePath(
-    filePath: string,
-): ParsedFilePath {
-    const normalizedFilePath = path.normalize(filePath)
-    const extWithLeadingDot = path.extname(normalizedFilePath)
-    return {
-        directoryPath: (() => {
-            const dirname = path.dirname(normalizedFilePath)
-            if (dirname === ".") {
-                return []
-            } else {
-            return dirname.split(path.sep)
-            }
-        })(),
-        fileName: path.basename(normalizedFilePath, extWithLeadingDot),
-        extension: ((): null | string => {
-            if (extWithLeadingDot === "") {
-                return null
-            } else {
-                if (extWithLeadingDot[0] !== ".") {
-                    throw new Error(`unexpected extension format: ${extWithLeadingDot}`)
-                }
-                return extWithLeadingDot.slice(1)
-            }
-        })(),
-    }
-}
+import { AnalysisResult } from "../interface/types/analysisResult"
+import { TDirectory } from "../interface/types/fileSystemStructure"
+import { ParsedFilePath } from "../interface/types/parsedFilePath"
 
 export function analysePath(
     def: TDirectory,
@@ -83,6 +11,38 @@ export function analysePath(
 ): AnalysisResult {
     const fileNameWithExtension = `${filePath.fileName}${filePath.extension === null ? "" : `.${filePath.extension}`}`
 
+    type PathIterator<T> = {
+        // splittedPath: string[],
+        // posx: number,
+        next(): PathIterator<T>,
+        hasMoreSteps(): boolean,
+        getCurrentStepName(): T,
+        getCurrentSteps(): T[],
+    }
+    
+    function createPathIterator<T>(
+        splittedPath: T[]
+    ): PathIterator<T> {
+        function create(
+            pos: number
+        ): PathIterator<T> {
+            return {
+                next() {
+                    return create(pos + 1)
+                },
+                hasMoreSteps() {
+                    return splittedPath.length > pos
+                },
+                getCurrentStepName() {
+                    return splittedPath[pos]
+                },
+                getCurrentSteps() {
+                    return splittedPath.slice(0, pos)
+                }
+            }
+        }
+        return create(0)
+    }
     function createAnalysisResult(
         pi: PathIterator<string>,
         pathPattern: string,

@@ -1,6 +1,6 @@
-import * as fss from "../../../pub"
+import * as ap from "../../../pub/dist/modules/analysePath"
 
-export const testProject: fss.TDirectory = {
+export const testProject: ap.TDirectory = {
     type: ["type", {
         nodes: {
             "f.txt": {
