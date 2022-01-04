@@ -1,5 +1,4 @@
 export * from "./esc/implementations/analyseFile"
 export * from "./esc/implementations/analyseGitRepo"
-export * from "./modules/analysePath/esc/analysePath"
 export * from "./esc/implementations/analyseTypescriptFilesInWorkspace"
 export * from "./esc/implementations/readWorkspace"

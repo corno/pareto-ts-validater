@@ -8,6 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^17.0.7",
+    "analyse-path": "^0.0.4",
     "pareto-runtime": "^0.16.0",
     "ts-morph": "^13.0.2"
   }

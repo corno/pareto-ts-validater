@@ -13,7 +13,7 @@ import * as typeTypes from "../../modules/typeGrammar/interface/types/ts_api.gen
 import { Node } from "../../modules/dataGrammar/interface/types/uast.generated"
 import { _typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
-import * as ap from "../../modules/analysePath"
+import * as ap from "analyse-path"
 
 const [, , tsconfigPath] = process.argv
 

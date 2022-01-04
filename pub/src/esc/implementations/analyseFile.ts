@@ -1,11 +1,10 @@
 import * as pr from "pareto-runtime"
-import { TDirectory } from "../../modules/analysePath/interface/types/fileSystemStructure"
-import * as ap from "../../modules/analysePath"
+import * as ap from "analyse-path"
 
 export function analyseFile(
     contextPath: string,
     filePath: string,
-    fileSystemStructure: TDirectory,
+    fileSystemStructure: ap.TDirectory,
 ) {
     const parsedPath = ap.parseFilePath(filePath)
     const res = ap.analysePath(

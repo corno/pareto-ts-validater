@@ -1,4 +1,4 @@
-import * as ap from "../modules/analysePath"
+import * as ap from "analyse-path"
 
 export const _iface: ap.TDirectory = {
     type: ["type", {

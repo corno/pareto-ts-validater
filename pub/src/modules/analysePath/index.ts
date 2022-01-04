@@ -1,5 +1,0 @@
-export * from "./interface/types/fileSystemStructure"
-export * from "./interface/types/analysisResult"
-export * from "./interface/types/parsedFilePath"
-export * from "./esc/analysePath"
-export * from "./esc/parseFilePath"
