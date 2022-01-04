@@ -141,27 +141,27 @@ export const _paretoProject: types.TDirectory = {
                 type: ["file", {}]
             },
             "data": _dataDirectory,
-            "tmp": _dataDirectory,
-            "README.md": {
-                type: ["file", {}]
-            },
-            "pub": _sourceCodeDirectory,
-            "test": _sourceCodeDirectory,
             "dev": _sourceCodeDirectory,
             "package.json": {
                 type: ["file", {}]
             },
-            "pareto": {
-                type: ["directory", {
-                    type: ["type", {
-                        nodes: {
-                            "package.json": {
-                                type: ["file", {}]
-                            },
-                        }
-                    }]
-                }]
+            "pub": _sourceCodeDirectory,
+            "README.md": {
+                type: ["file", {}]
             },
+            "scripts": {
+
+                type: ["directory", {
+                    type: ["files dictionary", {
+                        extensions: [
+                            "sh",
+                        ],
+                        recursive: false
+                    }]
+                }],
+            },
+            "test": _sourceCodeDirectory,
+            "tmp": _dataDirectory,
         }
     }]
 }
