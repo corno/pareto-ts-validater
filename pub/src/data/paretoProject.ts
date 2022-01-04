@@ -117,6 +117,7 @@ export const _sourceCodeDirectory: ap.TNode = {
     type: ["directory", {
         type: ["type", {
             nodes: {
+                "data": _dataDirectory,
                 "package.json": {
                     type: ["file", {}]
                 },
@@ -140,7 +141,6 @@ export const _paretoProject: ap.TDirectory = {
             ".gitignore": {
                 type: ["file", {}]
             },
-            "data": _dataDirectory,
             "dev": _sourceCodeDirectory,
             "package.json": {
                 type: ["file", {}]
