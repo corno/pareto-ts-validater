@@ -1,4 +1,5 @@
 import * as pr from "pareto-runtime"
+import * as pf from "pareto-filesystem"
 import * as ap from "analyse-path"
 
 export function analyseFile(
@@ -15,17 +16,15 @@ export function analyseFile(
         console.error(`${res.error} ${contextPath} ${filePath} (${res.path.join("/")})`)
     }
 
-    pr.readFile(
-        pr.join([contextPath, filePath]),
-        ($) => {
-            switch ($[0]) {
-                case "error":
-                    pr.cc($[1], ($) => {
-                        throw new Error(`WHAT TO DO? ${pr.join([contextPath, filePath])}`)
-                    })
-                    break
-                case "success":
-                    pr.cc($[1], ($) => {
+    pf.wrapDirectory(
+        {
+            startPath: contextPath,
+        },
+        {
+            callback: ($i) => {
+                $i.readFile(
+                    filePath,
+                    ($) => {
                         console.log(
                             [
                                 new Date().toISOString().split('T')[0],
@@ -38,8 +37,8 @@ export function analyseFile(
                                 parsedPath.extension,
                                 (() => {
                                     let lineCount = 1 //there's always 1 line
-                                    for (let i = 0; i !== $.data.length; i += 1) {
-                                        if ($.data[i] === "\n") {
+                                    for (let i = 0; i !== $.length; i += 1) {
+                                        if ($[i] === "\n") {
                                             lineCount += 1
                                         }
                                     }
@@ -50,11 +49,15 @@ export function analyseFile(
                                     : "false",
                             ].join(`,`)
                         )
-                    })
-                    break
-                default:
-                    pr.au($[0])
+                    }
+                )
+            },
+            onEnd: () => {
+
+            },
+            onError: () => {
+                throw new Error(`WHAT TO DO? ${pr.join([contextPath, filePath])}`)
             }
-        }
+        },
     )
 }

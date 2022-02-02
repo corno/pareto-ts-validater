@@ -9,7 +9,8 @@
   "dependencies": {
     "@types/node": "^17.0.7",
     "analyse-path": "^0.0.7",
-    "pareto-runtime": "^0.16.4",
-    "ts-morph": "^13.0.2"
+    "pareto-filesystem": "^0.2.0",
+    "pareto-runtime": "^0.17.1",
+    "ts-morph": "^13.0.3"
   }
 }
