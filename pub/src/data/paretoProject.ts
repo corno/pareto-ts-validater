@@ -141,14 +141,18 @@ export const _paretoProject: ap.TDirectory = {
             ".gitignore": {
                 type: ["file", {}]
             },
+            "custom scripts": {
+                type: ["directory", {
+                    type: ["type", {
+                        nodes: {
+                            "package.json": {
+                                type: ["file", {}]
+                            },
+                        }
+                    }]
+                }]
+            },
             "dev": _sourceCodeDirectory,
-            "package.json": {
-                type: ["file", {}]
-            },
-            "pub": _sourceCodeDirectory,
-            "README.md": {
-                type: ["file", {}]
-            },
             "pareto": {
                 type: ["directory", {
                     type: ["type", {
@@ -173,6 +177,10 @@ export const _paretoProject: ap.TDirectory = {
                         }
                     }]
                 }],
+            },
+            "pub": _sourceCodeDirectory,
+            "README.md": {
+                type: ["file", {}]
             },
             "test": _sourceCodeDirectory,
             "tmp": _dataDirectory,
