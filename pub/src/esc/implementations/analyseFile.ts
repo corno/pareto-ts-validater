@@ -13,7 +13,7 @@ export function analyseFile(
         parsedPath,
     )
     if (res.error !== null) {
-        console.error(`${res.error} ${contextPath} ${filePath} (${res.path.join("/")})`)
+        console.error(`${res.error} ${contextPath} ${filePath} (${pr.join([contextPath, res.path.join("/")])})`)
     }
 
     pf.wrapDirectory(

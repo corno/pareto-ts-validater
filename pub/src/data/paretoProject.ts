@@ -111,6 +111,7 @@ export const _dataDirectory: ap.TNode = {
                 "csv",
                 "html",
                 "json",
+                "sh",
                 "test",
                 "ts",
                 "txt",
