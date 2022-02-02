@@ -18,7 +18,7 @@ export function analyseFile(
 
     pf.wrapDirectory(
         {
-            startPath: contextPath,
+            rootDirectory: contextPath,
         },
         {
             callback: ($i) => {

@@ -19,24 +19,27 @@ export function readWorkspace(
 
     pf.wrapDirectory(
         {
-            startPath: $.directoryPath,
+            rootDirectory: $.directoryPath,
         },
         {
             callback: ($i) => {
                 $i.readDirWithFileTypes(
                     {
                         path: $.directoryPath,
+                        idStyle: ["name only", {}]
                     },
                     {
+                        callbacks: {
+                            directory: ($) => {
+                                $p.fileCallback($.id)
+                            },
+                            file: ($) => {
+                                $p.onError({ message: `Unexpected File: ${$dp}/${$.id} ` })
+                            },
+                        },
                         onEnd: () => {
 
                         },
-                        onDirectory: ($) => {
-                            $p.fileCallback($.name)
-                        },
-                        onFile: ($) => {
-                            $p.onError({ message: `Unexpected File: ${$dp}/${$.name} ` })
-                        }
                     }
                 )
             },

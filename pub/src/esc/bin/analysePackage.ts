@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as pr from "pareto-runtime"
+import * as pf from "pareto-filesystem"
 import * as pth from "path"
 import { _paretoProject } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
@@ -24,29 +25,42 @@ console.log(
         `generated`,
     ].join(`,`)
 )
-// readDirectoryRecursively(
-//     {
-//         directoryPath: directoryPath,
-//         nodesToSkip: [
-//             "dist",
-//             "node_modules",
-//             ".git",
-//         ]
-//     },
-//     {
-//         callback: ($) => {
-//             if ($.direntType[0] === "File") {
-//                 analyseFile(
-//                     directoryPath,
-//                     pth.relative(directoryPath, $.path),
-//                     _paretoProject,
-//                 )
-//             }
-//         },
-//         onError: ($) => {
-//             logReadDirErrorType($.error, (str) => {
-//                 console.error(`${$.path}: ${str}`)
-//             })
-//         },
-//     }
-// )
+pf.wrapDirectory(
+    {
+        rootDirectory: directoryPath,
+    },
+    {
+        callback: ($i) => {
+            $i.readRecursively(
+                {
+                    directoriesToExclude: [
+                        "dist",
+                        "node_modules",
+                        ".git",
+                    ],
+                    idStyle: ["relative from root", {}],
+                },
+                {
+                    callbacks: {
+                        file: ($) => {
+                            analyseFile(
+                                directoryPath,
+                                $.id,
+                                _paretoProject,
+                            )
+                        }
+                    },
+                    onEnd: () => {
+
+                    },
+                },
+            )
+        },
+        onEnd: () => {
+
+        },
+        onError: ($) => {
+            console.log(pf.printFSError($))
+        },
+    }
+)

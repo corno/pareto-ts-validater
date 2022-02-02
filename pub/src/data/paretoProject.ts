@@ -6,6 +6,7 @@ export const _iface: ap.TDirectory = {
             "types": {
                 type: ["directory", {
                     type: ["files dictionary", {
+                        "allow missing extension": false,
                         extensions: ["ts"],
                         recursive: false
                     }]
@@ -14,6 +15,7 @@ export const _iface: ap.TDirectory = {
             "interfaces": {
                 type: ["directory", {
                     type: ["files dictionary", {
+                        "allow missing extension": false,
                         extensions: ["ts"],
                         recursive: false
                     }]
@@ -32,6 +34,7 @@ export const _moduleDirectory: ap.TDirectory = {
             "data": {
                 type: ["directory", {
                     type: ["files dictionary", {
+                        "allow missing extension": false,
                         extensions: ["ts"],
                         recursive: false
                     }]
@@ -43,6 +46,7 @@ export const _moduleDirectory: ap.TDirectory = {
             "esc": {
                 type: ["directory", {
                     type: ["files dictionary", {
+                        "allow missing extension": false,
                         extensions: ["ts"],
                         recursive: true
                     }]
@@ -61,6 +65,7 @@ export const _moduleDirectory: ap.TDirectory = {
                                     "data": {
                                         type: ["directory", {
                                             type: ["files dictionary", {
+                                                "allow missing extension": false,
                                                 extensions: ["ts"],
                                                 recursive: false
                                             }]
@@ -72,6 +77,7 @@ export const _moduleDirectory: ap.TDirectory = {
                                     "esc": {
                                         type: ["directory", {
                                             type: ["files dictionary", {
+                                                "allow missing extension": false,
                                                 extensions: ["ts"],
                                                 recursive: true
                                             }]
@@ -98,6 +104,7 @@ export const _moduleDirectory: ap.TDirectory = {
 export const _dataDirectory: ap.TNode = {
     type: ["directory", {
         type: ["files dictionary", {
+            "allow missing extension": true,
             extensions: [
                 "astn-schema",
                 "astn",
@@ -149,14 +156,28 @@ export const _paretoProject: ap.TDirectory = {
             "README.md": {
                 type: ["file", {}]
             },
-            "scripts": {
-
+            "pareto": {
                 type: ["directory", {
-                    type: ["files dictionary", {
-                        extensions: [
-                            "sh",
-                        ],
-                        recursive: false
+                    type: ["type", {
+                        "nodes": {
+                            "package.json": {
+                                type: ["file", {}]
+                            },
+                            "package-lock.json": {
+                                type: ["file", {}]
+                            },
+                            "scripts": {
+                                type: ["directory", {
+                                    type: ["files dictionary", {
+                                        "allow missing extension": false,
+                                        extensions: [
+                                            "sh",
+                                        ],
+                                        recursive: false
+                                    }]
+                                }],
+                            }
+                        }
                     }]
                 }],
             },
