@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "analysePackage": "npx analysePackage ..",
     "test": "./buildAndTest.sh",
     "pubMin": "./publish.sh minor",
     "pubPatch": "./publish.sh patch",
