@@ -10,5 +10,5 @@ $dir/copyTemplate.sh
 
 if [ -d "../dev" ]
 then
-    $dir/updatePackage.sh ../dev
+    $dir/updatePackage.sh "../dev"
 fi
