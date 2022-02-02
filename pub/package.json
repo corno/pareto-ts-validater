@@ -12,5 +12,9 @@
     "pareto-filesystem": "^0.2.0",
     "pareto-runtime": "^0.18.0",
     "ts-morph": "^13.0.3"
-  }
+  },
+  "files": [
+    "dist",
+    "data"
+  ]
 }
