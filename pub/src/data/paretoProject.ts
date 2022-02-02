@@ -1,25 +1,26 @@
 import * as ap from "analyse-path"
 
+export const _tsDir: ap.TDirectory = {
+    type: ["files dictionary", {
+        "allow missing extension": false,
+        extensions: ["ts"],
+        recursive: false
+    }]
+}
 export const _iface: ap.TDirectory = {
     type: ["type", {
         nodes: {
+            "index.ts": {
+                type: ["file", {}]
+            },
+            "functions": {
+                type: ["directory", _tsDir],
+            },
             "types": {
-                type: ["directory", {
-                    type: ["files dictionary", {
-                        "allow missing extension": false,
-                        extensions: ["ts"],
-                        recursive: false
-                    }]
-                }],
+                type: ["directory", _tsDir],
             },
             "interfaces": {
-                type: ["directory", {
-                    type: ["files dictionary", {
-                        "allow missing extension": false,
-                        extensions: ["ts"],
-                        recursive: false
-                    }]
-                }],
+                type: ["directory", _tsDir],
             },
         }
     }]
@@ -32,13 +33,7 @@ export const _moduleDirectory: ap.TDirectory = {
                 type: ["file", {}]
             },
             "data": {
-                type: ["directory", {
-                    type: ["files dictionary", {
-                        "allow missing extension": false,
-                        extensions: ["ts"],
-                        recursive: false
-                    }]
-                }],
+                type: ["directory", _tsDir],
             },
             "interface": {
                 type: ["directory", _iface]
@@ -63,13 +58,7 @@ export const _moduleDirectory: ap.TDirectory = {
                                         type: ["file", {}]
                                     },
                                     "data": {
-                                        type: ["directory", {
-                                            type: ["files dictionary", {
-                                                "allow missing extension": false,
-                                                extensions: ["ts"],
-                                                recursive: false
-                                            }]
-                                        }],
+                                        type: ["directory", _tsDir],
                                     },
                                     "interface": {
                                         type: ["directory", _iface]
