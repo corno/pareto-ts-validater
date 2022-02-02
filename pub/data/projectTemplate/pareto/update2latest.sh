@@ -6,7 +6,7 @@ $dir/updatePackage.sh ../pareto
 $dir/updatePackage.sh ../pub
 $dir/updatePackage.sh ../test
 
-$dir/copyTemplate
+$dir/copyTemplate.sh
 
 if [ -d "../dev" ]
 then
