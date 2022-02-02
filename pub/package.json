@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@types/node": "^17.0.14",
-    "analyse-path": "^0.2.0",
-    "pareto-filesystem": "^0.5.0",
-    "pareto-runtime": "^0.19.0",
+    "analyse-path": "^0.2.1",
+    "pareto-filesystem": "^0.5.1",
+    "pareto-runtime": "^0.19.1",
     "ts-morph": "^13.0.3"
   },
   "files": [
