@@ -38,6 +38,9 @@ export const _moduleDirectory: ap.TDirectory = {
             "interface": {
                 type: ["directory", _iface]
             },
+            "bin": {
+                type: ["directory", _iface]
+            },
             "esc": {
                 type: ["directory", {
                     type: ["files dictionary", {
