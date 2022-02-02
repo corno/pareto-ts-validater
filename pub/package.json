@@ -6,6 +6,10 @@
   "types": "dist/index.d.ts",
   "author": "Corno",
   "license": "ISC",
+  "bin": {
+    "analysePackage": "dist/esc/bin/analysePackage.js",
+    "analyseTypeScriptProject": "dist/esc/bin/analyseTypeScriptProject.js"
+  },
   "dependencies": {
     "@types/node": "^17.0.14",
     "analyse-path": "^0.0.7",
