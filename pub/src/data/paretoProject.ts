@@ -26,20 +26,51 @@ export const _iface: ap.TDirectory = {
     }]
 }
 
+export const _nested: ap.TDirectory = {
+    type: ["directory dictionary", {
+        definition: {
+            type: ["type", {
+                nodes: {
+                    "index.ts": {
+                        type: ["file", {}]
+                    },
+                    "data": {
+                        type: ["directory", _tsDir],
+                    },
+                    "interface": {
+                        type: ["directory", _iface]
+                    },
+                    "esc": {
+                        type: ["directory", {
+                            type: ["files dictionary", {
+                                "allow missing extension": false,
+                                extensions: ["ts"],
+                                recursive: true
+                            }]
+
+                        }],
+                    },
+                    "interfaces": {
+                        type: ["directory", {
+                            type: ["directory dictionary", {
+                                definition: _iface
+                            }]
+                        }],
+                    },
+                }
+            }]
+        }
+    }]
+}
+
 export const _moduleDirectory: ap.TDirectory = {
     type: ["type", {
         nodes: {
-            "index.ts": {
-                type: ["file", {}]
+            "bin": {
+                type: ["directory", _iface]
             },
             "data": {
                 type: ["directory", _tsDir],
-            },
-            "interface": {
-                type: ["directory", _iface]
-            },
-            "bin": {
-                type: ["directory", _iface]
             },
             "esc": {
                 type: ["directory", {
@@ -51,43 +82,17 @@ export const _moduleDirectory: ap.TDirectory = {
 
                 }],
             },
+            "generated": {
+                type: ["directory", _nested]
+            },
+            "index.ts": {
+                type: ["file", {}]
+            },
+            "interface": {
+                type: ["directory", _iface]
+            },
             "modules": {
-                type: ["directory", {
-                    type: ["directory dictionary", {
-                        definition: {
-                            type: ["type", {
-                                nodes: {
-                                    "index.ts": {
-                                        type: ["file", {}]
-                                    },
-                                    "data": {
-                                        type: ["directory", _tsDir],
-                                    },
-                                    "interface": {
-                                        type: ["directory", _iface]
-                                    },
-                                    "esc": {
-                                        type: ["directory", {
-                                            type: ["files dictionary", {
-                                                "allow missing extension": false,
-                                                extensions: ["ts"],
-                                                recursive: true
-                                            }]
-
-                                        }],
-                                    },
-                                    "interfaces": {
-                                        type: ["directory", {
-                                            type: ["directory dictionary", {
-                                                definition: _iface
-                                            }]
-                                        }],
-                                    },
-                                }
-                            }]
-                        }
-                    }]
-                }]
+                type: ["directory", _nested]
             },
         }
     }]

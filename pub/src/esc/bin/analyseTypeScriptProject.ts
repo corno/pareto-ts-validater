@@ -121,7 +121,6 @@ project.getSourceFiles().forEach(($) => {
         )
     }
     function doEsc() {
-
         $.forEachChild(($) => {
             const allowed: { [key: string]: () => void } = {
                 "EndOfFileToken": () => { },
