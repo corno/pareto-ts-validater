@@ -1,7 +1,0 @@
-{
-    "scripts": {
-        "generate": "npm run buildDev && node ./dev/dist/esc/index.js && cd ./scripts && npm run test",
-
-        "buildDev": "cd ../pareto && ./scripts/buildDevPackage.sh"
-    }
-}
