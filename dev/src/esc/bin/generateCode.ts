@@ -9,7 +9,8 @@ import { typeGrammar } from "../../data/typeGrammar"
 import * as fp from "fountain-pen"
 
 pr.runProgram(
-    (targetDirPath) => {
+    ($) => {
+        const targetDirPath = $.argument
 
         if (targetDirPath === undefined) {
             pr.logError("missing target directory path")
