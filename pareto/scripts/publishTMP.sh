@@ -20,7 +20,4 @@ $dir/buildAndTest.sh && \
 $dir/analysePackage.sh && \
 $dir/analyseTypeScriptProject.sh && \
 
-#bump version and store in variable
-pushd ../pub && \
-newVersion=$(npm version "$1") && \
-popd
+echo "HIERO"
