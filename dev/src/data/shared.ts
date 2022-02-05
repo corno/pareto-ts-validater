@@ -1,6 +1,6 @@
 import * as gta from "generate-typesafe-ast"
 
-export const type: gta.TValueType = ["choice", {
+export const _type: gta.TValueType = ["choice", {
     options: {
         array: {
             cardinality: ["one", {}],
@@ -313,7 +313,7 @@ export const type: gta.TValueType = ["choice", {
     }
 }]
 
-export const importDeclaration: gta.TValueType = ["node", {
+export const _importDeclaration: gta.TValueType = ["node", {
     name: "ImportDeclaration",
     type: ["composite", {
         cardinality: ["one", {}],

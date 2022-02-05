@@ -1,5 +1,5 @@
 import * as gta from "generate-typesafe-ast"
-import { importDeclaration } from "./shared"
+import { _importDeclaration } from "./shared"
 
 export const dataGrammar: gta.TGrammar = {
     globalValueTypes: {
@@ -127,7 +127,7 @@ export const dataGrammar: gta.TGrammar = {
                         name: "import",
                         value: {
                             cardinality: ["one", {}],
-                            type: importDeclaration,
+                            type: _importDeclaration,
                         }
                     },
                     {

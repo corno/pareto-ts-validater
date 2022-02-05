@@ -146,6 +146,35 @@ project.getSourceFiles().forEach(($) => {
             }
         })
     }
+    function doBin() {
+        $.forEachChild(($) => {
+            const allowed: { [key: string]: () => void } = {
+                "EndOfFileToken": () => { },
+                "ExportDeclaration": () => { },
+                "ExpressionStatement": () => {
+                    if ($.getChildCount() !== 1) {
+                        onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT IN BIN: ${$.getKindName()}`)
+                    } else {
+                        pr.cc($.getChildAtIndex(0), ($) => {
+
+                            if ($.getKindName() !== "CallExpression") {
+                                onError($, `UNEXECTED EXPRESSION STATEMENT IN BIN: ${$.getKindName()}`)
+
+                            }
+                        })
+                    }
+                },
+                "FunctionDeclaration": () => { },
+                "ImportDeclaration": () => { },
+            }
+            const entry = allowed[$.getKindName()]
+            if (entry === undefined) {
+                onError($, `UNEXPECTED GLOBAL IN ESC: ${$.getKindName()}`)
+            } else {
+                entry()
+            }
+        })
+    }
     function doData() {
         handle<dataParser.TNroot<tsmorph.Node>>(
             dataParser.parse,
@@ -200,6 +229,7 @@ project.getSourceFiles().forEach(($) => {
     const pathPatterns: { [key: string]: () => void } = {
         "/src/data/*.ts": doData,
         "/src/esc/**/*.ts": doEsc,
+        "/src/bin/*.ts": doBin,
         "/src/index.ts": doRootIndex,
         "/src/interface/interfaces/*.ts": doInterface,
         "/src/interface/types/*.ts": doType,

@@ -67,7 +67,13 @@ export const _moduleDirectory: ap.TDirectory = {
     type: ["type", {
         nodes: {
             "bin": {
-                type: ["directory", _iface]
+                type: ["directory", {
+                    type: ["files dictionary", {
+                        "allow missing extension": false,
+                        extensions: ["ts"],
+                        recursive: false,
+                    }]
+                }]
             },
             "data": {
                 type: ["directory", _tsDir],
