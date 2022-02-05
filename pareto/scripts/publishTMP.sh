@@ -20,4 +20,6 @@ $dir/buildAndTest.sh && \
 $dir/analysePackage.sh && \
 $dir/analyseTypeScriptProject.sh && \
 
+echo $? && \
+
 echo "HIERO"
