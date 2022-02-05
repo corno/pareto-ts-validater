@@ -14,13 +14,14 @@ import { analyseFile } from "../implementations/analyseFile"
 import * as ap from "analyse-path"
 
 pr.runProgram(
-    (tsconfigPath) => {
+    ($) => {
 
         let foundError = false
         function logError(message: string) {
             foundError = true
             logError(message)
         }
+        const tsconfigPath = $.argument
         if (tsconfigPath === undefined) {
             logError("missing tsconfig path")
             pr.processExit(1)
