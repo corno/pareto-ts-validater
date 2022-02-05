@@ -16,10 +16,6 @@ git diff --exit-code && \
 #buildAndTest
 $dir/buildAndTest.sh && \
 
-#analyse
-$dir/analysePackage.sh > /dev/null && \
-$dir/analyseTypescript.sh > /dev/null && \
-
 #bump version and store in variable
 pushd ../pub && \
 newVersion=$(npm version "$1") && \
