@@ -19,7 +19,7 @@ pr.runProgram(
         let foundError = false
         function logError(message: string) {
             foundError = true
-            logError(message)
+            pr.logError(message)
         }
         const tsconfigPath = $.argument
         if (tsconfigPath === undefined) {
