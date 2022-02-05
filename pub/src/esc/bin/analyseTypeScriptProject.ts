@@ -4,13 +4,10 @@ import * as pr from "pareto-runtime"
 
 import * as path from "path"
 import * as tsmorph from "ts-morph"
-import * as dataParser from "../../modules/dataGrammar/esc/implementation/parser.generated"
-import * as dataTypes from "../../modules/dataGrammar/interface/types/ts_api.generated"
-import * as interfaceParser from "../../modules/interfaceGrammar/esc/implementation/parser.generated"
-import * as interfaceTypes from "../../modules/interfaceGrammar/interface/types/ts_api.generated"
-import * as typeParser from "../../modules/typeGrammar/esc/implementation/parser.generated"
-import * as typeTypes from "../../modules/typeGrammar/interface/types/ts_api.generated"
-import { Node } from "../../modules/dataGrammar/interface/types/uast.generated"
+import * as dataParser from "../../generated/dataGrammar"
+import * as interfaceParser from "../../generated/interfaceGrammar"
+import * as typeParser from "../../generated/typeGrammar"
+import { TUntypedNode } from "../../generated/dataGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
 import * as ap from "analyse-path"
@@ -45,17 +42,17 @@ project.getSourceFiles().forEach(($) => {
     }
     function handle<RT>(
         parse: (
-            $: Node<tsmorph.Node>,
+            $: TUntypedNode<tsmorph.Node>,
             callback: ($: RT) => void,
-            reportUnexpectedRoot: ($: { root: Node<tsmorph.Node>, }) => void,
-            reportUnexpectedChild: ($: { path: string, child: Node<tsmorph.Node>, expected: null | string[] }) => void,
+            reportUnexpectedRoot: ($: { root: TUntypedNode<tsmorph.Node>, }) => void,
+            reportUnexpectedChild: ($: { path: string, child: TUntypedNode<tsmorph.Node>, expected: null | string[] }) => void,
             reportMissingToken: ($: { parentAnnotation: tsmorph.Node, path: string, kindNameOptions: string[], }) => void,
         ) => void,
         callback: ($: RT) => void
     ) {
         function wrap(
             $: tsmorph.Node
-        ): Node<tsmorph.Node> {
+        ): TUntypedNode<tsmorph.Node> {
             return {
                 kindName: $.getKindName(),
                 value: $.getText(),
@@ -90,7 +87,7 @@ project.getSourceFiles().forEach(($) => {
         )
     }
     function doType() {
-        handle<typeTypes.Nroot<tsmorph.Node>>(
+        handle<typeParser.TNroot<tsmorph.Node>>(
             typeParser.parse,
             ($) => {
 
@@ -150,7 +147,7 @@ project.getSourceFiles().forEach(($) => {
         })
     }
     function doData() {
-        handle<dataTypes.Nroot<tsmorph.Node>>(
+        handle<dataParser.TNroot<tsmorph.Node>>(
             dataParser.parse,
             ($) => {
                 $.content.variables.forEach(($) => {
@@ -166,7 +163,7 @@ project.getSourceFiles().forEach(($) => {
         )
     }
     function doInterface() {
-        handle<interfaceTypes.Nroot<tsmorph.Node>>(
+        handle<interfaceParser.TNroot<tsmorph.Node>>(
             interfaceParser.parse,
             ($) => {
 
