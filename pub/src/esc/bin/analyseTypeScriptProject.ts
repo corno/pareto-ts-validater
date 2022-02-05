@@ -124,7 +124,6 @@ pr.runProgram(
                                         $.content.typeAliases.forEach(($) => {
                                             if (!$.content.name.content.startsWith("T")) {
                                                 onError($.content.name.annotation, `must start wih 'T'`)
-
                                             }
                                         })
                                     },
@@ -281,7 +280,10 @@ pr.runProgram(
                         logError(pf.printFSError($i))
                     },
                     onEnd: () => {
+                        console.log("!!!!!!")
                         if (foundError) {
+                            console.log("2!!!!!!")
+
                             pr.processExit(1)
                         }
                     },
