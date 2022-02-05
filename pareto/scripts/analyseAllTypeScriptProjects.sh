@@ -8,7 +8,4 @@ then
 fi && \
 
 $dir/analyseTypeScriptProject.sh ../pub/tsconfig.json && \
-$dir/analyseTypeScriptProject.sh ../test/tsconfig.json && \
-
-echo $? && \
-echo "HIER"
+$dir/analyseTypeScriptProject.sh ../test/tsconfig.json

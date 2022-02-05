@@ -56,10 +56,12 @@ pr.runProgram(
                             function handle<RT>(
                                 parse: (
                                     $: TUntypedNode<tsmorph.Node>,
-                                    callback: ($: RT) => void,
-                                    reportUnexpectedRoot: ($: { root: TUntypedNode<tsmorph.Node>, }) => void,
-                                    reportUnexpectedChild: ($: { path: string, child: TUntypedNode<tsmorph.Node>, expected: null | string[] }) => void,
-                                    reportMissingToken: ($: { parentAnnotation: tsmorph.Node, path: string, kindNameOptions: string[], }) => void,
+                                    $i: {
+                                        callback: ($: RT) => void,
+                                        reportUnexpectedRoot: ($: { root: TUntypedNode<tsmorph.Node>, }) => void,
+                                        reportUnexpectedChild: ($: { path: string, child: TUntypedNode<tsmorph.Node>, expected: null | string[] }) => void,
+                                        reportMissingToken: ($: { parentAnnotation: tsmorph.Node, path: string, kindNameOptions: string[], }) => void,
+                                    }
                                 ) => void,
                                 callback: ($: RT) => void
                             ) {
@@ -82,20 +84,19 @@ pr.runProgram(
 
                                 parse(
                                     wrap($),
-                                    ($) => {
-                                        callback($)
-                                    },
-                                    //reportUnexpectedRoot
-                                    ($) => {
-                                        logError("X2")
-                                    },
-                                    //reportUnexpectedChild
-                                    ($) => {
-                                        onError($.child.annotation, `unexpected child: ${$.path} ${$.child.kindName}, expected ${$.expected === null ? "nothing" : $.expected.map(($) => `'${$}'`).join(" or ")}`)
-                                    },
-                                    //reportMissingToken
-                                    ($) => {
-                                        logError("X4")
+                                    {
+                                        callback: ($) => {
+                                            callback($)
+                                        },
+                                        reportUnexpectedRoot: ($) => {
+                                            logError("X2")
+                                        },
+                                        reportUnexpectedChild: ($) => {
+                                            onError($.child.annotation, `unexpected child: ${$.path} ${$.child.kindName}, expected ${$.expected === null ? "nothing" : $.expected.map(($) => `'${$}'`).join(" or ")}`)
+                                        },
+                                        reportMissingToken: ($) => {
+                                            onError($.parentAnnotation, `missing token: ${$.path}, expected ${$.kindNameOptions.map(($) => `'${$}'`).join(" or ")}`)
+                                        }
                                     }
                                 )
                             }
@@ -216,9 +217,9 @@ pr.runProgram(
                                                     break
                                                 case "namespace":
                                                     pr.cc($.content.clause.content[1], ($) => {
-                                                        if ($.content.content !== "pr") {
-                                                            onError($.content.annotation, `expected 'pr'`)
-                                                        }
+                                                        // if ($.content.content !== "pr") {
+                                                        //     onError($.content.annotation, `expected 'pr'`)
+                                                        // }
                                                     })
                                                     break
                                                 default:
@@ -249,6 +250,10 @@ pr.runProgram(
                                 "/src/modules/*/index.ts": doRootIndex,
                                 "/src/modules/*/interface/interfaces/*.ts": doInterface,
                                 "/src/modules/*/interface/types/*.ts": doType,
+                                "/src/generated/*/esc/**/*.ts": doEsc,
+                                "/src/generated/*/index.ts": doRootIndex,
+                                "/src/generated/*/interface/interfaces/*.ts": doInterface,
+                                "/src/generated/*/interface/types/*.ts": doType,
                                 "/src/temp/*.ts": doData,
 
 

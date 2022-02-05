@@ -1,170 +1,237 @@
 import * as gta from "generate-typesafe-ast"
-import { _importDeclaration, _type } from "./shared"
+import { _importDeclaration } from "./importDeclaration"
+import { _type } from "./type"
 
-export const interfaceGrammar: gta.TGrammar = {
+export const _interfaceGrammar: gta.TGrammar = {
     globalValueTypes: {
         "functionType": ["node", {
-            name: "FunctionType",
+            name: `FunctionType`,
             type: ["composite", {
                 cardinality: ["one", {}],
                 type: ["sequence", {
-                    elements: [
+                    elements: ([
                         {
-                            name: "parameters",
+                            name: `parameters`,
                             value: {
                                 cardinality: ["array", {}],
                                 type: ["node", {
-                                    name: "Parameter",
+                                    name: `Parameter`,
                                     type: ["composite", {
                                         cardinality: ["one", {}],
                                         type: ["sequence", {
-                                            elements: [
+                                            elements: ([
                                                 {
-                                                    name: "name",
+                                                    name: `name`,
                                                     value: {
                                                         cardinality: ["one", {}],
                                                         type: ["reference", {
-                                                            name: "identifier",
+                                                            name: `identifier`,
                                                         }],
                                                     },
                                                 },
                                                 {
-                                                    name: "type",
+                                                    name: `type`,
                                                     value: {
                                                         cardinality: ["one", {}],
                                                         type: ["choice", {
                                                             options: {
-                                                                type: {
+                                                                "type": {
                                                                     cardinality: ["one", {}],
                                                                     type: _type
                                                                 },
-                                                                function: {
+                                                                "function": {
                                                                     cardinality: ["one", {}],
                                                                     type: ["reference", {
-                                                                        name: "functionType"
+                                                                        name: `functionType`
                                                                     }]
                                                                 },
                                                             }
                                                         }],
                                                     }
                                                 }
-                                            ]
+                                            ])
                                         }],
                                     }]
                                 }]
                             },
                         },
                         {
-                            name: "void",
+                            name: `void`,
                             value: {
                                 cardinality: ["one", {}],
                                 type: ["node", {
-                                    name: "VoidKeyword",
+                                    name: `VoidKeyword`,
                                     type: ["leaf", { hasTextContent: false }]
                                 }],
                             },
                         },
-                    ]
+                    ])
                 }]
             }]
         }],
         "identifier": ["node", {
-            name: "Identifier",
+            name: `Identifier`,
             type: ["leaf", { hasTextContent: true }]
         }],
-        "type": ["choice", {
+        "type": _type,
+        "interface": ["choice", {
             options: {
                 "function": {
                     cardinality: ["one", {}],
                     type: ["reference", {
-                        name: "functionType"
+                        name: `functionType`
+                    }]
+                },
+                "typeLiteral": {
+                    cardinality: ["one", {}],
+                    type: ["node", {
+                        name: `TypeLiteral`,
+                        type: ["composite", {
+                            cardinality: ["array", {}],
+                            type: ["node", {
+                                name: `PropertySignature`,
+                                type: ["composite", {
+                                    cardinality: ["one", {}],
+                                    type: ["sequence", {
+                                        elements: ([
+                                            // {
+                                            //     name: `modifiers`,
+                                            //     value: {
+                                            //         cardinality: ["array", {}],
+                                            //         type: ["reference", { name: `modifier` }]
+                                            //     }
+                                            //     ,
+                                            // },
+                                            {
+                                                name: `readonly`,
+                                                value: {
+                                                    cardinality: ["one", {}],
+                                                    type: ["node", {
+                                                        name: `ReadonlyKeyword`,
+                                                        type: ["leaf", { hasTextContent: false }]
+                                                    }],
+                                                }
+                                            },
+                                            {
+                                                name: `name`,
+                                                value: {
+                                                    cardinality: ["one", {}],
+                                                    type: ["node", {
+                                                        name: `StringLiteral`,
+                                                        type: ["leaf", { hasTextContent: true }]
+                                                    }],
+                                                }
+                                            },
+                                            {
+                                                name: `questionToken`,
+                                                value: {
+                                                    cardinality: ["optional", {}],
+                                                    type: ["node", {
+                                                        name: `QuestionToken`,
+                                                        type: ["leaf", { hasTextContent: false }]
+                                                    }],
+                                                }
+                                            },
+                                            {
+                                                name: `type`,
+                                                value: {
+                                                    cardinality: ["optional", {}],
+                                                    type: ["reference", { name: `interface` }],
+                                                },
+                                            }
+
+                                        ])
+                                    }]
+                                }]
+                            }]
+                        }]
                     }]
                 },
             }
         }],
     },
     root: {
-        name: "SourceFile",
+        name: `SourceFile`,
         type: ["composite", {
             cardinality: ["one", {}],
             type: ["sequence", {
-                elements: [
+                elements: ([
                     {
-                        name: "imports",
+                        name: `imports`,
                         value: {
                             cardinality: ["array", {}],
                             type: _importDeclaration,
                         }
                     },
                     {
-                        name: "typeAliases",
+                        name: `typeAliases`,
                         value: {
                             cardinality: ["array", {}],
                             type: ["node", {
-                                name: "TypeAliasDeclaration",
+                                name: `TypeAliasDeclaration`,
                                 type: ["composite", {
                                     cardinality: ["one", {}],
                                     type: ["sequence", {
-                                        elements: [
+                                        elements: ([
                                             {
-                                                name: "export",
+                                                name: `export`,
                                                 value: {
                                                     cardinality: ["one", {}],
                                                     type: ["node", {
-                                                        name: "ExportKeyword",
+                                                        name: `ExportKeyword`,
                                                         type: ["leaf", { hasTextContent: false }]
                                                     }]
                                                 }
                                             },
                                             {
-                                                name: "name",
+                                                name: `name`,
                                                 value: {
                                                     cardinality: ["one", {}],
                                                     type: ["reference", {
-                                                        name: "identifier"
+                                                        name: `identifier`
                                                     }],
                                                 }
                                             },
                                             {
-                                                name: "typeParameters",
+                                                name: `typeParameters`,
                                                 value: {
                                                     cardinality: ["array", {}],
                                                     type: ["node", {
-                                                        name: "TypeParameter",
+                                                        name: `TypeParameter`,
                                                         type: ["composite", {
                                                             cardinality: ["one", {}],
                                                             type: ["reference", {
-                                                                name: "identifier"
+                                                                name: `identifier`
                                                             }],
                                                         }]
                                                     }]
                                                 },
                                             },
                                             {
-                                                name: "type",
+                                                name: `type`,
                                                 value: {
                                                     cardinality: ["one", {}],
-                                                    type: ["reference", { name: "type" }],
+                                                    type: ["reference", { name: `interface` }],
                                                 },
                                             }
 
-                                        ]
+                                        ])
                                     }]
                                 }]
                             }]
                         }
                     },
                     {
-                        name: "endOfFile",
+                        name: `endOfFile`,
                         value: {
                             cardinality: ["one", {}],
                             type: ["node", {
-                                name: "EndOfFileToken",
+                                name: `EndOfFileToken`,
                                 type: ["leaf", { hasTextContent: false }]
                             }]
                         }
                     }
-                ]
+                ])
             }]
         }]
     }

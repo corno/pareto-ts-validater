@@ -3,9 +3,9 @@
 import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
 import * as gta from "generate-typesafe-ast"
-import { dataGrammar } from "../../data/dataGrammar"
-import { interfaceGrammar } from "../../data/interfaceGrammar"
-import { typeGrammar } from "../../data/typeGrammar"
+import { _dataGrammar } from "../../data/dataGrammar"
+import { _interfaceGrammar } from "../../data/interfaceGrammar"
+import { _typeGrammar } from "../../data/typeGrammar"
 import * as fp from "fountain-pen"
 
 pr.runProgram(
@@ -71,9 +71,9 @@ pr.runProgram(
                                     }
                                 )
                             }
-                            g(dataGrammar, "dataGrammar")
-                            g(interfaceGrammar, "interfaceGrammar")
-                            g(typeGrammar, "typeGrammar")
+                            g(_dataGrammar, "dataGrammar")
+                            g(_interfaceGrammar, "interfaceGrammar")
+                            g(_typeGrammar, "typeGrammar")
 
                         }
                     )

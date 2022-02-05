@@ -1,114 +1,114 @@
 import * as gta from "generate-typesafe-ast"
-import { _importDeclaration, _type } from "./shared"
+import { _importDeclaration } from "./importDeclaration"
+import {_type } from "./type"
 
-export const typeGrammar: gta.TGrammar = {
+export const _typeGrammar: gta.TGrammar = {
     globalValueTypes: {
         "identifier": ["node", {
-            name: "Identifier",
+            name: `Identifier`,
             type: ["leaf", { hasTextContent: true }]
         }],
         "type": _type
     },
     root: {
-        name: "SourceFile",
+        name: `SourceFile`,
         type: ["composite", {
             cardinality: ["one", {}],
             type: ["sequence", {
-                elements: [
+                elements: ([
                     {
-                        name: "imports",
+                        name: `imports`,
                         value: {
                             cardinality: ["array", {}],
                             type: _importDeclaration
                         }
                     },
                     // {
-                    //     name: "import",
+                    //     name: `import`,
                     //     value: {
                     //         cardinality: ["one", {}],
                     //         type: ["node", {
-                    //             name: "ImportDeclaration"
+                    //             name: `ImportDeclaration`
                     //         }]
                     //     }
                     // },
                     // {
-                    //     name: "variables",
+                    //     name: `variables`,
                     //     value: {
                     //         cardinality: ["array", {}],
                     //         type: ["node", {
-                    //             name: "VariableStatement"
+                    //             name: `VariableStatement`
                     //         }]
                     //     }
                     // },
                     {
-                        name: "typeAliases",
+                        name: `typeAliases`,
                         value: {
                             cardinality: ["array", {}],
                             type: ["node", {
-                                name: "TypeAliasDeclaration",
+                                name: `TypeAliasDeclaration`,
                                 type: ["composite", {
                                     cardinality: ["one", {}],
                                     type: ["sequence", {
-                                        elements: [
+                                        elements: ([
                                             {
-                                                name: "export",
+                                                name: `export`,
                                                 value: {
                                                     cardinality: ["one", {}],
                                                     type: ["node", {
-                                                        name: "ExportKeyword",
+                                                        name: `ExportKeyword`,
                                                         type: ["leaf", { hasTextContent: false }]
                                                     }]
                                                 }
                                             },
                                             {
-                                                name: "name",
+                                                name: `name`,
                                                 value: {
                                                     cardinality: ["one", {}],
                                                     type: ["reference", {
-                                                        name: "identifier"
+                                                        name: `identifier`
                                                     }],
                                                 }
                                             },
                                             {
-                                                name: "typeParameters",
+                                                name: `typeParameters`,
                                                 value: {
                                                     cardinality: ["array", {}],
                                                     type: ["node", {
-                                                        name: "TypeParameter",
+                                                        name: `TypeParameter`,
                                                         type: ["composite", {
                                                             cardinality: ["one", {}],
                                                             type: ["reference", {
-                                                                name: "identifier"
+                                                                name: `identifier`
                                                             }],
                                                         }]
                                                     }]
                                                 },
                                             },
                                             {
-                                                name: "type",
+                                                name: `type`,
                                                 value: {
                                                     cardinality: ["one", {}],
-                                                    type: ["reference", { name: "type" }],
+                                                    type: ["reference", { name: `type` }],
                                                 },
                                             }
-
-                                        ]
+                                        ])
                                     }]
                                 }]
                             }]
                         }
                     },
                     {
-                        name: "endOfFile",
+                        name: `endOfFile`,
                         value: {
                             cardinality: ["one", {}],
                             type: ["node", {
-                                name: "EndOfFileToken",
+                                name: `EndOfFileToken`,
                                 type: ["leaf", { hasTextContent: false }]
                             }]
                         }
                     }
-                ]
+                ])
             }]
         }]
     }

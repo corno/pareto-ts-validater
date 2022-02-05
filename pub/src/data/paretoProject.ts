@@ -3,7 +3,7 @@ import * as ap from "analyse-path"
 export const _tsDir: ap.TDirectory = {
     type: ["files dictionary", {
         "allow missing extension": false,
-        extensions: ["ts"],
+        extensions: ([`ts`]),
         recursive: false
     }]
 }
@@ -44,7 +44,7 @@ export const _nested: ap.TDirectory = {
                         type: ["directory", {
                             type: ["files dictionary", {
                                 "allow missing extension": false,
-                                extensions: ["ts"],
+                                extensions: ([`ts`]),
                                 recursive: true
                             }]
 
@@ -70,7 +70,7 @@ export const _moduleDirectory: ap.TDirectory = {
                 type: ["directory", {
                     type: ["files dictionary", {
                         "allow missing extension": false,
-                        extensions: ["ts"],
+                        extensions: ([`ts`]),
                         recursive: false,
                     }]
                 }]
@@ -82,7 +82,7 @@ export const _moduleDirectory: ap.TDirectory = {
                 type: ["directory", {
                     type: ["files dictionary", {
                         "allow missing extension": false,
-                        extensions: ["ts"],
+                        extensions: ([`ts`]),
                         recursive: true
                     }]
 
@@ -108,17 +108,17 @@ export const _dataDirectory: ap.TNode = {
     type: ["directory", {
         type: ["files dictionary", {
             "allow missing extension": true,
-            extensions: [
-                "astn-schema",
-                "astn",
-                "csv",
-                "html",
-                "json",
-                "sh",
-                "test",
-                "ts",
-                "txt",
-            ],
+            extensions: ([
+                `astn-schema`,
+                `astn`,
+                `csv`,
+                `html`,
+                `json`,
+                `sh`,
+                `test`,
+                `ts`,
+                `txt`,
+            ]),
             recursive: true
         }]
     }],
@@ -178,9 +178,9 @@ export const _paretoProject: ap.TDirectory = {
                                 type: ["directory", {
                                     type: ["files dictionary", {
                                         "allow missing extension": false,
-                                        extensions: [
-                                            "sh",
-                                        ],
+                                        extensions: ([
+                                            `sh`,
+                                        ]),
                                         recursive: false
                                     }]
                                 }],

@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+//import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
 import * as ap from "analyse-path"
 
