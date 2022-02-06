@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 
 
-node ../pub/dist/esc/bin/analyseTypeScriptProject.js $1 > /dev/null #only want the errors
+if [ -d "../dev" ]
+then
+    npx analyseTypeScriptProject ../dev/tsconfig.json > /dev/null #only want the errors
+fi
+
+npx analyseTypeScriptProject ../pub/tsconfig.json > /dev/null #only want the errors
+npx analyseTypeScriptProject ../test/tsconfig.json > /dev/null #only want the errors
