@@ -4,71 +4,71 @@ import { _type } from "./type"
 
 export const _interfaceGrammar: gta.TGrammar = {
     globalValueTypes: {
-        "functionType": ["node", {
-            name: `FunctionType`,
-            type: ["composite", {
-                cardinality: ["one", {}],
-                type: ["sequence", {
-                    elements: ([
-                        {
-                            name: `parameters`,
-                            value: {
-                                cardinality: ["array", {}],
-                                type: ["node", {
-                                    name: `Parameter`,
-                                    type: ["composite", {
-                                        cardinality: ["one", {}],
-                                        type: ["sequence", {
-                                            elements: ([
-                                                {
-                                                    name: `name`,
-                                                    value: {
-                                                        cardinality: ["one", {}],
-                                                        type: ["reference", {
-                                                            name: `identifier`,
-                                                        }],
-                                                    },
-                                                },
-                                                {
-                                                    name: `type`,
-                                                    value: {
-                                                        cardinality: ["one", {}],
-                                                        type: ["choice", {
-                                                            options: {
-                                                                "type": {
-                                                                    cardinality: ["one", {}],
-                                                                    type: _type
-                                                                },
-                                                                "function": {
-                                                                    cardinality: ["one", {}],
-                                                                    type: ["reference", {
-                                                                        name: `functionType`
-                                                                    }]
-                                                                },
-                                                            }
-                                                        }],
-                                                    }
-                                                }
-                                            ])
-                                        }],
-                                    }]
-                                }]
-                            },
-                        },
-                        {
-                            name: `void`,
-                            value: {
-                                cardinality: ["one", {}],
-                                type: ["node", {
-                                    name: `VoidKeyword`,
-                                    type: ["leaf", { hasTextContent: false }]
-                                }],
-                            },
-                        },
-                    ])
-                }]
-            }]
-        }],
+        // "functionType": ["node", {
+        //     name: `FunctionType`,
+        //     type: ["composite", {
+        //         cardinality: ["one", {}],
+        //         type: ["sequence", {
+        //             elements: ([
+        //                 {
+        //                     name: `parameters`,
+        //                     value: {
+        //                         cardinality: ["array", {}],
+        //                         type: ["node", {
+        //                             name: `Parameter`,
+        //                             type: ["composite", {
+        //                                 cardinality: ["one", {}],
+        //                                 type: ["sequence", {
+        //                                     elements: ([
+        //                                         {
+        //                                             name: `name`,
+        //                                             value: {
+        //                                                 cardinality: ["one", {}],
+        //                                                 type: ["reference", {
+        //                                                     name: `identifier`,
+        //                                                 }],
+        //                                             },
+        //                                         },
+        //                                         {
+        //                                             name: `type`,
+        //                                             value: {
+        //                                                 cardinality: ["one", {}],
+        //                                                 type: ["choice", {
+        //                                                     options: {
+        //                                                         "type": {
+        //                                                             cardinality: ["one", {}],
+        //                                                             type: _type
+        //                                                         },
+        //                                                         "function": {
+        //                                                             cardinality: ["one", {}],
+        //                                                             type: ["reference", {
+        //                                                                 name: `functionType`
+        //                                                             }]
+        //                                                         },
+        //                                                     }
+        //                                                 }],
+        //                                             }
+        //                                         }
+        //                                     ])
+        //                                 }],
+        //                             }]
+        //                         }]
+        //                     },
+        //                 },
+        //                 {
+        //                     name: `void`,
+        //                     value: {
+        //                         cardinality: ["one", {}],
+        //                         type: ["node", {
+        //                             name: `VoidKeyword`,
+        //                             type: ["leaf", { hasTextContent: false }]
+        //                         }],
+        //                     },
+        //                 },
+        //             ])
+        //         }]
+        //     }]
+        // }],
         "identifier": ["node", {
             name: `Identifier`,
             type: ["leaf", { hasTextContent: true }]
@@ -78,8 +78,142 @@ export const _interfaceGrammar: gta.TGrammar = {
             options: {
                 "function": {
                     cardinality: ["one", {}],
-                    type: ["reference", {
-                        name: `functionType`
+                    type: ["node", {
+                        name: `FunctionType`,
+                        type: ["composite", {
+                            cardinality: ["one", {}],
+                            type: ["sequence", {
+                                elements: ([
+                                    {
+                                        name: `dataParameter`,
+                                        value: {
+                                            cardinality: ["one", {}],
+                                            type: ["node", {
+                                                name: `Parameter`,
+                                                type: ["composite", {
+                                                    cardinality: ["one", {}],
+                                                    type: ["sequence", {
+                                                        elements: ([
+                                                            {
+                                                                name: `name`,
+                                                                value: {
+                                                                    cardinality: ["one", {}],
+                                                                    type: ["reference", {
+                                                                        name: `identifier`,
+                                                                    }],
+                                                                },
+                                                            },
+                                                            {
+                                                                name: `type`,
+                                                                value: {
+                                                                    cardinality: ["one", {}],
+                                                                    type: _type,
+                                                                }
+                                                            }
+                                                        ])
+                                                    }],
+                                                }]
+                                            }]
+                                        },
+                                    },
+                                    {
+                                        name: `callbackParameter`,
+                                        value: {
+                                            cardinality: ["optional", {}],
+                                            type: ["node", {
+                                                name: `Parameter`,
+                                                type: ["composite", {
+                                                    cardinality: ["one", {}],
+                                                    type: ["sequence", {
+                                                        elements: ([
+                                                            {
+                                                                name: `name`,
+                                                                value: {
+                                                                    cardinality: ["one", {}],
+                                                                    type: ["reference", {
+                                                                        name: `identifier`,
+                                                                    }],
+                                                                },
+                                                            },
+                                                            {
+                                                                name: `type`,
+                                                                value: {
+                                                                    cardinality: ["one", {}],
+                                                                    type: ["node", {
+                                                                        name: `FunctionType`,
+                                                                        type: ["composite", {
+                                                                            cardinality: ["one", {}],
+                                                                            type: ["sequence", {
+                                                                                elements: ([
+                                                                                    {
+                                                                                        name: `parameter`,
+                                                                                        value: {
+                                                                                            cardinality: ["one", {}],
+                                                                                            type: ["node", {
+                                                                                                name: `Parameter`,
+                                                                                                type: ["composite", {
+                                                                                                    cardinality: ["one", {}],
+                                                                                                    type: ["sequence", {
+                                                                                                        elements: ([
+                                                                                                            {
+                                                                                                                name: `name`,
+                                                                                                                value: {
+                                                                                                                    cardinality: ["one", {}],
+                                                                                                                    type: ["reference", {
+                                                                                                                        name: `identifier`,
+                                                                                                                    }],
+                                                                                                                },
+                                                                                                            },
+                                                                                                            {
+                                                                                                                name: `type`,
+                                                                                                                value: {
+                                                                                                                    cardinality: ["one", {}],
+                                                                                                                    type: ["reference", {
+                                                                                                                        name: `interface`
+                                                                                                                    }],
+                                                                                                                }
+                                                                                                            }
+                                                                                                        ])
+                                                                                                    }],
+                                                                                                }]
+                                                                                            }]
+                                                                                        },
+                                                                                    },
+                                                                                    {
+                                                                                        name: `void`,
+                                                                                        value: {
+                                                                                            cardinality: ["one", {}],
+                                                                                            type: ["node", {
+                                                                                                name: `VoidKeyword`,
+                                                                                                type: ["leaf", { hasTextContent: false }]
+                                                                                            }],
+                                                                                        },
+                                                                                    },
+                                                                                ])
+                                                                            }]
+                                                                        }]
+                                                                    }],
+                                                                }
+                                                            }
+                                                        ])
+                                                    }],
+                                                }]
+                                            }]
+                                        },
+                                    },
+                                    {
+                                        name: `void`,
+                                        value: {
+                                            cardinality: ["one", {}],
+                                            type: ["node", {
+                                                name: `VoidKeyword`,
+                                                type: ["leaf", { hasTextContent: false }]
+                                            }],
+                                        },
+                                    },
+                                ])
+                            }]
+                        }]
                     }]
                 },
                 "typeLiteral": {
@@ -147,6 +281,35 @@ export const _interfaceGrammar: gta.TGrammar = {
                         }]
                     }]
                 },
+                "typeReference": {
+                    cardinality: ["one", {}],
+                    type: ["node", {
+                        name: `TypeReference`,
+                        type: ["composite", {
+                            cardinality: ["one", {}],
+                            type: ["sequence", {
+                                elements: ([
+                                    {
+                                        name: `name`,
+                                        value: {
+                                            "cardinality": ["one", {}],
+                                            type: ["reference", {
+                                                name: `identifier`
+                                            }]
+                                        }
+                                    },
+                                    {
+                                        name: `parameters`,
+                                        value: {
+                                            "cardinality": ["array", {}],
+                                            type: ["reference", { name: `type` }],
+                                        }
+                                    },
+                                ])
+                            }]
+                        }]
+                    }]
+                }
             }
         }],
     },
@@ -208,7 +371,7 @@ export const _interfaceGrammar: gta.TGrammar = {
                                                 },
                                             },
                                             {
-                                                name: `type`,
+                                                name: `definition`,
                                                 value: {
                                                     cardinality: ["one", {}],
                                                     type: ["reference", { name: `interface` }],

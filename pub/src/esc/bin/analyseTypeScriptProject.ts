@@ -113,9 +113,9 @@ pr.runProgram(
                                                     break
                                                 case "namespace":
                                                     pr.cc($.content.clause.content[1], ($) => {
-                                                        if ($.content.content !== "pr") {
-                                                            onError($.content.annotation, `expected 'pr'`)
-                                                        }
+                                                        // if ($.content.content !== "pr") {
+                                                        //     onError($.content.annotation, `expected 'pr'`)
+                                                        // }
                                                     })
                                                     break
                                                 default:
@@ -239,6 +239,9 @@ pr.runProgram(
                             function doRootIndex() {
 
                             }
+                            function doCreator() {
+
+                            }
                             const pathPatterns: { [key: string]: () => void } = {
                                 "/src/data/*.ts": doData,
                                 "/src/esc/**/*.ts": doEsc,
@@ -246,6 +249,7 @@ pr.runProgram(
                                 "/src/index.ts": doRootIndex,
                                 "/src/interface/interfaces/*.ts": doInterface,
                                 "/src/interface/types/*.ts": doType,
+                                "/src/interface/creators/*.ts": doCreator,
                                 "/src/modules/*/esc/**/*.ts": doEsc,
                                 "/src/modules/*/index.ts": doRootIndex,
                                 "/src/modules/*/interface/interfaces/*.ts": doInterface,

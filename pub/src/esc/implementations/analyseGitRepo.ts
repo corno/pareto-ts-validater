@@ -10,7 +10,7 @@ export function analyseGitRepo(
     callback: (
         repoPath: string,
         filePath: string,
-        analysis: ap.AnalysisResult,
+        analysis: ap.TAnalysisResult,
         lineCount: number,
     ) => void,
 ) {

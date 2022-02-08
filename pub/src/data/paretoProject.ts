@@ -19,6 +19,9 @@ export const _iface: ap.TDirectory = {
             "types": {
                 type: ["directory", _tsDir],
             },
+            "creators": {
+                type: ["directory", _tsDir],
+            },
             "interfaces": {
                 type: ["directory", _tsDir],
             },

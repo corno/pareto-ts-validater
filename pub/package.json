@@ -11,8 +11,8 @@
     "analyseTypeScriptProject": "dist/esc/bin/analyseTypeScriptProject.js"
   },
   "dependencies": {
-    "analyse-path": "^0.2.1",
-    "pareto-filesystem": "^0.7.0",
+    "analyse-path": "^0.2.2",
+    "pareto-filesystem": "^0.7.1",
     "pareto-runtime": "^0.22.0",
     "ts-morph": "^13.0.3"
   },
