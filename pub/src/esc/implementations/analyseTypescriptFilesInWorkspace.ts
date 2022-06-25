@@ -1,7 +1,6 @@
 import { analyseGitRepo } from "./analyseGitRepo"
 import * as pth from "path"
 import * as fs from "fs"
-
 export function analyseTypeScriptFilesInWorkspace(
     directoryPath: string,
     outPath: string,

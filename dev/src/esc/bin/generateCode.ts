@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-
 import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
 import * as gta from "generate-typesafe-ast"
 import { _dataGrammar } from "../../data/dataGrammar"
+import { _creatorGrammar } from "../../data/creatorGrammar"
+import { _procedureGrammar } from "../../data/procedureGrammar"
 import { _interfaceGrammar } from "../../data/interfaceGrammar"
 import { _typeGrammar } from "../../data/typeGrammar"
 import * as fp from "fountain-pen"
-
 pr.runProgram(
     ($) => {
         const targetDirPath = $.argument
@@ -73,7 +73,9 @@ pr.runProgram(
                             }
                             g(_dataGrammar, "dataGrammar")
                             g(_interfaceGrammar, "interfaceGrammar")
-                            g(_typeGrammar, "typeGrammar")
+                            g(_typeGrammar, "paretoGrammar")
+                            g(_creatorGrammar, "creatorGrammar")
+                            g(_procedureGrammar, "procedureGrammar")
 
                         }
                     )

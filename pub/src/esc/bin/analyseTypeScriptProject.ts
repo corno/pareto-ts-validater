@@ -5,17 +5,21 @@ import * as pf from "pareto-filesystem"
 
 import * as path from "path"
 import * as tsmorph from "ts-morph"
-import * as dataParser from "../../generated/dataGrammar"
-import * as interfaceParser from "../../generated/interfaceGrammar"
-import * as typeParser from "../../generated/typeGrammar"
-import { TUntypedNode } from "../../generated/dataGrammar"
+import { TUntypedNode, TAnnotatedString } from "../../generated/paretoGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
 import * as ap from "analyse-path"
 
+import { doInterface } from "../grammars/interface"
+import { doData } from "../grammars/data"
+import { doCreator } from "../grammars/creator"
+import { doRootIndex } from "../grammars/rootIndex"
+import { doProcedure } from "../grammars/procedure"
+import { doTypeFile } from "../grammars/type"
+import { TOut } from "../ParetoTypes"
+
 pr.runProgram(
     ($) => {
-
         let foundError = false
         function logError(message: string) {
             foundError = true
@@ -26,16 +30,18 @@ pr.runProgram(
             logError("missing tsconfig path")
             pr.processExit(1)
         } else {
+            const out: TOut<tsmorph.Node> = {
+                typeAliases: {}
+            }
+
             pf.wrapDirectory(
                 {
                     rootDirectory: path.dirname(tsconfigPath),
                 },
                 {
                     callback: ($i) => {
-
                         const project = new tsmorph.Project({})
                         project.addSourceFilesFromTsConfig(tsconfigPath)
-
                         pr.log(tsconfigPath)
                         project.getSourceFiles().forEach(($) => {
                             const fullFilePath = $.getFilePath()
@@ -45,14 +51,33 @@ pr.runProgram(
                                 _typescriptFileStructure,
                                 parsedPath,
                             )
+                            function startsWith(
+                                $: {
+                                    string: TAnnotatedString<tsmorph.Node>,
+                                    expected: string
+                                }
+                            ): void {
+                                if (!$.string.value.startsWith($.expected)) {
+                                    onError($.string.annotation, `invalid name`, `must start wih '${$.expected}'`)
+                                }
+                            }
                             function onError(
                                 $: tsmorph.Node,
                                 message: string,
+                                details: string
                             ) {
+                                const red = "\x1b[31m"
+                                //const green = "\x1b[32m"
+                                const yellow = "\x1b[33m"
+                                const cyan = "\x1b[36m"
+                                const reset = "\x1b[0m"
                                 const lp = $.getSourceFile().getLineAndColumnAtPos($.getStart())
-                                logError(`${message} @ ${fullFilePath}[${lp.line}, ${lp.column}]`)
+                                logError(`${cyan}${fullFilePath}${reset}:${yellow}${lp.line}:${lp.column}${reset} - ${red}error${reset} ${message}`)
+                                logError(`    ${details}`)
                             }
-
+                            function unexpectedAT(annotation: tsmorph.Node) {
+                                onError(annotation, `unexpected type`, `X`)
+                            }
                             function handle<RT>(
                                 parse: (
                                     $: TUntypedNode<tsmorph.Node>,
@@ -81,7 +106,6 @@ pr.runProgram(
                                         }
                                     }
                                 }
-
                                 parse(
                                     wrap($),
                                     {
@@ -89,45 +113,15 @@ pr.runProgram(
                                             callback($)
                                         },
                                         reportUnexpectedRoot: ($) => {
-                                            logError("X2")
+                                            onError($.root.annotation, "unexpected root", "")
                                         },
                                         reportUnexpectedChild: ($) => {
-                                            onError($.child.annotation, `unexpected child: ${$.path} ${$.child.kindName}, expected ${$.expected === null ? "nothing" : $.expected.map(($) => `'${$}'`).join(" or ")}`)
+                                            onError($.child.annotation, `unexpected child`, `@ ${$.path}, found ${$.child.kindName}, expected ${$.expected === null ? "nothing" : $.expected.map(($) => `'${$}'`).join(" or ")}`)
                                         },
                                         reportMissingToken: ($) => {
-                                            onError($.parentAnnotation, `missing token: ${$.path}, expected ${$.kindNameOptions.map(($) => `'${$}'`).join(" or ")}`)
+                                            onError($.parentAnnotation, `missing token`, `@ ${$.path}, expected ${$.kindNameOptions.map(($) => `'${$}'`).join(" or ")}`)
                                         }
                                     }
-                                )
-                            }
-                            function doType() {
-                                handle<typeParser.TNroot<tsmorph.Node>>(
-                                    typeParser.parse,
-                                    ($) => {
-
-                                        $.content.imports.forEach(($) => {
-                                            switch ($.content.clause.content[0]) {
-                                                case "named":
-                                                    pr.cc($.content.clause.content[1], ($) => {
-                                                    })
-                                                    break
-                                                case "namespace":
-                                                    pr.cc($.content.clause.content[1], ($) => {
-                                                        // if ($.content.content !== "pr") {
-                                                        //     onError($.content.annotation, `expected 'pr'`)
-                                                        // }
-                                                    })
-                                                    break
-                                                default:
-                                                    pr.au($.content.clause.content[0])
-                                            }
-                                        })
-                                        $.content.typeAliases.forEach(($) => {
-                                            if (!$.content.name.content.startsWith("T")) {
-                                                onError($.content.name.annotation, `must start wih 'T'`)
-                                            }
-                                        })
-                                    },
                                 )
                             }
                             function doEsc() {
@@ -137,13 +131,11 @@ pr.runProgram(
                                         "ExportDeclaration": () => { },
                                         "ExpressionStatement": () => {
                                             if ($.getChildCount() !== 1) {
-                                                onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT IN ESC: ${$.getKindName()}`)
+                                                onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `IN ESC: ${$.getKindName()}`)
                                             } else {
                                                 pr.cc($.getChildAtIndex(0), ($) => {
-
                                                     if ($.getKindName() !== "CallExpression") {
-                                                        onError($, `UNEXECTED EXPRESSION STATEMENT IN ESC: ${$.getKindName()}`)
-
+                                                        onError($, `UNEXECTED EXPRESSION STATEMENT`, `ESC: ${$.getKindName()}`)
                                                     }
                                                 })
                                             }
@@ -153,7 +145,7 @@ pr.runProgram(
                                     }
                                     const entry = allowed[$.getKindName()]
                                     if (entry === undefined) {
-                                        onError($, `UNEXPECTED GLOBAL IN ESC: ${$.getKindName()}`)
+                                        onError($, `UNEXPECTED GLOBAL`, `ESC: ${$.getKindName()}`)
                                     } else {
                                         entry()
                                     }
@@ -166,13 +158,11 @@ pr.runProgram(
                                         "ExportDeclaration": () => { },
                                         "ExpressionStatement": () => {
                                             if ($.getChildCount() !== 1) {
-                                                onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT IN BIN: ${$.getKindName()}`)
+                                                onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `BIN: ${$.getKindName()}`)
                                             } else {
                                                 pr.cc($.getChildAtIndex(0), ($) => {
-
                                                     if ($.getKindName() !== "CallExpression") {
-                                                        onError($, `UNEXECTED EXPRESSION STATEMENT IN BIN: ${$.getKindName()}`)
-
+                                                        onError($, `UNEXECTED EXPRESSION STATEMENT`, `BIN: ${$.getKindName()}`)
                                                     }
                                                 })
                                             }
@@ -182,84 +172,33 @@ pr.runProgram(
                                     }
                                     const entry = allowed[$.getKindName()]
                                     if (entry === undefined) {
-                                        onError($, `UNEXPECTED GLOBAL IN ESC: ${$.getKindName()}`)
+                                        onError($, `UNEXPECTED GLOBAL`, `ESC: ${$.getKindName()}`)
                                     } else {
                                         entry()
                                     }
                                 })
                             }
-                            function doData() {
-                                handle<dataParser.TNroot<tsmorph.Node>>(
-                                    dataParser.parse,
-                                    ($) => {
-                                        $.content.variables.forEach(($) => {
-                                            $.content.variableDeclarationList.content.forEach(($) => {
-                                                if (!$.content.name.content.startsWith("_")) {
-                                                    onError($.content.name.annotation, `must start wih '_'`)
-
-                                                }
-                                            })
-                                        })
-                                        //handle result
-                                    },
-                                )
-                            }
-                            function doInterface() {
-                                handle<interfaceParser.TNroot<tsmorph.Node>>(
-                                    interfaceParser.parse,
-                                    ($) => {
-
-                                        $.content.imports.forEach(($) => {
-                                            switch ($.content.clause.content[0]) {
-                                                case "named":
-                                                    pr.cc($.content.clause.content[1], ($) => {
-                                                    })
-                                                    break
-                                                case "namespace":
-                                                    pr.cc($.content.clause.content[1], ($) => {
-                                                        // if ($.content.content !== "pr") {
-                                                        //     onError($.content.annotation, `expected 'pr'`)
-                                                        // }
-                                                    })
-                                                    break
-                                                default:
-                                                    pr.au($.content.clause.content[0])
-                                            }
-                                        })
-                                        $.content.typeAliases.forEach(($) => {
-                                            pr.log("!!!!!!!!!!!")
-                                            if (!$.content.name.content.startsWith("I")) {
-                                                onError($.content.name.annotation, `must start wih 'I'`)
-
-                                            }
-                                        })
-                                    },
-                                )
-                            }
-                            function doRootIndex() {
-
-                            }
-                            function doCreator() {
-
-                            }
                             const pathPatterns: { [key: string]: () => void } = {
-                                "/src/data/*.ts": doData,
+                                "/src/data/*.ts": doData(handle, onError),
                                 "/src/esc/**/*.ts": doEsc,
+                                "/src/procedures/*.ts": doProcedure(handle, onError),
                                 "/src/bin/*.ts": doBin,
-                                "/src/index.ts": doRootIndex,
-                                "/src/interface/interfaces/*.ts": doInterface,
-                                "/src/interface/types/*.ts": doType,
-                                "/src/interface/creators/*.ts": doCreator,
+                                "/src/index.ts": doRootIndex(onError),
+                                "/src/interface/index.ts": doRootIndex(onError),
+                                "/src/interface/interfaces/*.ts": doInterface(handle, onError),
+                                "/src/interface/types/*.ts": doTypeFile(handle, out, onError),
+                                "/src/interface/creators/*.ts": doCreator(handle, onError),
                                 "/src/modules/*/esc/**/*.ts": doEsc,
-                                "/src/modules/*/index.ts": doRootIndex,
-                                "/src/modules/*/interface/interfaces/*.ts": doInterface,
-                                "/src/modules/*/interface/types/*.ts": doType,
+                                "/src/modules/*/index.ts": doRootIndex(onError),
+                                "/src/modules/*/interface/index.ts": doRootIndex(onError),
+                                "/src/modules/*/interface/interfaces/*.ts": doInterface(handle, onError),
+                                "/src/modules/*/interface/types/*.ts": doTypeFile(handle, out, onError),
                                 "/src/generated/*/esc/**/*.ts": doEsc,
-                                "/src/generated/*/index.ts": doRootIndex,
-                                "/src/generated/*/interface/interfaces/*.ts": doInterface,
-                                "/src/generated/*/interface/types/*.ts": doType,
-                                "/src/temp/*.ts": doData,
-
+                                "/src/generated/*/index.ts": doRootIndex(onError),
+                                "/src/generated/*/interface/index.ts": doRootIndex(onError),
+                                "/src/generated/*/interface/interfaces/*.ts": doInterface(handle, onError),
+                                "/src/generated/*/interface/types/*.ts": doTypeFile(handle, out, onError),
+                                "/src/temp/*.ts": doData(handle, onError),
 
                             }
                             if (pathPatterns[res.pathPattern] === undefined) {
@@ -283,22 +222,20 @@ pr.runProgram(
                                 }
                             )
                         })
-
                     },
                     onError: ($i) => {
                         logError(pf.printFSError($i))
                     },
                     onEnd: () => {
+                        console.error(JSON.stringify(out))
                         console.log("!!!!!!")
                         if (foundError) {
                             console.log("2!!!!!!")
-
                             pr.processExit(1)
                         }
                     },
                 }
             )
-
         }
     }
 )

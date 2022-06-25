@@ -1,6 +1,5 @@
 import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
-
 export function readWorkspace(
     $: {
         directoryPath: string

@@ -1,5 +1,4 @@
 import { readGitRepoWithContent } from "./readGitRepoWithContent"
-
 export function readGitRepoWithLineCounts(
     repoPath: string,
     log: ($: {

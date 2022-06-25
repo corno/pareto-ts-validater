@@ -1,6 +1,5 @@
 import * as cp from "child_process"
 import { readGitRepo } from "./readGitRepo";
-
 export function readGitRepoWithContent(
     repoPath: string,
     callback: (

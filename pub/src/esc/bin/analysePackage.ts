@@ -3,7 +3,6 @@ import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
 import { _paretoProject } from "../../data/paretoProject"
 import { analyseFile } from "../implementations/analyseFile"
-
 pr.runProgram(
     ($) => {
         const directoryPath = $.argument

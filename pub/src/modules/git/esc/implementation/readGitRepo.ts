@@ -1,5 +1,4 @@
 import * as cp from "child_process"
-
 export function readGitRepo(
     repoPath: string,
     callback: (

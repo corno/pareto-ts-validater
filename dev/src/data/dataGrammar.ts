@@ -1,117 +1,49 @@
 import * as gta from "generate-typesafe-ast"
 import { _importDeclaration } from "./importDeclaration"
+import { _literalDataInitialization } from "./literalDataInitialization"
 
 export const _dataGrammar: gta.TGrammar = {
-    globalValueTypes: {
+    'globalValueTypes': {
         "identifier": ["node", {
-            name: `Identifier`,
-            type: ["leaf", { hasTextContent: true }]
+            'name': `Identifier`,
+            'type': ["leaf", { 'hasTextContent': true }]
         }],
         "initialization": ["choice", {
-            options: {
-                arrayLiteral: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `ArrayLiteralExpression`,
-                        type: ["composite", {
-                            cardinality: ["one", {}],
-                            type: ["sequence", {
-                                elements: ([
-                                    {
-                                        name: `state`,
-                                        value: {
-                                            cardinality: ["one", {}],
-                                            type: ["node", {
-                                                name: `StringLiteral`,
-                                                type: ["leaf", { hasTextContent: true }]
-                                            }]
-                                        }
-                                    },
-                                    {
-                                        name: `data`,
-                                        value: {
-                                            cardinality: ["one", {}],
-                                            type: ["reference", {
-                                                name: `initialization`,
-                                            }]
-                                        }
-                                    }
-                                ])
-                            }],
-                        }]
+            'options': {
+                "identifier": {
+                    'type': ["node", {
+                        'name': `Identifier`,
+                        'type': ["leaf", { 'hasTextContent': true }]
                     }]
                 },
-                false: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `FalseKeyword`,
-                        type: ["leaf", { hasTextContent: false }]
+                "literal": {
+                    'type': ["reference", {
+                        'name': `literalDataInitialization`
                     }]
                 },
-                identifier: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `Identifier`,
-                        type: ["leaf", { hasTextContent: true }]
-                    }]
-                },
-                noSubstitutionTemplateLiteral: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `NoSubstitutionTemplateLiteral`,
-                        type: ["leaf", { hasTextContent: true }]
-                    }]
-                },
-                numericLiteral: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `NumericLiteral`,
-                        type: ["leaf", { hasTextContent: true }],
-                    }]
-                },
-                objectLiteral: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `ObjectLiteralExpression`,
-                        type: ["composite", {
-                            cardinality: ["array", {}],
-                            type: ["node", {
-                                name: `PropertyAssignment`,
-                                type: ["composite", {
-                                    cardinality: ["one", {}],
-                                    type: ["sequence", {
-                                        elements: ([
+                "objectLiteral": {
+                    'type': ["node", {
+                        'name': `ObjectLiteralExpression`,
+                        'type': ["composite", {
+                            'cardinality': ["array", {}],
+                            'type': ["node", {
+                                'name': `PropertyAssignment`,
+                                'type': ["composite", {
+                                    'type': ["sequence", {
+                                        'elements': ([
                                             {
-                                                name: `name`,
-                                                value: {
-                                                    cardinality: ["one", {}],
-                                                    type: ["choice", {
-                                                        options: {
-                                                            identifier: {
-                                                                cardinality: ["one", {}],
-                                                                type: ["node", {
-                                                                    name: `Identifier`,
-                                                                    type: ["leaf", { hasTextContent: true }],
-
-                                                                }]
-                                                            },
-                                                            stringLiteral: {
-                                                                cardinality: ["one", {}],
-                                                                type: ["node", {
-                                                                    name: `StringLiteral`,
-                                                                    type: ["leaf", { hasTextContent: true }],
-
-                                                                }]
-                                                            },
-                                                        }
+                                                'name': `name`,
+                                                'value': {
+                                                    'type': ["node", {
+                                                        'name': `StringLiteral`,
+                                                        'type': ["leaf", { 'hasTextContent': true }],
                                                     }]
                                                 }
                                             },
                                             {
-                                                name: `initialization`,
-                                                value: {
-                                                    cardinality: ["one", {}],
-                                                    type: ["reference", { name: `initialization` }],
+                                                'name': `initialization`,
+                                                'value': {
+                                                    'type': ["reference", { 'name': `initialization` }],
                                                 }
                                             },
                                         ])
@@ -121,140 +53,102 @@ export const _dataGrammar: gta.TGrammar = {
                         }]
                     }]
                 },
-                // stringLiteral: { //don't use this one, use 'noSubstitutionTemplateLiteral' to make it visible this is a literal
-                //     cardinality: ["one", {}],
-                //     type: ["node", {
-                //         name: `StringLiteral`,
-                //         type: ["leaf", { hasTextContent: true }],
-                //     }]
-                // },
-                true: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `TrueKeyword`,
-                        type: ["leaf", { hasTextContent: false }],
-
-                    }]
-                },
-                parenthesizedExpression: {
-                    cardinality: ["one", {}],
-                    type: ["node", {
-                        name: `ParenthesizedExpression`,
-                        type: ["composite", { 
-                            cardinality: ["one", {}],
-                            type: ["node", {
-
-                                name: `ArrayLiteralExpression`,
-                                type: ["composite", {
-                                    cardinality: ["array", {    }],
-                                    type: ["reference", {
-                                        name: `initialization`
-                                    }]
-                                }]
-                            }],
-                         }],
-
-                    }]
-                },
             }
         }],
+        "literalDataInitialization": _literalDataInitialization,
+        "typelessParameter": ["node", {
+            'name': `Parameter`,
+            'type': ["composite", {
+                'type': ["reference", {
+                    'name': `identifier`
+                }]
+            }]
+        }],
     },
-    root: {
-        name: `SourceFile`,
-        type: ["composite", {
-            cardinality: ["one", {}],
-            type: ["sequence", {
-                elements: ([
+    'root': {
+        'name': `SourceFile`,
+        'type': ["composite", {
+            'type': ["sequence", {
+                'elements': ([
                     {
-                        name: `import`,
-                        value: {
-                            cardinality: ["array", {}],
-                            type: _importDeclaration,
+                        'name': `import`,
+                        'value': {
+                            'cardinality': ["array", {}],
+                            'type': _importDeclaration,
                         }
                     },
                     {
-                        name: `variables`,
-                        value: {
-                            cardinality: ["array", {}],
-                            type: ["node", {
-                                name: `VariableStatement`,
-                                type: ["composite", {
-                                    cardinality: ["one", {}],
-                                    type: ["sequence", {
-                                        elements: ([
+                        'name': `variables`,
+                        'value': {
+                            'cardinality': ["array", {}],
+                            'type': ["node", {
+                                'name': `VariableStatement`,
+                                'type': ["composite", {
+                                    'type': ["sequence", {
+                                        'elements': ([
                                             {
-                                                name: `export`,
-                                                value: {
-                                                    cardinality: ["one", {}],
-                                                    type: ["node", {
-                                                        name: `ExportKeyword`,
-                                                        type: ["leaf", { hasTextContent: false }]
+                                                'name': `export`,
+                                                'value': {
+                                                    'type': ["node", {
+                                                        'name': `ExportKeyword`,
+                                                        'type': ["leaf", { 'hasTextContent': false }]
                                                     }]
                                                 }
                                             },
                                             {
-                                                name: `variableDeclarationList`,
-                                                value: {
-                                                    cardinality: ["one", {}],
-                                                    type: ["node", {
-                                                        name: `VariableDeclarationList`,
-                                                        type: ["composite", {
-                                                            cardinality: ["array", {}],
-                                                            type: ["node", {
-                                                                name: `VariableDeclaration`,
-                                                                type: ["composite", {
-                                                                    cardinality: ["one", {}],
-                                                                    type: ["sequence", {
-                                                                        elements: ([
+                                                'name': `variableDeclarationList`,
+                                                'value': {
+                                                    'type': ["node", {
+                                                        'name': `VariableDeclarationList`,
+                                                        'type': ["composite", {
+                                                            'cardinality': ["array", {}],
+                                                            'type': ["node", {
+                                                                'name': `VariableDeclaration`,
+                                                                'type': ["composite", {
+                                                                    'type': ["sequence", {
+                                                                        'elements': ([
                                                                             {
-                                                                                name: `name`,
-                                                                                value: {
-                                                                                    cardinality: ["one", {}],
-                                                                                    type: ["node", {
-                                                                                        name: `Identifier`,
-                                                                                        type: ["leaf", { hasTextContent: true }],
+                                                                                'name': `name`,
+                                                                                'value': {
+                                                                                    'type': ["node", {
+                                                                                        'name': `Identifier`,
+                                                                                        'type': ["leaf", { 'hasTextContent': true }],
                                                                                     }]
                                                                                 },
                                                                             },
                                                                             {
-                                                                                name: `type`,
-                                                                                value: {
-                                                                                    cardinality: ["one", {}],
-                                                                                    type: ["node", {
-                                                                                        name: `TypeReference`,
-                                                                                        type: ["composite", {
-                                                                                            cardinality: ["one", {}],
-                                                                                            type: ["sequence", {
-                                                                                                elements: ([
+                                                                                'name': `type`,
+                                                                                'value': {
+                                                                                    'type': ["node", {
+                                                                                        'name': `TypeReference`,
+                                                                                        'type': ["composite", {
+                                                                                            'type': ["sequence", {
+                                                                                                'elements': ([
                                                                                                     {
-                                                                                                        name: `name`,
-                                                                                                        value: {
-                                                                                                            cardinality: ["one", {}],
-                                                                                                            type: ["node", {
-                                                                                                                name: `QualifiedName`,
-                                                                                                                type: ["composite", {
-                                                                                                                    cardinality: ["one", {}],
-                                                                                                                    type: ["sequence", {
-                                                                                                                        elements: ([
+                                                                                                        'name': `name`,
+                                                                                                        'value': {
+                                                                                                            'type': ["node", {
+                                                                                                                'name': `QualifiedName`,
+                                                                                                                'type': ["composite", {
+                                                                                                                    'type': ["sequence", {
+                                                                                                                        'elements': ([
                                                                                                                             {
-                                                                                                                                name: `context`,
-                                                                                                                                value: {
-                                                                                                                                    cardinality: ["one", {}],
-                                                                                                                                    type: ["node", {
-                                                                                                                                        name: `Identifier`,
-                                                                                                                                        type: ["leaf", { hasTextContent: true }],
+                                                                                                                                'name': `context`,
+                                                                                                                                'value': {
+                                                                                                                                    'type': ["node", {
+                                                                                                                                        'name': `Identifier`,
+                                                                                                                                        'type': ["leaf", { 'hasTextContent': true }],
                                                                                                                                     }]
                                                                                                                                 }
                                                                                                                             },
                                                                                                                             {
-                                                                                                                                name: `type`,
-                                                                                                                                value: {
-                                                                                                                                    cardinality: ["one", {}],
-                                                                                                                                    type: ["node", {
-                                                                                                                                        name: `Identifier`,
-                                                                                                                                        type: ["leaf", { hasTextContent: true }],
+                                                                                                                                'name': `type`,
+                                                                                                                                'value': {
+                                                                                                                                    'type': ["node", {
+                                                                                                                                        'name': `Identifier`,
+                                                                                                                                        'type': ["leaf", { 'hasTextContent': true }],
                                                                                                                                     }]
-                                                                                                                                }
+                                                                                                                                },
                                                                                                                             },
                                                                                                                         ])
                                                                                                                     }],
@@ -263,10 +157,10 @@ export const _dataGrammar: gta.TGrammar = {
                                                                                                         }
                                                                                                     },
                                                                                                     // {
-                                                                                                    //     name: `parameters`,
+                                                                                                    //     'name': `parameters`,
                                                                                                     //     value: {
                                                                                                     //         cardinality: ["array", {}],
-                                                                                                    //         type: ["reference", { name: `type` }],
+                                                                                                    //         type: ["reference", { 'name': `type` }],
                                                                                                     //     }
                                                                                                     // },
                                                                                                 ])
@@ -276,10 +170,10 @@ export const _dataGrammar: gta.TGrammar = {
                                                                                 },
                                                                             },
                                                                             {
-                                                                                name: `one`,
-                                                                                value: {
-                                                                                    cardinality: ["optional", {}],
-                                                                                    type: ["reference", { name: `initialization` }],
+                                                                                'name': `one`,
+                                                                                'value': {
+                                                                                    'cardinality': ["optional", {}],
+                                                                                    'type': ["reference", { 'name': `initialization` }],
                                                                                 },
                                                                             },
                                                                         ])
@@ -297,12 +191,11 @@ export const _dataGrammar: gta.TGrammar = {
                         }
                     },
                     {
-                        name: `endOfFile`,
-                        value: {
-                            cardinality: ["one", {}],
-                            type: ["node", {
-                                name: `EndOfFileToken`,
-                                type: ["leaf", { hasTextContent: false }],
+                        'name': `endOfFile`,
+                        'value': {
+                            'type': ["node", {
+                                'name': `EndOfFileToken`,
+                                'type': ["leaf", { 'hasTextContent': false }],
                             }]
                         }
                     }
