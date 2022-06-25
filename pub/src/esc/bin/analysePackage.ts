@@ -71,7 +71,7 @@ pr.runProgram(
                         )
                     },
                     onError: ($) => {
-                        console.log(pf.printFSError($))
+                        console.log(pf.createFSErrorMessage($))
                     },
                     onEnd: () => {
                         if (foundError) {

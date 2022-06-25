@@ -224,7 +224,7 @@ pr.runProgram(
                         })
                     },
                     onError: ($i) => {
-                        logError(pf.printFSError($i))
+                        logError(pf.createFSErrorMessage($i))
                     },
                     onEnd: () => {
                         console.error(JSON.stringify(out))

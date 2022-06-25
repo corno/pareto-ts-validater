@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "analyse-path": "^0.2.3",
-    "pareto-filesystem": "^0.8.0",
+    "pareto-filesystem": "^0.9.1",
     "pareto-runtime": "^0.22.0",
-    "ts-morph": "^13.0.3"
+    "ts-morph": "^15.1.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.18"
+    "@types/node": "^18.0.0"
   },
   "files": [
     "dist",
