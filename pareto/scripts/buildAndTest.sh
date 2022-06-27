@@ -6,7 +6,7 @@ then
     #rm -rf ../api/src/generated && \
     #rm -rf ../lib/src/generated && \
     #node ../dev/dist/esc/bin/generateCode.js ..
-    echo "scipping code generation"
+    echo "skipping code generation"
 fi \
 
 

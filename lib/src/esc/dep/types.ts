@@ -22,7 +22,7 @@ export type Part = {
     | ["found", {
         latestVersion: string
         gitSha: string
-        shaKeysEqual: boolean
+        //shaKeysEqual: boolean
     }]
 
     publishData: null | {
@@ -33,16 +33,10 @@ export type Part = {
     isClean: boolean
 }
 
-export type OptionalPart =
-    | ["missing", {
-        required: boolean
-    }]
-    | ["found", Part]
-
 export type Project = {
     gitHeadSha: string
     gitClean: boolean
-    parts: pr.IReadonlyDictionary<OptionalPart>
+    parts: pr.IReadonlyDictionary<Part>
     isClean: boolean
 }
 

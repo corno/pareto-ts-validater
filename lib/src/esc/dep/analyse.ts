@@ -24,46 +24,41 @@ pr.runProgram(
                     console.log(`\t${projectName} ${$.project.isClean ? "" : `${red}!! ${reset}`} ${!$.project.gitClean ? `${red}uncommitted changes${reset}` : ""}`)
                     $.project.parts.forEach(($, partName) => {
                         //console.log(`$#### ${partName}`)
-                        if ($[0] === "found") {
-                            const $2 = $[1]
-                            const remark = (() => {
-                                switch ($2.publishStatus[0]) {
-                                    case "found": {
-                                        const $3 = $2.publishStatus[1]
-                                        return !$3.shaKeysEqual
-                                            ? `${red}unpublished commits${reset}`
-                                            : ``
-                                    }
-                                    case "missing": {
-                                        return `${red}not published${reset}`
-                                    }
-                                    case "unpublished": {
-                                        return ""
-                                    }
+                        const $2 = $
+                        const remark = (() => {
+                            switch ($2.publishStatus[0]) {
+                                case "found": {
+                                    const $3 = $2.publishStatus[1]
+                                    return ``
+                                    // return !$3.shaKeysEqual
+                                    //     ? `${red}unpublished commits${reset}`
+                                    //     : ``
                                 }
-                            })()
-
-                            console.log(`\t\t${partName} ${remark} ${$2.publishData !== null && $2.publishData.name !== `${projectName}-${partName}` ? "INVALID NAME" : ""}`)
-                            $[1].deps.dependencies.forEach(($, depName) => {
-
-                                statusOverview.referencedProjects.find(
-                                    depName,
-                                    ($$) => {
-                                        console.log(`\t\t\t${depName} (${!$.isEqual
-                                            ? `${red}${$.versionX} <> ${$$.latestVersion}${reset}`
-                                            : `${green}${$.versionX}${reset}`
-                                            })`)
-                                    },
-                                    () => {
-                                        throw new Error("!!!!!")
-                                    }
-                                )
-                            })
-                        } else {
-                            if ($[1].required) {
-                                console.log(`\t\t${partName} ${red}!missing${reset}`)
+                                case "missing": {
+                                    return `${red}not published${reset}`
+                                }
+                                case "unpublished": {
+                                    return ""
+                                }
                             }
-                        }
+                        })()
+
+                        console.log(`\t\t${partName} ${remark} ${$2.publishData !== null && $2.publishData.name !== `${projectName}-${partName}` ? "INVALID NAME" : ""}`)
+                        $.deps.dependencies.forEach(($, depName) => {
+
+                            statusOverview.referencedProjects.find(
+                                depName,
+                                ($$) => {
+                                    console.log(`\t\t\t${depName} (${!$.isEqual
+                                        ? `${red}${$.versionX} <> ${$$.latestVersion}${reset}`
+                                        : `${green}${$.versionX}${reset}`
+                                        })`)
+                                },
+                                () => {
+                                    throw new Error("!!!!!")
+                                }
+                            )
+                        })
 
                     })
                 })
@@ -74,13 +69,11 @@ pr.runProgram(
                     console.log(`\t${projectName}`)
 
                     $.project.parts.forEach(($, partName) => {
-                        if ($[0] === "found") {
-                            console.log(`\t\t${partName}`)
+                        console.log(`\t\t${partName}`)
 
-                            $[1].deps.devDependencies.forEach(($, depName) => {
-                                console.log(`\t\t\t${depName} (${$})`)
-                            })
-                        }
+                        $.deps.devDependencies.forEach(($, depName) => {
+                            console.log(`\t\t\t${depName} (${$})`)
+                        })
                     })
                 })
 
@@ -89,21 +82,19 @@ pr.runProgram(
                 console.log("outdated:")
                 statusOverview.projects.forEach(($, projectName) => {
                     $.project.parts.forEach(($, partName) => {
-                        if ($[0] === "found") {
-                            $[1].deps.dependencies.forEach(($, depName) => {
-                                statusOverview.referencedProjects.find(
-                                    depName,
-                                    ($$) => {
-                                        if (!$.isEqual) {
-                                            console.log(`${projectName}>${depName}: ${$$.latestVersion} <> ${$.versionX}`)
-                                        }
-                                    },
-                                    () => {
-                                        throw new Error("!!!!!")
+                        $.deps.dependencies.forEach(($, depName) => {
+                            statusOverview.referencedProjects.find(
+                                depName,
+                                ($$) => {
+                                    if (!$.isEqual) {
+                                        console.log(`${projectName}>${depName}: ${$$.latestVersion} <> ${$.versionX}`)
                                     }
-                                )
-                            })
-                        }
+                                },
+                                () => {
+                                    throw new Error("!!!!!")
+                                }
+                            )
+                        })
                     })
                 })
 
@@ -119,13 +110,11 @@ pr.runProgram(
                     statusOverview.projects.forEach(($, projectName) => {
 
                         $.project.parts.forEach(($, partName) => {
-                            if ($[0] === "found") {
-                                $[1].deps.dependencies.forEach(($, depName) => {
-                                    if (depName === refProjectName) {
-                                        console.log(`\t\t\t${projectName} (${partName}, (${!$.isEqual ? red : green}${$.versionX}${reset})`)
-                                    }
-                                })
-                            }
+                            $.deps.dependencies.forEach(($, depName) => {
+                                if (depName === refProjectName) {
+                                    console.log(`\t\t\t${projectName} (${partName}, (${!$.isEqual ? red : green}${$.versionX}${reset})`)
+                                }
+                            })
                         })
                     })
                 })
@@ -141,7 +130,7 @@ pr.runProgram(
                     i += 1
                     $.project.parts.forEach(($, partName) => {
                         if (partName === "lib" || partName === "api")
-                        console.log(`\t\t"${projectName}-${partName}" [ color="${!isClean ? `red` : `green`}"${projectName.endsWith("-api") ? `, style="filled"` : ""} ]`)
+                            console.log(`\t\t"${projectName}-${partName}" [ color="${!isClean ? `red` : `green`}"${partName === "api" ? `, style="filled"` : ""} ]`)
 
                     })
                     console.log(`\t}`)
@@ -150,11 +139,10 @@ pr.runProgram(
                 statusOverview.projects.forEach(($, projectName) => {
                     $.project.parts.forEach(($, partName) => {
                         if (partName === "lib" || partName === "api") {
-                            if ($[0] === "found") {
-                                $[1].deps.dependencies.forEach(($, depName) => {
-                                    console.log(`\t"${projectName}-${partName}" -> "${depName}"`)
-                                })
-                            }
+                            $.deps.dependencies.forEach(($, depName) => {
+                                console.log(`\t"${projectName}-${partName}" -> "${depName}"`)
+                            })
+
                         }
                     })
                 })

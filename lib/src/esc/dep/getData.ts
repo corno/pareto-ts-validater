@@ -2,7 +2,7 @@ import * as pf from "pareto-filesystem"
 import * as pr from "pareto-runtime"
 import * as https from "https"
 import * as cp from "child_process"
-import { Dependencies, Dependency, ProjectStatusOverview, OptionalPart, Part, Project, ReferencedProject } from "./types"
+import { Dependencies, Dependency, ProjectStatusOverview, Project, ReferencedProject, Part } from "./types"
 import { LocalPart, LocalProject } from "./types2"
 
 function topologicalSort<T>(
@@ -37,10 +37,10 @@ function topologicalSort<T>(
                         key: key,
                         value: x,
                     })
-                    
+
                 },
                 (y) => {
-                    
+
                 }
             )
         }
@@ -320,17 +320,13 @@ export function getData(
 
                                 const sha = $x.value.gitHeadSha
 
-                                asyncMapDictionary<LocalPart | null, OptionalPart>(
+                                asyncMapDictionary<LocalPart | null, Part>(
                                     $x.value.parts,
                                     ($x) => {
                                         const $ = $x.value
                                         const partName = $x.key
 
-                                        if ($ === null) {
-                                            $x.add(["missing", {
-                                                required: partName === "api" || partName === "lib" || partName === "test"
-                                            }])
-                                        } else {
+                                        if ($ !== null) {
                                             let allInSync = true
                                             const createDeps = (
                                                 source: pr.IReadonlyDictionary<string>,
@@ -356,12 +352,12 @@ export function getData(
                                             }
 
                                             if ($.publishData === null) {
-                                                $x.add(["found", {
+                                                $x.add({
                                                     publishStatus: ["unpublished", {}],
                                                     deps: deps,
                                                     publishData: $.publishData,
                                                     isClean: allInSync,
-                                                }])
+                                                })
                                             } else {
                                                 getRegistry(
                                                     $.publishData.name,
@@ -370,12 +366,12 @@ export function getData(
                                                         const pubData = $.publishData
                                                         if (json === null) {
                                                             //console.log(`>>>> ${$x.key} ${partName}`)
-                                                            $x.add(["found", {
+                                                            $x.add({
                                                                 publishStatus: ["missing", {}],
                                                                 deps: deps,
                                                                 publishData: pubData,
                                                                 isClean: false,
-                                                            }])
+                                                            })
                                                         } else {
                                                             if (json["dist-tags"] === undefined) {
                                                                 throw new Error(`no dist-tags, ${$x.key}`)
@@ -385,17 +381,18 @@ export function getData(
                                                                 throw new Error(`no latest, ${$x.key}`)
                                                             }
                                                             const shaKey: string = json["versions"][latest].gitHead
-                                                            $x.add(["found", {
+                                                            $x.add({
                                                                 //required: partName === "pub" || partName === "test",
                                                                 publishStatus: ["found", {
                                                                     latestVersion: latest,
                                                                     gitSha: shaKey,
-                                                                    shaKeysEqual: shaKey === sha
+                                                                    //shaKeysEqual: shaKey === sha
                                                                 }],
                                                                 deps: deps,
                                                                 publishData: pubData,
-                                                                isClean: shaKey === sha && allInSync,
-                                                            }])
+                                                                //isClean: shaKey === sha && allInSync,
+                                                                isClean: allInSync,
+                                                            })
 
                                                         }
                                                     },
@@ -408,15 +405,10 @@ export function getData(
                                         let partsClean = true
                                         parts.forEach(
                                             ($) => {
-                                                if ($[0] === "missing") {
-                                                    if ($[1].required) {
-                                                        partsClean = false
-                                                    }
-                                                } else {
-                                                    if (!$[1].isClean) {
-                                                        partsClean = false
-                                                    }
+                                                if (!$.isClean) {
+                                                    partsClean = false
                                                 }
+
                                             },
                                         )
                                         $x.add({
@@ -437,11 +429,9 @@ export function getData(
                                     (elem, add) => {
                                         elem.parts.forEach(($, key) => {
                                             if ($ !== null && (key === "api" || key === "lib")) {
-                                                if ($[0] === "found") {
-                                                    $[1].deps.dependencies.forEach(($, key) => {
-                                                        add(key)
-                                                    })
-                                                }
+                                                $.deps.dependencies.forEach(($, key) => {
+                                                    add(key)
+                                                })
                                             }
                                         })
                                     }
