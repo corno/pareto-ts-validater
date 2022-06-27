@@ -81,7 +81,7 @@ pr.runProgram(
                     )
                 },
                 onError: ($) => {
-                    pr.logError(pf.printFSError($))
+                    pr.logError(pf.createFSErrorMessage($))
                 },
                 onEnd: () => {
                     //

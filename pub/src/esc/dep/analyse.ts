@@ -135,12 +135,12 @@ pr.runProgram(
                 console.log(``)
                 console.log(`digraph G {`)
                 statusOverview.projects.forEach(($, projectName) => {
-                    console.log(`\t"${projectName}" [ color="${!$.project.isClean ? `red` : `green`}" ]`)
+                    console.log(`\t"${projectName}" [ color="${!$.project.isClean ? `red` : `green`}"${projectName.endsWith("-api") ? `, style="filled"`: ""} ]`)
                 })
                 console.log(``)
                 statusOverview.projects.forEach(($, projectName) => {
                     $.project.parts.forEach(($, partName) => {
-                        if (partName === "pub") {
+                        if (partName === "lib" || partName === "api") {
                             if ($[0] === "found") {
                                 $[1].deps.dependencies.forEach(($, depName) => {
                                     console.log(`\t"${projectName}" -> "${depName}"`)

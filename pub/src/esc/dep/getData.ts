@@ -198,7 +198,7 @@ export function getData(
                                                                 } else {
                                                                     //console.log(stdout)
                                                                     const partsBuilder = pr.createDictionaryBuilder<null | LocalPart>()
-                                                                    const sourceDirs = ["pub", "test", "dev", "pareto"]
+                                                                    const sourceDirs = ["dev", "api", "lib", "test", "pareto"]
                                                                     sourceDirs.forEach($ => {
                                                                         $i.readFile(
                                                                             `${$}/package.json`,
@@ -328,7 +328,7 @@ export function getData(
 
                                         if ($ === null) {
                                             $x.add(["missing", {
-                                                required: partName === "pub" || partName === "test"
+                                                required: partName === "api" || partName === "lib" || partName === "test"
                                             }])
                                         } else {
                                             let allInSync = true
@@ -436,7 +436,7 @@ export function getData(
                                     projects,
                                     (elem, add) => {
                                         elem.parts.forEach(($, key) => {
-                                            if ($ !== null && key === "pub") {
+                                            if ($ !== null && (key === "api" || key === "lib")) {
                                                 if ($[0] === "found") {
                                                     $[1].deps.dependencies.forEach(($, key) => {
                                                         add(key)

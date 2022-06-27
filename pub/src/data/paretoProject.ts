@@ -206,7 +206,8 @@ export const _paretoProject: ap.TDirectory = {
                     }]
                 }],
             },
-            "pub": _sourceCodeDirectory,
+            "api": _sourceCodeDirectory,
+            "lib": _sourceCodeDirectory,
             "README.md": {
                 'type': ["file", {}]
             },
