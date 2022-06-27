@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 dir=`realpath $(dirname "$0")`
+if [ -d "../dev" ]
+then
+    $dir/analyseTypeScriptProject.sh ../dev/tsconfig.json
+fi && \
 
-$dir/analyseTypeScriptProject.sh ../dev && \
-$dir/analyseTypeScriptProject.sh ../api && \
-$dir/analyseTypeScriptProject.sh ../lib && \
-$dir/analyseTypeScriptProject.sh ../test
+$dir/analyseTypeScriptProject.sh ../api/tsconfig.json && \
+$dir/analyseTypeScriptProject.sh ../lib/tsconfig.json && \
+$dir/analyseTypeScriptProject.sh ../test/tsconfig.json

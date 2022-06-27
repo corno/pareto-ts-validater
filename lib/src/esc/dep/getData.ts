@@ -198,7 +198,7 @@ export function getData(
                                                                 } else {
                                                                     //console.log(stdout)
                                                                     const partsBuilder = pr.createDictionaryBuilder<null | LocalPart>()
-                                                                    const sourceDirs = ["dev", "api", "lib", "test", "pareto"]
+                                                                    const sourceDirs = ["dev", "bin", "api", "lib", "test", "pareto"]
                                                                     sourceDirs.forEach($ => {
                                                                         $i.readFile(
                                                                             `${$}/package.json`,
@@ -428,7 +428,7 @@ export function getData(
                                     projects,
                                     (elem, add) => {
                                         elem.parts.forEach(($, key) => {
-                                            if ($ !== null && (key === "api" || key === "lib")) {
+                                            if ($ !== null && (key === "api" || key === "lib" || key === "bin")) {
                                                 $.deps.dependencies.forEach(($, key) => {
                                                     add(key)
                                                 })
