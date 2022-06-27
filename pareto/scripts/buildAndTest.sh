@@ -3,8 +3,10 @@
 if [ -d "../dev" ]
 then
     "$(dirname "$0")"/buildDevPackage.sh && \
-    rm -rf ../pub/src/generated && \
-    node ../dev/dist/esc/bin/generateCode.js ../pub/src/generated
+    #rm -rf ../api/src/generated && \
+    #rm -rf ../lib/src/generated && \
+    #node ../dev/dist/esc/bin/generateCode.js ..
+    echo "scipping code generation"
 fi \
 
 

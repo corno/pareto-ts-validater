@@ -21,7 +21,7 @@ pr.runProgram(
                 console.log(`local project overview`)
                 statusOverview.projects.forEach(($, projectName) => {
 
-                    console.log(`\t${projectName} ${$.project.isClean ? "" : `${red}!! ${reset}` } ${!$.project.gitClean ? `${red}uncommitted changes${reset}` : ""}`)
+                    console.log(`\t${projectName} ${$.project.isClean ? "" : `${red}!! ${reset}`} ${!$.project.gitClean ? `${red}uncommitted changes${reset}` : ""}`)
                     $.project.parts.forEach(($, partName) => {
                         //console.log(`$#### ${partName}`)
                         if ($[0] === "found") {
@@ -42,8 +42,8 @@ pr.runProgram(
                                     }
                                 }
                             })()
-                            
-                            console.log(`\t\t${partName} ${remark} ${$2.publishData !== null && $2.publishData.name !== projectName ? "INVALID NAME" : ""}`)
+
+                            console.log(`\t\t${partName} ${remark} ${$2.publishData !== null && $2.publishData.name !== `${projectName}-${partName}` ? "INVALID NAME" : ""}`)
                             $[1].deps.dependencies.forEach(($, depName) => {
 
                                 statusOverview.referencedProjects.find(
@@ -134,8 +134,17 @@ pr.runProgram(
                 //digraph
                 console.log(``)
                 console.log(`digraph G {`)
+                let i = 0
                 statusOverview.projects.forEach(($, projectName) => {
-                    console.log(`\t"${projectName}" [ color="${!$.project.isClean ? `red` : `green`}"${projectName.endsWith("-api") ? `, style="filled"`: ""} ]`)
+                    const isClean = $.project.isClean
+                    console.log(`\tsubgraph cluster_${i} {`)
+                    i += 1
+                    $.project.parts.forEach(($, partName) => {
+                        if (partName === "lib" || partName === "api")
+                        console.log(`\t\t"${projectName}-${partName}" [ color="${!isClean ? `red` : `green`}"${projectName.endsWith("-api") ? `, style="filled"` : ""} ]`)
+
+                    })
+                    console.log(`\t}`)
                 })
                 console.log(``)
                 statusOverview.projects.forEach(($, projectName) => {
@@ -143,7 +152,7 @@ pr.runProgram(
                         if (partName === "lib" || partName === "api") {
                             if ($[0] === "found") {
                                 $[1].deps.dependencies.forEach(($, depName) => {
-                                    console.log(`\t"${projectName}" -> "${depName}"`)
+                                    console.log(`\t"${projectName}-${partName}" -> "${depName}"`)
                                 })
                             }
                         }
