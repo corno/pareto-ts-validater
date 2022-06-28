@@ -129,7 +129,7 @@ pr.runProgram(
                     console.log(`\tsubgraph cluster_${i} {`)
                     i += 1
                     $.project.parts.forEach(($, partName) => {
-                        if (partName === "lib" || partName === "api")
+                        if (partName === "lib" || partName === "api" || partName === "bin")
                             console.log(`\t\t"${projectName}-${partName}" [ color="${!isClean ? `red` : `green`}"${partName === "api" ? `, style="filled"` : ""} ]`)
 
                     })
@@ -138,9 +138,11 @@ pr.runProgram(
                 console.log(``)
                 statusOverview.projects.forEach(($, projectName) => {
                     $.project.parts.forEach(($, partName) => {
-                        if (partName === "lib" || partName === "api") {
+                        if (partName === "lib" || partName === "api" || partName === "bin") {
                             $.deps.dependencies.forEach(($, depName) => {
-                                console.log(`\t"${projectName}-${partName}" -> "${depName}"`)
+                                if (depName !== "pareto-runtime") {
+                                    console.log(`\t"${projectName}-${partName}" -> "${depName}"`)
+                                }
                             })
 
                         }
