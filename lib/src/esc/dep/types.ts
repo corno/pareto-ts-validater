@@ -16,35 +16,37 @@ export type Dependencies = {
 }
 
 export type Part = {
-    publishStatus:
-    | ["unpublished", {}]
-    | ["missing", {}]
-    | ["found", {
-        latestVersion: string
-        gitSha: string
-        //shaKeysEqual: boolean
+    type:
+    | ["public", {
+        status: 
+        | ["unpublishable", {}]
+        | ["publishable", {
+            version: string
+            name: string
+            currentContentFingerprint: string | null
+            publishedVersion: 
+            | ["missing", {}]
+            | ["found", {
+                latestVersion: string
+                contentFingerprint: string | null
+            }]
+        }]
+    }]
+    | ["local", {
+        
     }]
 
-    publishData: null | {
-        version: string
-        name: string
-    }
     deps: Dependencies
     isClean: boolean
 }
 
 export type Project = {
-    gitHeadSha: string
     gitClean: boolean
     parts: pr.IReadonlyDictionary<Part>
     isClean: boolean
 }
 
-export type DependentProject = {
-    project: Project
-}
-
 export type ProjectStatusOverview = {
-    projects: pr.IReadonlyDictionary<DependentProject>
+    projects: pr.IReadonlyDictionary<Project>
     referencedProjects: pr.IReadonlyDictionary<ReferencedProject>
 }

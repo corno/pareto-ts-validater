@@ -1,5 +1,5 @@
 {
-  "name": "pareto-ts-validator",
+  "name": "pareto-ts-validator-lib",
   "version": "0.13.3",
   "description": "validates if a typescript code base conforms the 'pareto' rules",
   "main": "dist/index.js",

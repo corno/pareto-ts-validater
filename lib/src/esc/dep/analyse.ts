@@ -21,29 +21,58 @@ pr.runProgram(
                 console.log(`local project overview`)
                 statusOverview.projects.forEach(($, projectName) => {
 
-                    console.log(`\t${projectName} ${$.project.isClean ? "" : `${red}!! ${reset}`} ${!$.project.gitClean ? `${red}uncommitted changes${reset}` : ""}`)
-                    $.project.parts.forEach(($, partName) => {
+                    console.log(`\t${projectName} ${$.isClean ? "" : `${red}!! ${reset}`} ${!$.gitClean ? `${red}uncommitted changes${reset}` : ""}`)
+                    $.parts.forEach(($, partName) => {
                         //console.log(`$#### ${partName}`)
                         const $2 = $
-                        const remark = (() => {
-                            switch ($2.publishStatus[0]) {
-                                case "found": {
-                                    const $3 = $2.publishStatus[1]
+                        const remark = ((): string => {
+                            switch ($2.type[0]) {
+                                case "local": {
+                                    //const $3 = $2.publishStatus[1]
                                     return ``
                                     // return !$3.shaKeysEqual
                                     //     ? `${red}unpublished commits${reset}`
                                     //     : ``
                                 }
-                                case "missing": {
-                                    return `${red}not published${reset}`
+                                case "public": {
+                                    const $3 = $2.type[1]
+                                    switch ($3.status[0]) {
+                                        case "publishable":
+                                            const $4 = $3.status[1]
+                                            const nameIssue = $4.name === `${projectName}-${partName}` ? ``: `${red}invalid name${reset}`
+                                            if ($4.publishedVersion[0] === "missing") {
+                                                return `${nameIssue}${red}published version not found${reset}`
+                                            } else {
+                                                if ($4.currentContentFingerprint === null || $4.publishedVersion[1].contentFingerprint !== $4.currentContentFingerprint) {
+                                                    return `${nameIssue}${red}fingerprint issue${reset}`
+                                                }
+                                                return `${nameIssue}`
+                                            }
+                                        case "unpublishable":
+                                            return `${red}unpublishable${reset}`
+                                        default: return pr.au($3.status[0])
+                                    }
                                 }
-                                case "unpublished": {
-                                    return ""
-                                }
+                                default: return ``
                             }
+                            // switch ($2.publishStatus[0]) {
+                            //     case "found": {
+                            //         const $3 = $2.publishStatus[1]
+                            //         return ``
+                            //         // return !$3.shaKeysEqual
+                            //         //     ? `${red}unpublished commits${reset}`
+                            //         //     : ``
+                            //     }
+                            //     case "missing": {
+                            //         return `${red}not published${reset}`
+                            //     }
+                            //     case "unpublished": {
+                            //         return ""
+                            //     }
+                            // }
                         })()
 
-                        console.log(`\t\t${partName} ${remark} ${$2.publishData !== null && $2.publishData.name !== `${projectName}-${partName}` ? "INVALID NAME" : ""}`)
+                        console.log(`\t\t${partName} ${remark}`)
                         $.deps.dependencies.forEach(($, depName) => {
 
                             statusOverview.referencedProjects.find(
@@ -68,7 +97,7 @@ pr.runProgram(
                 statusOverview.projects.forEach(($, projectName) => {
                     console.log(`\t${projectName}`)
 
-                    $.project.parts.forEach(($, partName) => {
+                    $.parts.forEach(($, partName) => {
                         console.log(`\t\t${partName}`)
 
                         $.deps.devDependencies.forEach(($, depName) => {
@@ -81,7 +110,7 @@ pr.runProgram(
                 console.log("")
                 console.log("outdated:")
                 statusOverview.projects.forEach(($, projectName) => {
-                    $.project.parts.forEach(($, partName) => {
+                    $.parts.forEach(($, partName) => {
                         $.deps.dependencies.forEach(($, depName) => {
                             statusOverview.referencedProjects.find(
                                 depName,
@@ -109,7 +138,7 @@ pr.runProgram(
                     console.log(`\t${refProjectName} (${$.latestVersion})`)
                     statusOverview.projects.forEach(($, projectName) => {
 
-                        $.project.parts.forEach(($, partName) => {
+                        $.parts.forEach(($, partName) => {
                             $.deps.dependencies.forEach(($, depName) => {
                                 if (depName === refProjectName) {
                                     console.log(`\t\t\t${projectName} (${partName}, (${!$.isEqual ? red : green}${$.versionX}${reset})`)
@@ -125,10 +154,10 @@ pr.runProgram(
                 console.log(`digraph G {`)
                 let i = 0
                 statusOverview.projects.forEach(($, projectName) => {
-                    const isClean = $.project.isClean
+                    const isClean = $.isClean
                     console.log(`\tsubgraph cluster_${i} {`)
                     i += 1
-                    $.project.parts.forEach(($, partName) => {
+                    $.parts.forEach(($, partName) => {
                         if (partName === "lib" || partName === "api" || partName === "bin")
                             console.log(`\t\t"${projectName}-${partName}" [ color="${!isClean ? `red` : `green`}"${partName === "api" ? `, style="filled"` : ""} ]`)
 
@@ -137,7 +166,7 @@ pr.runProgram(
                 })
                 console.log(``)
                 statusOverview.projects.forEach(($, projectName) => {
-                    $.project.parts.forEach(($, partName) => {
+                    $.parts.forEach(($, partName) => {
                         if (partName === "lib" || partName === "api" || partName === "bin") {
                             $.deps.dependencies.forEach(($, depName) => {
                                 if (depName !== "pareto-runtime") {

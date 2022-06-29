@@ -5,6 +5,51 @@ import * as cp from "child_process"
 import { Dependencies, Dependency, ProjectStatusOverview, Project, ReferencedProject, Part } from "./types"
 import { LocalPart, LocalProject } from "./types2"
 
+import * as fs from "fs"
+
+type Async<T> = {
+    execute: (
+        callback: (v: T) => void
+    ) => void
+}
+
+function createDirReader<T>(
+    path: string,
+    callback: (files: string[]) => null | Async<T[]>,
+    onEnd: () => void
+): Async<T[]> {
+    return {
+        execute: () => {
+            fs.readdir(
+                path,
+                (err, files) => {
+                    if (err !== null) {
+
+                    } else {
+                        callback(files)
+                    }
+                }
+            )
+        }
+    }
+}
+
+function foo() {
+    createDirReader<string>(
+        "a/b/c",
+        (files) => {
+            return null
+        },
+        () => {
+
+        },
+    ).execute(
+        () => {
+            
+        }
+    )
+}
+
 function topologicalSort<T>(
     dictionary: pr.IReadonlyDictionary<T>,
     callback: (
@@ -52,6 +97,56 @@ function topologicalSort<T>(
     return sorted
 }
 
+function asyncMap2Tuple<T1, T2>(
+    cb1: (onDone: (result: T1) => void) => void,
+    cb2: (onDone: (result: T2) => void) => void,
+    onDone: (res: { first: T1, second: T2 }) => void
+) {
+    let res1: null | T1 = null
+    let res2: null | T2 = null
+    function wrapup() {
+        if (res1 !== null && res2 !== null) {
+            onDone({ first: res1, second: res2 })
+        }
+    }
+    cb1((val) => {
+        res1 = val
+        wrapup()
+    })
+    cb2((val) => {
+        res2 = val
+        wrapup()
+    })
+}
+
+function asyncMap3Tuple<T1, T2, T3>(
+    cb1: (onDone: (result: T1) => void) => void,
+    cb2: (onDone: (result: T2) => void) => void,
+    cb3: (onDone: (result: T3) => void) => void,
+    onDone: (res: { first: T1, second: T2, third: T3 }) => void
+) {
+    let res1: null | T1 = null
+    let res2: null | T2 = null
+    let res3: null | T3 = null
+    function wrapup() {
+        if (res1 !== null && res2 !== null && res3 !== null) {
+            onDone({ first: res1, second: res2, third: res3 })
+        }
+    }
+    cb1((val) => {
+        res1 = val
+        wrapup()
+    })
+    cb2((val) => {
+        res2 = val
+        wrapup()
+    })
+    cb3((val) => {
+        res3 = val
+        wrapup()
+    })
+}
+
 function asyncMapDictionary<T, TN>(
     dict: pr.IReadonlyDictionary<T>,
     callback: (
@@ -62,7 +157,7 @@ function asyncMapDictionary<T, TN>(
             add: (v: TN) => void
         }
     ) => void,
-    onEnd: (v: pr.IReadonlyDictionary<TN>) => void
+    onDone: (v: pr.IReadonlyDictionary<TN>) => void
 ) {
     const builder = pr.createDictionaryBuilder<TN>()
     pf.createCounter(
@@ -80,7 +175,7 @@ function asyncMapDictionary<T, TN>(
             })
         },
         () => {
-            onEnd(builder.toDictionary())
+            onDone(builder.toDictionary())
         }
     )
 }
@@ -181,76 +276,80 @@ export function getData(
                             directory: ($d, $i) => {
                                 $i.wrapAsync(
                                     {
-                                        callback: ($) => {
+                                        callback: ($$) => {
                                             cp.exec(
                                                 `git -C ${$d.id} diff`,
                                                 (err, cleanstdout, stderr) => {
                                                     if (err !== null) {
                                                         console.log("GIT DIFF", $d.id, stderr)
-
+                                                        $$.onDone()
                                                     } else {
 
-                                                        cp.exec(
-                                                            `git -C ${$d.id} rev-parse HEAD`,
-                                                            (err, shastdout, stderr) => {
-                                                                if (err !== null) {
-                                                                    console.log("GIT REV-PARSE", $d.id, stderr)
-                                                                } else {
-                                                                    //console.log(stdout)
-                                                                    const partsBuilder = pr.createDictionaryBuilder<null | LocalPart>()
-                                                                    const sourceDirs = ["dev", "bin", "api", "lib", "test", "pareto"]
-                                                                    sourceDirs.forEach($ => {
-                                                                        $i.readFile(
-                                                                            `${$}/package.json`,
-                                                                            {
-                                                                                callback: ($d) => {
-                                                                                    const packageData = pr.JSONparse($d)
-                                                                                    partsBuilder.add($, {
-                                                                                        publishData: packageData.version === undefined || packageData.name === undefined
-                                                                                            ? null
-                                                                                            : {
-                                                                                                version: packageData.version,
-                                                                                                name: packageData.name
-                                                                                            },
-                                                                                        dependencies: packageData.dependencies === undefined
-                                                                                            ? pr.createDictionaryBuilder<string>().toDictionary()
-                                                                                            : (() => {
-                                                                                                const depBuilder = pr.createDictionaryBuilder<string>()
-                                                                                                pr.Objectkeys(packageData.dependencies).forEach(key => {
-                                                                                                    let data = ""
-                                                                                                    depBuilder.add(key, packageData.dependencies[key])
-                                                                                                })
-                                                                                                return depBuilder.toDictionary()
-                                                                                            })(),
-                                                                                        devDependencies: packageData.devDependencies === undefined
-                                                                                            ? pr.createDictionaryBuilder<string>().toDictionary()
-                                                                                            : (() => {
-                                                                                                const depBuilder = pr.createDictionaryBuilder<string>()
-                                                                                                pr.Objectkeys(packageData.devDependencies).forEach(key => {
-                                                                                                    let data = ""
-                                                                                                    depBuilder.add(key, packageData.devDependencies[key])
-                                                                                                })
-                                                                                                return depBuilder.toDictionary()
-                                                                                            })(),
-                                                                                    })
-                                                                                },
-                                                                                onNotExists: () => {
-                                                                                    partsBuilder.add($, null)
-                                                                                },
-                                                                            }
-                                                                        )
 
-                                                                    })
 
-                                                                    projectsBuilder.add($d.id, {
-                                                                        gitHeadSha: shastdout.trimEnd(),
-                                                                        parts: partsBuilder.toDictionary(),
-                                                                        gitClean: cleanstdout.trimEnd() === "",
-                                                                    })
+                                                        const pb = pr.createDictionaryBuilder<null>()
+                                                        const sourceDirs = ["dev", "bin", "api", "lib", "test", "pareto"]
+                                                        sourceDirs.forEach($ => {
+                                                            pb.add($, null)
+                                                        })
+                                                        asyncMapDictionary<null, LocalPart | null>(
+                                                            pb.toDictionary(),
+                                                            ($) => {
+                                                                console.log(`${$d.id}-${$.key}`)
+                                                                $.counter.increment({})
+                                                                // $i.readFile(
+                                                                //     `${$}/package.json`,
+                                                                //     {
+                                                                //         callback: ($d) => {
+                                                                //             const packageData = pr.JSONparse($d)
+                                                                //             const contentFingerprint = packageData["content-fingerprint"]
+                                                                //             $.add({
+                                                                //                 isPublic: ["bin", "api", "lib"].indexOf($.key) !== -1,
+                                                                //                 publishData: packageData.version === undefined || packageData.name === undefined
+                                                                //                     ? null
+                                                                //                     : {
+                                                                //                         version: packageData.version,
+                                                                //                         name: packageData.name,
+                                                                //                         contentFingerprint: contentFingerprint === undefined ? null : contentFingerprint,
+                                                                //                     },
+                                                                //                 dependencies: packageData.dependencies === undefined
+                                                                //                     ? pr.createDictionaryBuilder<string>().toDictionary()
+                                                                //                     : (() => {
+                                                                //                         const depBuilder = pr.createDictionaryBuilder<string>()
+                                                                //                         pr.Objectkeys(packageData.dependencies).forEach(key => {
+                                                                //                             let data = ""
+                                                                //                             depBuilder.add(key, packageData.dependencies[key])
+                                                                //                         })
+                                                                //                         return depBuilder.toDictionary()
+                                                                //                     })(),
+                                                                //                 devDependencies: packageData.devDependencies === undefined
+                                                                //                     ? pr.createDictionaryBuilder<string>().toDictionary()
+                                                                //                     : (() => {
+                                                                //                         const depBuilder = pr.createDictionaryBuilder<string>()
+                                                                //                         pr.Objectkeys(packageData.devDependencies).forEach(key => {
+                                                                //                             let data = ""
+                                                                //                             depBuilder.add(key, packageData.devDependencies[key])
+                                                                //                         })
+                                                                //                         return depBuilder.toDictionary()
+                                                                //                     })(),
+                                                                //             })
+                                                                //             $.counter.decrement({})
+                                                                //         },
+                                                                //         onNotExists: () => {
+                                                                //             $.counter.decrement({})
+                                                                //             $.add(null)
+                                                                //         },
 
-                                                                }
-                                                                $.onDone()
+                                                                //     }
+                                                                // )
 
+                                                            },
+                                                            ($) => {
+                                                                projectsBuilder.add($d.id, {
+                                                                    parts: $,
+                                                                    gitClean: cleanstdout.trimEnd() === "",
+                                                                })
+                                                                $$.onDone()
                                                             }
                                                         )
                                                     }
@@ -315,10 +414,9 @@ export function getData(
                         asyncMapDictionary<LocalProject, Project>(
                             localProjects,
                             ($x) => {
+                                const projectName = $x.key
 
                                 $x.counter.increment({})
-
-                                const sha = $x.value.gitHeadSha
 
                                 asyncMapDictionary<LocalPart | null, Part>(
                                     $x.value.parts,
@@ -351,52 +449,88 @@ export function getData(
                                                 allDepsInSync: allInSync,
                                             }
 
-                                            if ($.publishData === null) {
+                                            if (!$.isPublic) {
                                                 $x.add({
-                                                    publishStatus: ["unpublished", {}],
+                                                    type: ["local", {}],
                                                     deps: deps,
-                                                    publishData: $.publishData,
                                                     isClean: allInSync,
                                                 })
                                             } else {
-                                                getRegistry(
-                                                    $.publishData.name,
-                                                    $x.counter,
-                                                    (json) => {
-                                                        const pubData = $.publishData
-                                                        if (json === null) {
-                                                            //console.log(`>>>> ${$x.key} ${partName}`)
-                                                            $x.add({
-                                                                publishStatus: ["missing", {}],
-                                                                deps: deps,
-                                                                publishData: pubData,
-                                                                isClean: false,
-                                                            })
-                                                        } else {
-                                                            if (json["dist-tags"] === undefined) {
-                                                                throw new Error(`no dist-tags, ${$x.key}`)
-                                                            }
-                                                            const latest = json["dist-tags"].latest
-                                                            if (latest === undefined) {
-                                                                throw new Error(`no latest, ${$x.key}`)
-                                                            }
-                                                            const shaKey: string = json["versions"][latest].gitHead
-                                                            $x.add({
-                                                                //required: partName === "pub" || partName === "test",
-                                                                publishStatus: ["found", {
-                                                                    latestVersion: latest,
-                                                                    gitSha: shaKey,
-                                                                    //shaKeysEqual: shaKey === sha
-                                                                }],
-                                                                deps: deps,
-                                                                publishData: pubData,
-                                                                //isClean: shaKey === sha && allInSync,
-                                                                isClean: allInSync,
-                                                            })
+                                                if ($.publishData === null) {
+                                                    $x.add({
+                                                        type: ["public", {
+                                                            status: ["unpublishable", {}]
+                                                        }],
+                                                        deps: deps,
+                                                        isClean: allInSync,
+                                                    })
+                                                } else {
+                                                    const pubData = $.publishData
 
-                                                        }
-                                                    },
-                                                )
+                                                    getRegistry(
+                                                        $.publishData.name,
+                                                        $x.counter,
+                                                        (json) => {
+                                                            if (json === null) {
+                                                                //console.log(`>>>> ${$x.key} ${partName}`)
+                                                                $x.add({
+                                                                    type: ["public", {
+                                                                        status: ["publishable", {
+                                                                            version: pubData.version,
+                                                                            name: pubData.name,
+                                                                            currentContentFingerprint: pubData.contentFingerprint,
+                                                                            publishedVersion: ["missing", {}],
+                                                                        }]
+                                                                    }],
+                                                                    // type: ["publishable", {
+                                                                    //     currentContentFingerprint: currentContentFingerprint,
+                                                                    //     publicVersion: ["missing", {}]
+                                                                    // }],
+                                                                    deps: deps,
+                                                                    isClean: false,
+                                                                })
+                                                            } else {
+                                                                if (json["dist-tags"] === undefined) {
+                                                                    throw new Error(`no dist-tags, ${$x.key}`)
+                                                                }
+                                                                const latest = json["dist-tags"].latest
+                                                                if (latest === undefined) {
+                                                                    throw new Error(`no latest, ${$x.key}`)
+                                                                }
+                                                                const publishedContentFingerprint: string = json["versions"][latest]["content-fingerprint"]
+                                                                if (publishedContentFingerprint === undefined) {
+                                                                    console.error(`${projectName}-${partName}: missing published fingerprint`)
+                                                                }
+                                                                $x.add({
+                                                                    //required: partName === "pub" || partName === "test",
+                                                                    type: ["public", {
+                                                                        status: ["publishable", {
+                                                                            version: pubData.version,
+                                                                            name: pubData.name,
+                                                                            currentContentFingerprint: pubData.contentFingerprint,
+                                                                            publishedVersion: ["found", {
+                                                                                latestVersion: latest,
+                                                                                contentFingerprint: publishedContentFingerprint === undefined ? null : publishedContentFingerprint,
+                                                                            }],
+                                                                        }]
+                                                                    }],
+                                                                    // type: ["publishable", {
+                                                                    //     currentContentFingerprint: currentContentFingerprint,
+                                                                    //     publicVersion: ["found", {
+                                                                    //         latestVersion: latest,
+                                                                    //         contentFingerprint: publishedContentFingerprint === undefined ? null : publishedContentFingerprint,
+                                                                    //         //shaKeysEqual: shaKey === sha
+                                                                    //     }]
+                                                                    // }],
+                                                                    deps: deps,
+                                                                    //isClean: shaKey === sha && allInSync,
+                                                                    isClean: allInSync && pubData.contentFingerprint !== null && publishedContentFingerprint !== null && pubData.contentFingerprint === publishedContentFingerprint,
+                                                                })
+
+                                                            }
+                                                        },
+                                                    )
+                                                }
                                             }
                                         }
 
@@ -412,7 +546,6 @@ export function getData(
                                             },
                                         )
                                         $x.add({
-                                            gitHeadSha: $x.value.gitHeadSha,
                                             gitClean: $x.value.gitClean,
                                             parts: parts,
                                             isClean: partsClean && $x.value.gitClean,
@@ -440,11 +573,7 @@ export function getData(
                                 })
                                 const depOverview: ProjectStatusOverview = {
                                     referencedProjects: referencedProjects,
-                                    projects: mapDictionary(projects, ($) => {
-                                        return {
-                                            project: $
-                                        }
-                                    }),
+                                    projects: projects,
                                 }
                                 callback(depOverview)
                             }
