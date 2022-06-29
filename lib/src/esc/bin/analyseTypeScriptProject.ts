@@ -133,7 +133,7 @@ pr.runProgram(
                                             if ($.getChildCount() !== 1) {
                                                 onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `IN ESC: ${$.getKindName()}`)
                                             } else {
-                                                pr.cc($.getChildAtIndex(0), ($) => {
+                                                cc($.getChildAtIndex(0), ($) => {
                                                     if ($.getKindName() !== "CallExpression") {
                                                         onError($, `UNEXECTED EXPRESSION STATEMENT`, `ESC: ${$.getKindName()}`)
                                                     }
@@ -160,7 +160,7 @@ pr.runProgram(
                                             if ($.getChildCount() !== 1) {
                                                 onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `BIN: ${$.getKindName()}`)
                                             } else {
-                                                pr.cc($.getChildAtIndex(0), ($) => {
+                                                cc($.getChildAtIndex(0), ($) => {
                                                     if ($.getKindName() !== "CallExpression") {
                                                         onError($, `UNEXECTED EXPRESSION STATEMENT`, `BIN: ${$.getKindName()}`)
                                                     }
