@@ -20,18 +20,18 @@ export function doInterface<Annotation>(
                             doAT($.clause, ($) => {
                                 switch ($[0]) {
                                     case "named":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                         })
                                         break
                                     case "namespace":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             // if ($.content.content !== "pr") {
                                             //     onError($.content.annotation, `expected 'pr'`)
                                             // }
                                         })
                                         break
                                     default:
-                                        au($[0])
+                                        pr.au($[0])
                                 }
                             })
                         })

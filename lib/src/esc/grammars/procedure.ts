@@ -25,10 +25,10 @@ export function doProcedure<Annotation>(
                         })
                         // switch ($.content.returnType.content.referencedType[0]) {
                         //     case "": 
-                        //         cc($.content.returnType.content.referencedType[1], ($) => {
+                        //         pr.cc($.content.returnType.content.referencedType[1], ($) => {
                         //         })
                         //         break
-                        //     default: au($.content.returnType.content.referencedType[0])
+                        //     default: pr.au($.content.returnType.content.referencedType[0])
                         // }
                         //$.content.returnType.content.referencedType
                     })
@@ -37,18 +37,18 @@ export function doProcedure<Annotation>(
                             doAT($.clause, ($) => {
                                 switch ($[0]) {
                                     case "named":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                         })
                                         break
                                     case "namespace":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             // if ($.content.content !== "pr") {
                                             //     onError($.content.annotation, `expected 'pr'`)
                                             // }
                                         })
                                         break
                                     default:
-                                        au($[0])
+                                        pr.au($[0])
                                 }
                             })
                         })

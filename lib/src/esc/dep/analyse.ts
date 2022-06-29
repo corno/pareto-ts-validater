@@ -50,7 +50,7 @@ pr.runProgram(
                                             }
                                         case "unpublishable":
                                             return `${red}unpublishable${reset}`
-                                        default: return au($3.status[0])
+                                        default: return pr.au($3.status[0])
                                     }
                                 }
                                 default: return ``

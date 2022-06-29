@@ -14,19 +14,19 @@ function doReferencedType<Annotation>(
 
         switch ($.referencedType[0]) {
             case "identifier":
-                cc($.referencedType[1], ($) => {
+                pr.cc($.referencedType[1], ($) => {
                     $.value
                 })
                 break
             case "qualifiedName":
-                cc($.referencedType[1], ($) => {
+                pr.cc($.referencedType[1], ($) => {
                     doAT($, ($) => {
                         $.context.value
                         $.type.value
                     })
                 })
                 break
-            default: au($.referencedType[0])
+            default: pr.au($.referencedType[0])
         }
         $.typeArguments.forEach(($) => {
             doType($)
@@ -39,41 +39,41 @@ function doType<Annotation>(
 ) {
     switch ($[0]) {
         case "array":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 doAT($, ($) => {
                     doType($)
                 })
             })
             break
         case "boolean":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
 
             })
             break
         case "literalType":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 doAT($, ($) => {
                     //null
                 })
             })
             break
         case "number":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 //number keyword
             })
             break
         case "string":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
 
             })
             break
         case "typeLiteral":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 doAT($, ($) => {
                     if ($ !== null) {
                         switch ($[0]) {
                             case "index":
-                                cc($[1], ($) => {
+                                pr.cc($[1], ($) => {
                                     doAT($, ($) => {
                                         $.key
                                         doType($.type)
@@ -81,7 +81,7 @@ function doType<Annotation>(
                                 })
                                 break
                             case "properties":
-                                cc($[1], ($) => {
+                                pr.cc($[1], ($) => {
                                     $.forEach(($) => {
                                         doAT($, ($) => {
                                             $.name
@@ -92,19 +92,19 @@ function doType<Annotation>(
 
                                 })
                                 break
-                            default: au($[0])
+                            default: pr.au($[0])
                         }
                     }
                 })
             })
             break
         case "typeReference":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 doReferencedType($)
             })
             break
         case "union":
-            cc($[1], ($) => {
+            pr.cc($[1], ($) => {
                 doAT($, ($) => {
                     $.forEach(($) => {
                         doAT($, ($) => {
@@ -117,7 +117,7 @@ function doType<Annotation>(
                 })
             })
             break
-        default: au($[0])
+        default: pr.au($[0])
     }
 
 }
@@ -138,7 +138,7 @@ export function doTypeFile<Annotation>(
                             doAT($.clause, ($) => {
                                 switch ($[0]) {
                                     case "named":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             doAT($, ($) => {
                                                 $.forEach(($) => {
                                                     doAT($, ($) => {
@@ -151,7 +151,7 @@ export function doTypeFile<Annotation>(
                                         })
                                         break
                                     case "namespace":
-                                        cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             doAT($, ($) => {
                                                 console.log($.value)
                                             })
@@ -161,7 +161,7 @@ export function doTypeFile<Annotation>(
                                         })
                                         break
                                     default:
-                                        au($[0])
+                                        pr.au($[0])
                                 }
                             })
                         })
