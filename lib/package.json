@@ -13,6 +13,8 @@
   "dependencies": {
     "analyse-path": "^0.2.3",
     "pareto-filesystem": "^0.9.4",
+    "pareto-lang-api": "^0.5.0",
+    "pareto-lang-lib": "^0.7.0",
     "pareto-runtime": "^0.23.0",
     "ts-morph": "^15.1.0"
   },
@@ -23,5 +25,5 @@
     "dist",
     "data"
   ],
-  "content-fingerprint": "c8e9ad0ccb7ee2bc58ba536a2705f2a3daa2cc22"
+  "content-fingerprint": "be313c22a65a46e6411a8114f0fe21450e6c24c7"
 }

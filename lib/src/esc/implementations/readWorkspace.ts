@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+import * as pr from "pareto-lang-lib"
 import * as pf from "pareto-filesystem"
 export function readWorkspace(
     $: {

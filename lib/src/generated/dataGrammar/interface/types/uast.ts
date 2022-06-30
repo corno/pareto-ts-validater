@@ -1,8 +1,8 @@
-import * as pr from "pareto-runtime"
+import * as pa from "pareto-lang-api"
 
 export type TUntypedNode<Annotation> = {
     readonly "kindName": string
     readonly "value": string
     readonly "annotation": Annotation
-    readonly "children": pr.IReadonlyArray<TUntypedNode<Annotation>>
+    readonly "children": pa.IReadonlyArray<TUntypedNode<Annotation>>
 }

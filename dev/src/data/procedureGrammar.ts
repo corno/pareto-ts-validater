@@ -40,7 +40,7 @@ export const _procedureGrammar: gta.TGrammar = {
                                                                 {
                                                                     'name': `type`,
                                                                     'value': {
-                                                                        'cardinality': ["optional", {}], //for example for: let x: pr.optional<XXX> = y
+                                                                        'cardinality': ["optional", {}], //for example for: let x: pa.optional<XXX> = y
                                                                         'type': ["reference", {
                                                                             'name': `type`,
                                                                         }]

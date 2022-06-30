@@ -1,5 +1,5 @@
 
-import * as pr from "pareto-runtime"
+import * as pr from "pareto-lang-lib"
 import * as tsmorph from "ts-morph"
 import * as interfaceParser from "../../generated/interfaceGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"
@@ -37,7 +37,7 @@ export function doInterface<Annotation>(
                         })
                     })
                     $.interfaces.forEach(($) => {
-                        pr.log("!!!!!!!!!!!")
+                        pr.logDebugMessage("!!!!!!!!!!!")
                         doAT($, ($) => {
                             function startsWith(
                                 $: {

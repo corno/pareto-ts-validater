@@ -1,5 +1,5 @@
 
-import * as pr from "pareto-runtime"
+import * as pr from "pareto-lang-lib"
 import * as tsmorph from "ts-morph"
 import * as procedureParser from "../../generated/procedureGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"

@@ -1,4 +1,6 @@
 import * as pf from "pareto-filesystem"
+import * as pl from "pareto-lang-lib"
+import * as pa from "pareto-lang-api"
 import * as pr from "pareto-runtime"
 import * as https from "https"
 import * as cp from "child_process"
@@ -51,7 +53,7 @@ function foo() {
 }
 
 function topologicalSort<T>(
-    dictionary: pr.IReadonlyDictionary<T>,
+    dictionary: pa.IReadonlyDictionary<T>,
     callback: (
         element: T,
         add: (dependencyName: string) => void,
@@ -148,7 +150,7 @@ function asyncMap3Tuple<T1, T2, T3>(
 }
 
 function asyncMapDictionary<T, TN>(
-    dict: pr.IReadonlyDictionary<T>,
+    dict: pa.IReadonlyDictionary<T>,
     callback: (
         $: {
             value: T,
@@ -157,9 +159,9 @@ function asyncMapDictionary<T, TN>(
             add: (v: TN) => void
         }
     ) => void,
-    onDone: (v: pr.IReadonlyDictionary<TN>) => void
+    onDone: (v: pa.IReadonlyDictionary<TN>) => void
 ) {
-    const builder = pr.createDictionaryBuilder<TN>()
+    const builder = pl.createDictionaryBuilder<TN>()
     pf.createCounter(
         ($) => {
             dict.forEach((elem, key) => {
@@ -245,10 +247,10 @@ function getRegistry(
 }
 
 function mapDictionary<T, NT>(
-    dict: pr.IReadonlyDictionary<T>,
+    dict: pa.IReadonlyDictionary<T>,
     callback: (v: T, key: string) => NT
 ) {
-    const newDictBuilder = pr.createDictionaryBuilder<NT>()
+    const newDictBuilder = pl.createDictionaryBuilder<NT>()
     dict.forEach(($, key) => {
         newDictBuilder.add(key, callback($, key))
     })
@@ -260,7 +262,7 @@ export function getData(
     callback: ($: ProjectStatusOverview) => void
 ) {
 
-    const projectsBuilder = pr.createDictionaryBuilder<LocalProject>()
+    const projectsBuilder = pl.createDictionaryBuilder<LocalProject>()
     pf.wrapDirectory({
         rootDirectory: rootDirectory,
     },
@@ -287,7 +289,7 @@ export function getData(
 
 
 
-                                                        const pb = pr.createDictionaryBuilder<null>()
+                                                        const pb = pl.createDictionaryBuilder<null>()
                                                         const sourceDirs = ["dev", "bin", "api", "lib", "test", "pareto"]
                                                         sourceDirs.forEach($ => {
                                                             pb.add($, null)
@@ -370,7 +372,7 @@ export function getData(
             },
             onEnd: () => {
 
-                const depPackagesBuilder = pr.createDictionaryBuilder<null>()
+                const depPackagesBuilder = pl.createDictionaryBuilder<null>()
 
                 const localProjects = projectsBuilder.toDictionary()
 
@@ -427,7 +429,7 @@ export function getData(
                                         if ($ !== null) {
                                             let allInSync = true
                                             const createDeps = (
-                                                source: pr.IReadonlyDictionary<string>,
+                                                source: pa.IReadonlyDictionary<string>,
                                             ) => {
                                                 return mapDictionary<string, Dependency>(
                                                     source,

@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+import * as pa from "pareto-lang-api"
 
 export type TAnnotatedString<Annotation> = { readonly "annotation": Annotation; readonly "value": string }
 export type TAnnotatedType<Annotation, Type> = { readonly "annotation": Annotation; readonly "content": Type }
@@ -105,7 +105,7 @@ export type TVroot_import$_clause$_namespace<Annotation> = TVTroot_import$_claus
 export type TVTroot_import$_clause$_named$$_name<Annotation> = TGidentifier<Annotation>
 export type TVroot_import$_clause$_named$$_name<Annotation> = TVTroot_import$_clause$_named$$_name<Annotation>
 export type TVTroot_import$_clause$_named$$_as<Annotation> = TGidentifier<Annotation>
-export type TVroot_import$_clause$_named$$_as<Annotation> = pr.optional<TVTroot_import$_clause$_named$$_as<Annotation>>
+export type TVroot_import$_clause$_named$$_as<Annotation> = pa.optional<TVTroot_import$_clause$_named$$_as<Annotation>>
 export type TVTroot_import$_clause$_named$$<Annotation> = {
     readonly "name":  TVroot_import$_clause$_named$$_name<Annotation>
     readonly "as":  TVroot_import$_clause$_named$$_as<Annotation>
@@ -174,7 +174,7 @@ export type TNroot_variables$_variableDeclarationList$$_type$<Annotation> = TAnn
 export type TVTroot_variables$_variableDeclarationList$$_type<Annotation> = TNroot_variables$_variableDeclarationList$$_type$<Annotation>
 export type TVroot_variables$_variableDeclarationList$$_type<Annotation> = TVTroot_variables$_variableDeclarationList$$_type<Annotation>
 export type TVTroot_variables$_variableDeclarationList$$_one<Annotation> = TGinitialization<Annotation>
-export type TVroot_variables$_variableDeclarationList$$_one<Annotation> = pr.optional<TVTroot_variables$_variableDeclarationList$$_one<Annotation>>
+export type TVroot_variables$_variableDeclarationList$$_one<Annotation> = pa.optional<TVTroot_variables$_variableDeclarationList$$_one<Annotation>>
 export type TVTroot_variables$_variableDeclarationList$$<Annotation> = {
     readonly "name":  TVroot_variables$_variableDeclarationList$$_name<Annotation>
     readonly "type":  TVroot_variables$_variableDeclarationList$$_type<Annotation>

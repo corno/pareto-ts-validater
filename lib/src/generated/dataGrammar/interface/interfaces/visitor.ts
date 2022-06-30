@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+import * as pr from "pareto-lang-lib"
 import * as api from "../../interface/types/ts_api"
 
 export type IVisitor<Annotation> = {

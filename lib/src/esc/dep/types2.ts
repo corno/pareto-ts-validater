@@ -1,8 +1,8 @@
-import * as pr from "pareto-runtime"
+import * as pa from "pareto-lang-api"
 
 export type LocalPart = {
-    dependencies: pr.IReadonlyDictionary<string>
-    devDependencies: pr.IReadonlyDictionary<string>
+    dependencies: pa.IReadonlyDictionary<string>
+    devDependencies: pa.IReadonlyDictionary<string>
     isPublic: boolean
     publishData: null | {
         contentFingerprint: string | null
@@ -13,5 +13,5 @@ export type LocalPart = {
 
 export type LocalProject = {
     gitClean: boolean
-    parts: pr.IReadonlyDictionary<null | LocalPart>
+    parts: pa.IReadonlyDictionary<null | LocalPart>
 }

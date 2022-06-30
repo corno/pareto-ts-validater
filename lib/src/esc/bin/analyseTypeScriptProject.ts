@@ -2,6 +2,7 @@
 
 import * as pr from "pareto-runtime"
 import * as pf from "pareto-filesystem"
+import * as pl from "pareto-lang-lib"
 
 import * as path from "path"
 import * as tsmorph from "ts-morph"
@@ -133,7 +134,7 @@ pr.runProgram(
                                             if ($.getChildCount() !== 1) {
                                                 onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `IN ESC: ${$.getKindName()}`)
                                             } else {
-                                                pr.cc($.getChildAtIndex(0), ($) => {
+                                                pl.cc($.getChildAtIndex(0), ($) => {
                                                     if ($.getKindName() !== "CallExpression") {
                                                         onError($, `UNEXECTED EXPRESSION STATEMENT`, `ESC: ${$.getKindName()}`)
                                                     }
@@ -160,7 +161,7 @@ pr.runProgram(
                                             if ($.getChildCount() !== 1) {
                                                 onError($, `UNEXPECTED EXPRESSION STATEMENT FORMAT`, `BIN: ${$.getKindName()}`)
                                             } else {
-                                                pr.cc($.getChildAtIndex(0), ($) => {
+                                                pl.cc($.getChildAtIndex(0), ($) => {
                                                     if ($.getKindName() !== "CallExpression") {
                                                         onError($, `UNEXECTED EXPRESSION STATEMENT`, `BIN: ${$.getKindName()}`)
                                                     }

@@ -1,4 +1,5 @@
 
+import * as pl from "pareto-lang-lib"
 import * as pr from "pareto-runtime"
 import * as creatorParser from "../../generated/creatorGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"
@@ -19,24 +20,24 @@ export function doCreator<Annotation>(
                             doAT($.clause, ($) => {
                                 switch ($[0]) {
                                     case "named":
-                                        pr.cc($[1], ($) => {
+                                        pl.cc($[1], ($) => {
                                         })
                                         break
                                     case "namespace":
-                                        pr.cc($[1], ($) => {
+                                        pl.cc($[1], ($) => {
                                             // if ($.content.content !== "pr") {
                                             //     onError($.content.annotation, `expected 'pr'`)
                                             // }
                                         })
                                         break
                                     default:
-                                        pr.au($[0])
+                                        pl.au($[0])
                                 }
                             })
                         })
                     })
                     $.globals.forEach(($) => {
-                        pr.log("!!!!!!!!!!!")
+                        pl.logDebugMessage("!!!!!!!!!!!")
                         doAT($, ($) => {
                             function startsWith(
                                 $: {

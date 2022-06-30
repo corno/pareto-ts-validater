@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+import * as pa from "pareto-lang-api"
 
 export type ReferencedProject = {
     latestVersion: string
@@ -11,8 +11,8 @@ export type Dependency = {
 
 export type Dependencies = {
     allDepsInSync: boolean
-    dependencies: pr.IReadonlyDictionary<Dependency>
-    devDependencies: pr.IReadonlyDictionary<Dependency>
+    dependencies: pa.IReadonlyDictionary<Dependency>
+    devDependencies: pa.IReadonlyDictionary<Dependency>
 }
 
 export type Part = {
@@ -42,11 +42,11 @@ export type Part = {
 
 export type Project = {
     gitClean: boolean
-    parts: pr.IReadonlyDictionary<Part>
+    parts: pa.IReadonlyDictionary<Part>
     isClean: boolean
 }
 
 export type ProjectStatusOverview = {
-    projects: pr.IReadonlyDictionary<Project>
-    referencedProjects: pr.IReadonlyDictionary<ReferencedProject>
+    projects: pa.IReadonlyDictionary<Project>
+    referencedProjects: pa.IReadonlyDictionary<ReferencedProject>
 }

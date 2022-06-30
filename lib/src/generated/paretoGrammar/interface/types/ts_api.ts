@@ -1,4 +1,4 @@
-import * as pr from "pareto-runtime"
+import * as pa from "pareto-lang-api"
 
 export type TAnnotatedString<Annotation> = { readonly "annotation": Annotation; readonly "value": string }
 export type TAnnotatedType<Annotation, Type> = { readonly "annotation": Annotation; readonly "content": Type }
@@ -69,7 +69,7 @@ export type TVGtype_typeLiteral$_properties$_name<Annotation> = TVTGtype_typeLit
 
 export type TNGtype_typeLiteral$_properties$_questionToken$<Annotation> = Annotation
 export type TVTGtype_typeLiteral$_properties$_questionToken<Annotation> = TNGtype_typeLiteral$_properties$_questionToken$<Annotation>
-export type TVGtype_typeLiteral$_properties$_questionToken<Annotation> = pr.optional<TVTGtype_typeLiteral$_properties$_questionToken<Annotation>>
+export type TVGtype_typeLiteral$_properties$_questionToken<Annotation> = pa.optional<TVTGtype_typeLiteral$_properties$_questionToken<Annotation>>
 export type TVTGtype_typeLiteral$_properties$_type<Annotation> = TGtype<Annotation>
 export type TVGtype_typeLiteral$_properties$_type<Annotation> = TVTGtype_typeLiteral$_properties$_type<Annotation>
 export type TVTGtype_typeLiteral$_properties$<Annotation> = {
@@ -86,7 +86,7 @@ export type TVGtype_typeLiteral$_properties<Annotation> = TVTGtype_typeLiteral$_
 export type TVTGtype_typeLiteral$<Annotation> =
     | [ "index", TVGtype_typeLiteral$_index<Annotation>]
     | [ "properties", TVGtype_typeLiteral$_properties<Annotation>]
-export type TVGtype_typeLiteral$<Annotation> = pr.optional<TVTGtype_typeLiteral$<Annotation>>
+export type TVGtype_typeLiteral$<Annotation> = pa.optional<TVTGtype_typeLiteral$<Annotation>>
 
 export type TNGtype_typeLiteral$<Annotation> = TAnnotatedType<Annotation, TVGtype_typeLiteral$<Annotation>>
 export type TVTGtype_typeLiteral<Annotation> = TNGtype_typeLiteral$<Annotation>
@@ -163,7 +163,7 @@ export type TVroot_imports$_clause$_namespace<Annotation> = TVTroot_imports$_cla
 export type TVTroot_imports$_clause$_named$$_name<Annotation> = TGidentifier<Annotation>
 export type TVroot_imports$_clause$_named$$_name<Annotation> = TVTroot_imports$_clause$_named$$_name<Annotation>
 export type TVTroot_imports$_clause$_named$$_as<Annotation> = TGidentifier<Annotation>
-export type TVroot_imports$_clause$_named$$_as<Annotation> = pr.optional<TVTroot_imports$_clause$_named$$_as<Annotation>>
+export type TVroot_imports$_clause$_named$$_as<Annotation> = pa.optional<TVTroot_imports$_clause$_named$$_as<Annotation>>
 export type TVTroot_imports$_clause$_named$$<Annotation> = {
     readonly "name":  TVroot_imports$_clause$_named$$_name<Annotation>
     readonly "as":  TVroot_imports$_clause$_named$$_as<Annotation>

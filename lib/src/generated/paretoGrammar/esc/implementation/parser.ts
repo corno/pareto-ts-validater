@@ -1,4 +1,5 @@
-import * as pr from "pareto-runtime"
+import * as pr from "pareto-lang-lib"
+import * as pa from "pareto-lang-api"
 import * as tast from "../../interface/types/ts_api"
 import * as uast from "../../interface/types/uast"
 
@@ -7,7 +8,7 @@ export function parse<Annotation>(
     $i: {
         callback: ($: tast.TRoot<Annotation>) => void,
         reportUnexpectedRoot: ($: { root: uast.TUntypedNode<Annotation>, }) => void,
-        reportUnexpectedChild: ($: { path: string, child: uast.TUntypedNode<Annotation>, expected: pr.optional<string[]> }) => void,
+        reportUnexpectedChild: ($: { path: string, child: uast.TUntypedNode<Annotation>, expected: pa.optional<string[]> }) => void,
         reportMissingToken: ($: { parentAnnotation: Annotation, path: string, kindNameOptions: string[], }) => void,
     },
 ): void {

@@ -1,3 +1,4 @@
+import * as pl from "pareto-lang-lib"
 import * as pr from "pareto-runtime"
 import { getData } from "./getData"
 
@@ -50,7 +51,7 @@ pr.runProgram(
                                             }
                                         case "unpublishable":
                                             return `${red}unpublishable${reset}`
-                                        default: return pr.au($3.status[0])
+                                        default: return pl.au($3.status[0])
                                     }
                                 }
                                 default: return ``
