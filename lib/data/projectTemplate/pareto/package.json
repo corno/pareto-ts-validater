@@ -9,7 +9,8 @@
     "pub-lib-patch": "./scripts/publish.sh patch lib",
     "pub-bin-min": "./scripts/publish.sh minor bin",
     "pub-bin-patch": "./scripts/publish.sh patch bin",
-    "update2latest": "./scripts/update2latest.sh"
+    "update2latestBuildEnvironment": "./scripts/update2latestBuildEnvironment.sh",
+    "update2latestDependencies": "./scripts/update2latestDependencies.sh"
   },
   "dependencies": {
     "npm-check-updates": "^14.1.1",
