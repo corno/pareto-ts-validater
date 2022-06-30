@@ -8,7 +8,7 @@ git push && \
 git diff --exit-code && \
 
 #make sure latest packages are installed
-#$dir/updatePackage.sh ../$2 && \
+$dir/updatePackage.sh ../$2 && \
 
 #validate that everything is committed
 git diff --exit-code && \
@@ -21,7 +21,6 @@ $dir/buildAndTest.sh && \
 #####$dir/analyseAllTypeScriptProjects.sh && \
 
 #bump version and store in variable
-echo $pwd && \
 pushd ../$2 > /dev/null && \
 newVersion=$(npm version "$1") && \
 popd && \
