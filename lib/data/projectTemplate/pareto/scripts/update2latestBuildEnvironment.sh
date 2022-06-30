@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-$dir/updatePackage.sh .
+./updatePackage.sh .
 
-$dir/copyTemplate.sh
+./copyTemplate.sh
