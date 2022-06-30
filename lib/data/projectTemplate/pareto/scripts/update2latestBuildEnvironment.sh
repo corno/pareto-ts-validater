@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
+dir=`realpath $(dirname "$0")`
 
-./updatePackage.sh .
+$dir/updatePackage.sh .
 
-./copyTemplate.sh
+$dir/copyTemplate.sh
