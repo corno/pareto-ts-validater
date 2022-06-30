@@ -21,6 +21,7 @@ $dir/buildAndTest.sh && \
 #####$dir/analyseAllTypeScriptProjects.sh && \
 
 #bump version and store in variable
+echo $pwd && \
 pushd ../$2 > /dev/null && \
 newVersion=$(npm version "$1") && \
 popd && \
