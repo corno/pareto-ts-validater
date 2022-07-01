@@ -13,6 +13,10 @@ $dir/updatePackage.sh ../$2 && \
 #buildAndTest
 $dir/buildAndTest.sh && \
 
+#validate that everything is still committed after the update and build
+git diff --exit-code && \
+
+
 #analyse
 #####$dir/analysePackage.sh && \
 #####$dir/analyseAllTypeScriptProjects.sh && \
