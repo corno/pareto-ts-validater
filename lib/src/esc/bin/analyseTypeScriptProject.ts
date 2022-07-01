@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as pr from "pareto-runtime"
-import * as pf from "pareto-filesystem"
+import * as pf from "pareto-filesystem-lib"
 import * as pl from "pareto-lang-lib"
 
 import * as path from "path"
