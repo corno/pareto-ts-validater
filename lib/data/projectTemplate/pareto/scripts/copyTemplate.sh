@@ -7,7 +7,7 @@ cp ./node_modules/pareto-ts-validator-lib/data/gitignore ../.gitignore \
 
 
 
-if [ -d "../$api/" ]
+if [ -d "../api/" ]
 then
     cp ./node_modules/pareto-ts-validator-lib/data/tsconfig.json ../api/
     cp ./node_modules/pareto-ts-validator-lib/data/_apiGlobals.ts ../api/src/
