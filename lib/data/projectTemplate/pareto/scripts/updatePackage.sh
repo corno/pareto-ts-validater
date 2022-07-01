@@ -2,8 +2,6 @@
 
 if [ -d $1 ]
 then
-    pushd $1 > /dev/null && \
-    npx ncu -u --packageFile package.json && \
-    npx nsi && \
-    popd
+    npx npm-check-updates -u --packageFile ../$1/package.json && \
+    npx npm-safe-install -t ../$1/
 fi
