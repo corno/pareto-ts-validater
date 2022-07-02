@@ -17,6 +17,7 @@ git diff --exit-code && git log origin/master..master --exit-code && \
 git diff --exit-code && \
 
 #bump version and store in variable
+echo $(pwd)
 pushd "../$2" > /dev/null && \
 newVersion=$(npm version "$1") && \
 popd && \
