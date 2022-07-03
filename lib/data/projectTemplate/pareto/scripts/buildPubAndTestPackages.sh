@@ -15,4 +15,4 @@ $scriptDir/buildPackage.sh $(pwd)/../test && \
 #bin
 $scriptDir/buildPackage.sh $(pwd)/../bin && \
 $scriptDir/setContentFingerprint.sh $(pwd)/../bin && \
-find ../bin/dist/esc/bin/* ../bin/dist/bin/* -name "*.js" -exec chmod 777 {} + 2> /dev/null
+find ../bin/dist/bin/* -name "*.js" -exec chmod 777 {} +
