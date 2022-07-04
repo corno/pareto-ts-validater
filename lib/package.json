@@ -18,6 +18,7 @@
     "pareto-lang-api": "^0.6.0",
     "pareto-lang-lib": "^0.8.0",
     "pareto-runtime": "^0.23.0",
+    "pareto-ts-validator-api": "^0.1.0",
     "ts-morph": "^15.1.0"
   },
   "devDependencies": {
@@ -28,5 +29,5 @@
     "data"
   ],
   "native": true,
-  "content-fingerprint": "0b56b57cac16db273ab326a8174fcb24fb3367de"
+  "content-fingerprint": "11d9cf16658cc29bc8f21ccca0cb83547600d72e"
 }
