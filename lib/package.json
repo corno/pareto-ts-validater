@@ -12,20 +12,20 @@
   },
   "dependencies": {
     "analyse-path": "^0.2.3",
-    "npm-check-updates": "^15.0.1",
+    "npm-check-updates": "^15.0.2",
     "npm-safe-install": "^1.1.0",
-    "pareto-filesystem-lib": "^0.13.0",
-    "pareto-lang-api": "^0.5.1",
-    "pareto-lang-lib": "^0.7.0",
+    "pareto-filesystem-lib": "^0.14.0",
+    "pareto-lang-api": "^0.6.0",
+    "pareto-lang-lib": "^0.8.0",
     "pareto-runtime": "^0.23.0",
     "ts-morph": "^15.1.0"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0"
+    "@types/node": "^18.0.1"
   },
   "files": [
     "dist",
     "data"
   ],
-  "content-fingerprint": "7685b54c158883773788bb44cbf472365a623bf5"
+  "content-fingerprint": "93fc98f916f739a00bfc72709c050123529c3fdb"
 }
