@@ -16,9 +16,7 @@ git diff --exit-code && git log origin/master..master --exit-code && \
 #validate that everything is still committed after the update and build
 git diff --exit-code && \
 
-
 #bump version and store in variable
-echo $(pwd) && \
 pushd "../$2" > /dev/null && \
 newVersion=$(npm version "$1") && \
 popd && \

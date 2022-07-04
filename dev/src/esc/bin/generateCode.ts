@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as pr from "pareto-runtime"
-import * as pf from "pareto-filesystem"
+import * as pf from "pareto-filesystem-lib"
 import * as gta from "generate-typesafe-ast"
 import { _dataGrammar } from "../../data/dataGrammar"
 import { _creatorGrammar } from "../../data/creatorGrammar"
