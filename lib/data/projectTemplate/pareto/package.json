@@ -12,14 +12,19 @@
     "api-pub-min": "./scripts/publish.sh minor api",
 
     "bin-update-dependencies": "./scripts/updatePackage.sh bin",
-    "bin is changed": "./scripts/isPackageChanged.sh lib",
+    "bin is changed": "./scripts/isPackageChanged.sh bin",
     "bin-pub-patch": "./scripts/publish.sh patch bin",
     "bin-pub-min": "./scripts/publish.sh minor bin",
 
     "lib-update-dependencies": "./scripts/updatePackage.sh lib",
-    "lib is changed": "./scripts/isPackageChanged.sh bin",
+    "lib is changed": "./scripts/isPackageChanged.sh lib",
     "lib-pub-patch": "./scripts/publish.sh patch lib",
     "lib-pub-min": "./scripts/publish.sh minor lib",
+
+    "res-update-dependencies": "./scripts/updatePackage.sh res",
+    "res is changed": "./scripts/isPackageChanged.sh res",
+    "res-pub-patch": "./scripts/publish.sh patch res",
+    "res-pub-min": "./scripts/publish.sh minor res",
 
     "test-update-dependencies": "./scripts/updatePackage.sh test",
 
