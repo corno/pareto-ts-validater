@@ -14,9 +14,7 @@
     "analyse-path": "^0.2.3",
     "npm-check-updates": "^15.2.1",
     "npm-safe-install": "^1.1.0",
-    "pareto-filesystem-lib": "^0.22.0",
-    "pareto-lang-api": "^0.6.0",
-    "pareto-lang-lib": "^0.8.0",
+    "pareto-filesystem-res": "^0.22.0",
     "pareto-runtime": "^0.24.0",
     "pareto-ts-validator-api": "^0.1.0",
     "ts-morph": "^15.1.0"
@@ -29,5 +27,5 @@
     "data"
   ],
   "native": true,
-  "content-fingerprint": "3e8e70f941d477b482e1ad4144e0c5303d75961e"
+  "content-fingerprint": "b1de563579d0cd65393bc9e7be1746bd85fa8075"
 }
