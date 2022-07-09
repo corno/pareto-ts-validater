@@ -8,8 +8,7 @@
 /dev/node_modules/
 /lib/dist/
 /lib/node_modules/
-
-
+/lib/src/generated/
 /pareto/node_modules/
 /res/dist/
 /res/node_modules/
