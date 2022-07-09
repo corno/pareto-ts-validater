@@ -11,8 +11,8 @@
     "analyseTypeScriptProject": "dist/esc/bin/analyseTypeScriptProject.js"
   },
   "dependencies": {
-    "analyse-path": "^0.2.3",
-    "npm-check-updates": "^15.2.2",
+    "analyse-path-lib": "^0.3.0",
+    "npm-check-updates": "^15.2.5",
     "npm-safe-install": "^1.1.0",
     "pareto-filesystem-res": "^0.25.0",
     "pareto-runtime": "^0.25.0",
@@ -27,5 +27,5 @@
     "data"
   ],
   "native": true,
-  "content-fingerprint": "9457a75018626849b0c6127f591d394c5b04c630"
+  "content-fingerprint": "6244b872ff7f9b68be3d8b6032f4821a5ac83f4b"
 }

@@ -1,6 +1,6 @@
 import * as pr from "pareto-lib-core"
 import { readGitRepoWithLineCounts } from "../../modules/git/esc/implementation/readGitRepoWithLineCounts"
-import * as ap from "analyse-path"
+import * as ap from "analyse-path-lib"
 import { _paretoProject } from "../../data/paretoProject"
 
 export function analyseGitRepo(

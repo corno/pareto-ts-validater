@@ -1,4 +1,4 @@
-import * as ap from "analyse-path"
+import * as ap from "analyse-path-lib"
 export const _tsDir: ap.TDirectory = {
     'type': ["files dictionary", {
         'allow missing extension': false,
