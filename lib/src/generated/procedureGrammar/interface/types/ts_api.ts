@@ -1,11 +1,11 @@
-import * as pa from "pareto-api-core"
+import * as pr from "pareto-runtime"
 
 export type TAnnotatedString<Annotation> = { readonly "annotation": Annotation; readonly "value": string }
 export type TAnnotatedType<Annotation, Type> = { readonly "annotation": Annotation; readonly "content": Type }
 export type TVTGblock$_variables$$$_name<Annotation> = TGidentifier<Annotation>
 export type TVGblock$_variables$$$_name<Annotation> = TVTGblock$_variables$$$_name<Annotation>
 export type TVTGblock$_variables$$$_type<Annotation> = TGtype<Annotation>
-export type TVGblock$_variables$$$_type<Annotation> = pa.optional<TVTGblock$_variables$$$_type<Annotation>>
+export type TVGblock$_variables$$$_type<Annotation> = pr.optional<TVTGblock$_variables$$$_type<Annotation>>
 export type TVTGblock$_variables$$$_initialization<Annotation> = TGinitialization<Annotation>
 export type TVGblock$_variables$$$_initialization<Annotation> = TVTGblock$_variables$$$_initialization<Annotation>
 export type TVTGblock$_variables$$$<Annotation> = {
@@ -78,9 +78,9 @@ export type TVGblock$_statements_expressionStatement$_call$_selection<Annotation
 export type TVTGblock$_statements_expressionStatement$_call$_dataArgument<Annotation> = TGinitialization<Annotation>
 export type TVGblock$_statements_expressionStatement$_call$_dataArgument<Annotation> = TVTGblock$_statements_expressionStatement$_call$_dataArgument<Annotation>
 export type TVTGblock$_statements_expressionStatement$_call$_callbackArgument<Annotation> = TGinitialization<Annotation>
-export type TVGblock$_statements_expressionStatement$_call$_callbackArgument<Annotation> = pa.optional<TVTGblock$_statements_expressionStatement$_call$_callbackArgument<Annotation>>
+export type TVGblock$_statements_expressionStatement$_call$_callbackArgument<Annotation> = pr.optional<TVTGblock$_statements_expressionStatement$_call$_callbackArgument<Annotation>>
 export type TVTGblock$_statements_expressionStatement$_call$_thirdArgument<Annotation> = TGinitialization<Annotation>
-export type TVGblock$_statements_expressionStatement$_call$_thirdArgument<Annotation> = pa.optional<TVTGblock$_statements_expressionStatement$_call$_thirdArgument<Annotation>>
+export type TVGblock$_statements_expressionStatement$_call$_thirdArgument<Annotation> = pr.optional<TVTGblock$_statements_expressionStatement$_call$_thirdArgument<Annotation>>
 export type TVTGblock$_statements_expressionStatement$_call$<Annotation> = {
     readonly "selection":  TVGblock$_statements_expressionStatement$_call$_selection<Annotation>
     readonly "dataArgument":  TVGblock$_statements_expressionStatement$_call$_dataArgument<Annotation>
@@ -105,7 +105,7 @@ export type TVGblock$_statements_ifStatement$_expression<Annotation> = TVTGblock
 export type TVTGblock$_statements_ifStatement$_then<Annotation> = TGblock<Annotation>
 export type TVGblock$_statements_ifStatement$_then<Annotation> = TVTGblock$_statements_ifStatement$_then<Annotation>
 export type TVTGblock$_statements_ifStatement$_else<Annotation> = TGblock<Annotation>
-export type TVGblock$_statements_ifStatement$_else<Annotation> = pa.optional<TVTGblock$_statements_ifStatement$_else<Annotation>>
+export type TVGblock$_statements_ifStatement$_else<Annotation> = pr.optional<TVTGblock$_statements_ifStatement$_else<Annotation>>
 export type TVTGblock$_statements_ifStatement$<Annotation> = {
     readonly "expression":  TVGblock$_statements_ifStatement$_expression<Annotation>
     readonly "then":  TVGblock$_statements_ifStatement$_then<Annotation>
@@ -222,7 +222,7 @@ export type TNGinterface_function$_dataParameter$<Annotation> = TAnnotatedType<A
 export type TVTGinterface_function$_dataParameter<Annotation> = TNGinterface_function$_dataParameter$<Annotation>
 export type TVGinterface_function$_dataParameter<Annotation> = TVTGinterface_function$_dataParameter<Annotation>
 export type TVTGinterface_function$_callbackParameter<Annotation> = TGcallback<Annotation>
-export type TVGinterface_function$_callbackParameter<Annotation> = pa.optional<TVTGinterface_function$_callbackParameter<Annotation>>
+export type TVGinterface_function$_callbackParameter<Annotation> = pr.optional<TVTGinterface_function$_callbackParameter<Annotation>>
 
 export type TNGinterface_function$_void$<Annotation> = Annotation
 export type TVTGinterface_function$_void<Annotation> = TNGinterface_function$_void$<Annotation>
@@ -248,9 +248,9 @@ export type TVGinterface_typeLiteral$$_name<Annotation> = TVTGinterface_typeLite
 
 export type TNGinterface_typeLiteral$$_questionToken$<Annotation> = Annotation
 export type TVTGinterface_typeLiteral$$_questionToken<Annotation> = TNGinterface_typeLiteral$$_questionToken$<Annotation>
-export type TVGinterface_typeLiteral$$_questionToken<Annotation> = pa.optional<TVTGinterface_typeLiteral$$_questionToken<Annotation>>
+export type TVGinterface_typeLiteral$$_questionToken<Annotation> = pr.optional<TVTGinterface_typeLiteral$$_questionToken<Annotation>>
 export type TVTGinterface_typeLiteral$$_type<Annotation> = TGinterface<Annotation>
-export type TVGinterface_typeLiteral$$_type<Annotation> = pa.optional<TVTGinterface_typeLiteral$$_type<Annotation>>
+export type TVGinterface_typeLiteral$$_type<Annotation> = pr.optional<TVTGinterface_typeLiteral$$_type<Annotation>>
 export type TVTGinterface_typeLiteral$$<Annotation> = {
     readonly "readonly":  TVGinterface_typeLiteral$$_readonly<Annotation>
     readonly "name":  TVGinterface_typeLiteral$$_name<Annotation>
@@ -342,11 +342,11 @@ export type TNGinitialization_binaryExpression$<Annotation> = TAnnotatedType<Ann
 export type TVTGinitialization_binaryExpression<Annotation> = TNGinitialization_binaryExpression$<Annotation>
 export type TVGinitialization_binaryExpression<Annotation> = TVTGinitialization_binaryExpression<Annotation>
 export type TVTGinitialization_functionImplementation$_dataParameter<Annotation> = TGtypelessParameter<Annotation>
-export type TVGinitialization_functionImplementation$_dataParameter<Annotation> = pa.optional<TVTGinitialization_functionImplementation$_dataParameter<Annotation>>
+export type TVGinitialization_functionImplementation$_dataParameter<Annotation> = pr.optional<TVTGinitialization_functionImplementation$_dataParameter<Annotation>>
 export type TVTGinitialization_functionImplementation$_interfaceParameter<Annotation> = TGtypelessParameter<Annotation>
-export type TVGinitialization_functionImplementation$_interfaceParameter<Annotation> = pa.optional<TVTGinitialization_functionImplementation$_interfaceParameter<Annotation>>
+export type TVGinitialization_functionImplementation$_interfaceParameter<Annotation> = pr.optional<TVTGinitialization_functionImplementation$_interfaceParameter<Annotation>>
 export type TVTGinitialization_functionImplementation$_callbackParameter<Annotation> = TGtypelessParameter<Annotation>
-export type TVGinitialization_functionImplementation$_callbackParameter<Annotation> = pa.optional<TVTGinitialization_functionImplementation$_callbackParameter<Annotation>>
+export type TVGinitialization_functionImplementation$_callbackParameter<Annotation> = pr.optional<TVTGinitialization_functionImplementation$_callbackParameter<Annotation>>
 
 export type TNGinitialization_functionImplementation$_equalsGreaterThan$<Annotation> = Annotation
 export type TVTGinitialization_functionImplementation$_equalsGreaterThan<Annotation> = TNGinitialization_functionImplementation$_equalsGreaterThan$<Annotation>
@@ -477,7 +477,7 @@ export type TNGparameterTriplet_interfaceParameter$<Annotation> = TAnnotatedType
 export type TVTGparameterTriplet_interfaceParameter<Annotation> = TNGparameterTriplet_interfaceParameter$<Annotation>
 export type TVGparameterTriplet_interfaceParameter<Annotation> = TVTGparameterTriplet_interfaceParameter<Annotation>
 export type TVTGparameterTriplet_callbackParameter<Annotation> = TGcallback<Annotation>
-export type TVGparameterTriplet_callbackParameter<Annotation> = pa.optional<TVTGparameterTriplet_callbackParameter<Annotation>>
+export type TVGparameterTriplet_callbackParameter<Annotation> = pr.optional<TVTGparameterTriplet_callbackParameter<Annotation>>
 export type TVTGparameterTriplet<Annotation> = {
     readonly "dataParameter":  TVGparameterTriplet_dataParameter<Annotation>
     readonly "interfaceParameter":  TVGparameterTriplet_interfaceParameter<Annotation>
@@ -607,7 +607,7 @@ export type TVGtype_typeLiteral$_properties$_name<Annotation> = TVTGtype_typeLit
 
 export type TNGtype_typeLiteral$_properties$_questionToken$<Annotation> = Annotation
 export type TVTGtype_typeLiteral$_properties$_questionToken<Annotation> = TNGtype_typeLiteral$_properties$_questionToken$<Annotation>
-export type TVGtype_typeLiteral$_properties$_questionToken<Annotation> = pa.optional<TVTGtype_typeLiteral$_properties$_questionToken<Annotation>>
+export type TVGtype_typeLiteral$_properties$_questionToken<Annotation> = pr.optional<TVTGtype_typeLiteral$_properties$_questionToken<Annotation>>
 export type TVTGtype_typeLiteral$_properties$_type<Annotation> = TGtype<Annotation>
 export type TVGtype_typeLiteral$_properties$_type<Annotation> = TVTGtype_typeLiteral$_properties$_type<Annotation>
 export type TVTGtype_typeLiteral$_properties$<Annotation> = {
@@ -624,7 +624,7 @@ export type TVGtype_typeLiteral$_properties<Annotation> = TVTGtype_typeLiteral$_
 export type TVTGtype_typeLiteral$<Annotation> =
     | [ "index", TVGtype_typeLiteral$_index<Annotation>]
     | [ "properties", TVGtype_typeLiteral$_properties<Annotation>]
-export type TVGtype_typeLiteral$<Annotation> = pa.optional<TVTGtype_typeLiteral$<Annotation>>
+export type TVGtype_typeLiteral$<Annotation> = pr.optional<TVTGtype_typeLiteral$<Annotation>>
 
 export type TNGtype_typeLiteral$<Annotation> = TAnnotatedType<Annotation, TVGtype_typeLiteral$<Annotation>>
 export type TVTGtype_typeLiteral<Annotation> = TNGtype_typeLiteral$<Annotation>
@@ -707,7 +707,7 @@ export type TVroot_imports$_clause$_namespace<Annotation> = TVTroot_imports$_cla
 export type TVTroot_imports$_clause$_named$$_name<Annotation> = TGidentifier<Annotation>
 export type TVroot_imports$_clause$_named$$_name<Annotation> = TVTroot_imports$_clause$_named$$_name<Annotation>
 export type TVTroot_imports$_clause$_named$$_as<Annotation> = TGidentifier<Annotation>
-export type TVroot_imports$_clause$_named$$_as<Annotation> = pa.optional<TVTroot_imports$_clause$_named$$_as<Annotation>>
+export type TVroot_imports$_clause$_named$$_as<Annotation> = pr.optional<TVTroot_imports$_clause$_named$$_as<Annotation>>
 export type TVTroot_imports$_clause$_named$$<Annotation> = {
     readonly "name":  TVroot_imports$_clause$_named$$_name<Annotation>
     readonly "as":  TVroot_imports$_clause$_named$$_as<Annotation>

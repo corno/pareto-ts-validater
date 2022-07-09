@@ -1,4 +1,4 @@
-import * as pr from "pareto-lib-core"
+import * as pr from "pareto-runtime"
 import * as f from "../../interface/interfaces/visitor"
 
 export function createDefaultVisistor(): f.IVisitor<string> {

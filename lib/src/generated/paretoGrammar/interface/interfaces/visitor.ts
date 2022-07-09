@@ -1,5 +1,5 @@
-import * as pr from "pareto-lib-core"
-import * as api from "../types/ts_api"
+import * as pr from "pareto-runtime"
+import * as api from "../../interface/types/ts_api"
 
 export type IVisitor<Annotation> = {
     readonly "$identifier/*Identifier"?: ($: api.TNGidentifier$<Annotation>) => void

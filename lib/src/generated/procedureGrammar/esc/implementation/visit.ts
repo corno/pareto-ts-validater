@@ -1,4 +1,4 @@
-import * as pl from "pareto-lib-core"
+import * as pr from "pareto-runtime"
 import * as api from "../../interface/types/ts_api"
 import * as foox from "../../interface/interfaces/visitor"
 
@@ -13,35 +13,35 @@ export function visit<Annotation>(
             $: api.TNGblock$<Annotation>,
         ) => {
             if (foo["$block/*Block"] !== undefined) { foo["$block/*Block"].begin($) }
-            pl.cc($.content, ($) => {
-                pl.cc($["variables"], ($) => {
+            pr.cc($.content, ($) => {
+                pr.cc($["variables"], ($) => {
                     $.forEach(($) => {
                         ((
                             $: api.TNGblock$_variables$<Annotation>,
                         ) => {
                             if (foo["$block/*Block/.variables/*VariableStatement"] !== undefined) { foo["$block/*Block/.variables/*VariableStatement"].begin($) }
-                            pl.cc($.content, ($) => {
+                            pr.cc($.content, ($) => {
                                 ((
                                     $: api.TNGblock$_variables$$<Annotation>,
                                 ) => {
                                     if (foo["$block/*Block/.variables/*VariableStatement/*VariableDeclarationList"] !== undefined) { foo["$block/*Block/.variables/*VariableStatement/*VariableDeclarationList"].begin($) }
-                                    pl.cc($.content, ($) => {
+                                    pr.cc($.content, ($) => {
                                         ((
                                             $: api.TNGblock$_variables$$$<Annotation>,
                                         ) => {
                                             if (foo["$block/*Block/.variables/*VariableStatement/*VariableDeclarationList/*VariableDeclaration"] !== undefined) { foo["$block/*Block/.variables/*VariableStatement/*VariableDeclarationList/*VariableDeclaration"].begin($) }
-                                            pl.cc($.content, ($) => {
-                                                pl.cc($["name"], ($) => {
+                                            pr.cc($.content, ($) => {
+                                                pr.cc($["name"], ($) => {
                                                     X_identifier($)
                                                 })
-                                                pl.cc($["type"], ($) => {
+                                                pr.cc($["type"], ($) => {
                                                     if ($ === null) {
                                                         //FIXME??
                                                     } else {
                                                         X_type($)
                                                     }
                                                 })
-                                                pl.cc($["initialization"], ($) => {
+                                                pr.cc($["initialization"], ($) => {
                                                     X_initialization($)
                                                 })
                                             })
@@ -55,27 +55,27 @@ export function visit<Annotation>(
                         })($)
                     })
                 })
-                pl.cc($["nestedProcedures"], ($) => {
+                pr.cc($["nestedProcedures"], ($) => {
                     $.forEach(($) => {
                         ((
                             $: api.TNGblock$_nestedProcedures$<Annotation>,
                         ) => {
                             if (foo["$block/*Block/.nestedProcedures/*FunctionDeclaration"] !== undefined) { foo["$block/*Block/.nestedProcedures/*FunctionDeclaration"].begin($) }
-                            pl.cc($.content, ($) => {
-                                pl.cc($["name"], ($) => {
+                            pr.cc($.content, ($) => {
+                                pr.cc($["name"], ($) => {
                                     X_identifier($)
                                 })
-                                pl.cc($["parameters"], ($) => {
+                                pr.cc($["parameters"], ($) => {
                                     X_parameterTriplet($)
                                 })
-                                pl.cc($["void"], ($) => {
+                                pr.cc($["void"], ($) => {
                                     ((
                                         $: api.TNGblock$_nestedProcedures$_void$<Annotation>,
                                     ) => {
                                         if (foo["$block/*Block/.nestedProcedures/*FunctionDeclaration/.void/*VoidKeyword"] !== undefined) { foo["$block/*Block/.nestedProcedures/*FunctionDeclaration/.void/*VoidKeyword"]($) }
                                     })($)
                                 })
-                                pl.cc($["block"], ($) => {
+                                pr.cc($["block"], ($) => {
                                     X_block($)
                                 })
                             })
@@ -83,31 +83,31 @@ export function visit<Annotation>(
                         })($)
                     })
                 })
-                pl.cc($["statements"], ($) => {
+                pr.cc($["statements"], ($) => {
                     $.forEach(($) => {
                         switch ($[0]) {
                             case "expressionStatement": {
-                                pl.cc($[1], ($) => {
+                                pr.cc($[1], ($) => {
                                     ((
                                         $: api.TNGblock$_statements_expressionStatement$<Annotation>,
                                     ) => {
                                         if (foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement"] !== undefined) { foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement"].begin($) }
-                                        pl.cc($.content, ($) => {
+                                        pr.cc($.content, ($) => {
                                             switch ($[0]) {
                                                 case "binaryExpression": {
-                                                    pl.cc($[1], ($) => {
+                                                    pr.cc($[1], ($) => {
                                                         ((
                                                             $: api.TNGblock$_statements_expressionStatement$_binaryExpression$<Annotation>,
                                                         ) => {
                                                             if (foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement/?binaryExpression/*BinaryExpression"] !== undefined) { foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement/?binaryExpression/*BinaryExpression"].begin($) }
-                                                            pl.cc($.content, ($) => {
-                                                                pl.cc($["referencedVariable"], ($) => {
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["referencedVariable"], ($) => {
                                                                     X_identifier($)
                                                                 })
-                                                                pl.cc($["operator"], ($) => {
+                                                                pr.cc($["operator"], ($) => {
                                                                     switch ($[0]) {
                                                                         case "equalsToken": {
-                                                                            pl.cc($[1], ($) => {
+                                                                            pr.cc($[1], ($) => {
                                                                                 ((
                                                                                     $: api.TNGblock$_statements_expressionStatement$_binaryExpression$_operator_equalsToken$<Annotation>,
                                                                                 ) => {
@@ -117,7 +117,7 @@ export function visit<Annotation>(
                                                                             break
                                                                         }
                                                                         case "plusEqualsToken": {
-                                                                            pl.cc($[1], ($) => {
+                                                                            pr.cc($[1], ($) => {
                                                                                 ((
                                                                                     $: api.TNGblock$_statements_expressionStatement$_binaryExpression$_operator_plusEqualsToken$<Annotation>,
                                                                                 ) => {
@@ -126,10 +126,10 @@ export function visit<Annotation>(
                                                                             })
                                                                             break
                                                                         }
-                                                                        default: pl.au($[0])
+                                                                        default: pr.au($[0])
                                                                     }
                                                                 })
-                                                                pl.cc($["initializer"], ($) => {
+                                                                pr.cc($["initializer"], ($) => {
                                                                     X_initialization($)
                                                                 })
                                                             })
@@ -139,26 +139,26 @@ export function visit<Annotation>(
                                                     break
                                                 }
                                                 case "call": {
-                                                    pl.cc($[1], ($) => {
+                                                    pr.cc($[1], ($) => {
                                                         ((
                                                             $: api.TNGblock$_statements_expressionStatement$_call$<Annotation>,
                                                         ) => {
                                                             if (foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement/?call/*CallExpression"] !== undefined) { foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement/?call/*CallExpression"].begin($) }
-                                                            pl.cc($.content, ($) => {
-                                                                pl.cc($["selection"], ($) => {
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["selection"], ($) => {
                                                                     X_selection($)
                                                                 })
-                                                                pl.cc($["dataArgument"], ($) => {
+                                                                pr.cc($["dataArgument"], ($) => {
                                                                     X_initialization($)
                                                                 })
-                                                                pl.cc($["callbackArgument"], ($) => {
+                                                                pr.cc($["callbackArgument"], ($) => {
                                                                     if ($ === null) {
                                                                         //FIXME??
                                                                     } else {
                                                                         X_initialization($)
                                                                     }
                                                                 })
-                                                                pl.cc($["thirdArgument"], ($) => {
+                                                                pr.cc($["thirdArgument"], ($) => {
                                                                     if ($ === null) {
                                                                         //FIXME??
                                                                     } else {
@@ -171,7 +171,7 @@ export function visit<Annotation>(
                                                     })
                                                     break
                                                 }
-                                                default: pl.au($[0])
+                                                default: pr.au($[0])
                                             }
                                         })
                                         if (foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement"] !== undefined) { foo["$block/*Block/.statements/?expressionStatement/*ExpressionStatement"].end($) }
@@ -180,19 +180,19 @@ export function visit<Annotation>(
                                 break
                             }
                             case "ifStatement": {
-                                pl.cc($[1], ($) => {
+                                pr.cc($[1], ($) => {
                                     ((
                                         $: api.TNGblock$_statements_ifStatement$<Annotation>,
                                     ) => {
                                         if (foo["$block/*Block/.statements/?ifStatement/*IfStatement"] !== undefined) { foo["$block/*Block/.statements/?ifStatement/*IfStatement"].begin($) }
-                                        pl.cc($.content, ($) => {
-                                            pl.cc($["expression"], ($) => {
+                                        pr.cc($.content, ($) => {
+                                            pr.cc($["expression"], ($) => {
                                                 X_booleanExpression($)
                                             })
-                                            pl.cc($["then"], ($) => {
+                                            pr.cc($["then"], ($) => {
                                                 X_block($)
                                             })
-                                            pl.cc($["else"], ($) => {
+                                            pr.cc($["else"], ($) => {
                                                 if ($ === null) {
                                                     //FIXME??
                                                 } else {
@@ -205,7 +205,7 @@ export function visit<Annotation>(
                                 })
                                 break
                             }
-                            default: pl.au($[0])
+                            default: pr.au($[0])
                         }
                     })
                 })
@@ -218,19 +218,19 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "binaryExpression": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGbooleanExpression_binaryExpression$<Annotation>,
                     ) => {
                         if (foo["$booleanExpression/?binaryExpression/*BinaryExpression"] !== undefined) { foo["$booleanExpression/?binaryExpression/*BinaryExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["left"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["left"], ($) => {
                                 X_identifier($)
                             })
-                            pl.cc($["operator"], ($) => {
+                            pr.cc($["operator"], ($) => {
                                 switch ($[0]) {
                                     case "notEqual": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             ((
                                                 $: api.TNGbooleanExpression_binaryExpression$_operator_notEqual$<Annotation>,
                                             ) => {
@@ -239,10 +239,10 @@ export function visit<Annotation>(
                                         })
                                         break
                                     }
-                                    default: pl.au($[0])
+                                    default: pr.au($[0])
                                 }
                             })
-                            pl.cc($["right"], ($) => {
+                            pr.cc($["right"], ($) => {
                                 ((
                                     $: api.TNGbooleanExpression_binaryExpression$_right$<Annotation>,
                                 ) => {
@@ -256,13 +256,13 @@ export function visit<Annotation>(
                 break
             }
             case "prefixUnaryExpression": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGbooleanExpression_prefixUnaryExpression$<Annotation>,
                     ) => {
                         if (foo["$booleanExpression/?prefixUnaryExpression/*PrefixUnaryExpression"] !== undefined) { foo["$booleanExpression/?prefixUnaryExpression/*PrefixUnaryExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["data"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["data"], ($) => {
                                 X_initialization($)
                             })
                         })
@@ -271,7 +271,7 @@ export function visit<Annotation>(
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_callback(
@@ -281,33 +281,33 @@ export function visit<Annotation>(
             $: api.TNGcallback$<Annotation>,
         ) => {
             if (foo["$callback/*Parameter"] !== undefined) { foo["$callback/*Parameter"].begin($) }
-            pl.cc($.content, ($) => {
-                pl.cc($["name"], ($) => {
+            pr.cc($.content, ($) => {
+                pr.cc($["name"], ($) => {
                     X_identifier($)
                 })
-                pl.cc($["type"], ($) => {
+                pr.cc($["type"], ($) => {
                     ((
                         $: api.TNGcallback$_type$<Annotation>,
                     ) => {
                         if (foo["$callback/*Parameter/.type/*FunctionType"] !== undefined) { foo["$callback/*Parameter/.type/*FunctionType"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["parameter"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["parameter"], ($) => {
                                 ((
                                     $: api.TNGcallback$_type$_parameter$<Annotation>,
                                 ) => {
                                     if (foo["$callback/*Parameter/.type/*FunctionType/.parameter/*Parameter"] !== undefined) { foo["$callback/*Parameter/.type/*FunctionType/.parameter/*Parameter"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["name"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["name"], ($) => {
                                             X_identifier($)
                                         })
-                                        pl.cc($["type"], ($) => {
+                                        pr.cc($["type"], ($) => {
                                             X_interface($)
                                         })
                                     })
                                     if (foo["$callback/*Parameter/.type/*FunctionType/.parameter/*Parameter"] !== undefined) { foo["$callback/*Parameter/.type/*FunctionType/.parameter/*Parameter"].end($) }
                                 })($)
                             })
-                            pl.cc($["void"], ($) => {
+                            pr.cc($["void"], ($) => {
                                 ((
                                     $: api.TNGcallback$_type$_void$<Annotation>,
                                 ) => {
@@ -336,36 +336,36 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "function": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinterface_function$<Annotation>,
                     ) => {
                         if (foo["$interface/?function/*FunctionType"] !== undefined) { foo["$interface/?function/*FunctionType"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["dataParameter"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["dataParameter"], ($) => {
                                 ((
                                     $: api.TNGinterface_function$_dataParameter$<Annotation>,
                                 ) => {
                                     if (foo["$interface/?function/*FunctionType/.dataParameter/*Parameter"] !== undefined) { foo["$interface/?function/*FunctionType/.dataParameter/*Parameter"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["name"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["name"], ($) => {
                                             X_identifier($)
                                         })
-                                        pl.cc($["type"], ($) => {
+                                        pr.cc($["type"], ($) => {
                                             X_type($)
                                         })
                                     })
                                     if (foo["$interface/?function/*FunctionType/.dataParameter/*Parameter"] !== undefined) { foo["$interface/?function/*FunctionType/.dataParameter/*Parameter"].end($) }
                                 })($)
                             })
-                            pl.cc($["callbackParameter"], ($) => {
+                            pr.cc($["callbackParameter"], ($) => {
                                 if ($ === null) {
                                     //FIXME??
                                 } else {
                                     X_callback($)
                                 }
                             })
-                            pl.cc($["void"], ($) => {
+                            pr.cc($["void"], ($) => {
                                 ((
                                     $: api.TNGinterface_function$_void$<Annotation>,
                                 ) => {
@@ -379,33 +379,33 @@ export function visit<Annotation>(
                 break
             }
             case "typeLiteral": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinterface_typeLiteral$<Annotation>,
                     ) => {
                         if (foo["$interface/?typeLiteral/*TypeLiteral"] !== undefined) { foo["$interface/?typeLiteral/*TypeLiteral"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             $.forEach(($) => {
                                 ((
                                     $: api.TNGinterface_typeLiteral$$<Annotation>,
                                 ) => {
                                     if (foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature"] !== undefined) { foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["readonly"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["readonly"], ($) => {
                                             ((
                                                 $: api.TNGinterface_typeLiteral$$_readonly$<Annotation>,
                                             ) => {
                                                 if (foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature/.readonly/*ReadonlyKeyword"] !== undefined) { foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature/.readonly/*ReadonlyKeyword"]($) }
                                             })($)
                                         })
-                                        pl.cc($["name"], ($) => {
+                                        pr.cc($["name"], ($) => {
                                             ((
                                                 $: api.TNGinterface_typeLiteral$$_name$<Annotation>,
                                             ) => {
                                                 if (foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature/.name/*StringLiteral"] !== undefined) { foo["$interface/?typeLiteral/*TypeLiteral/*PropertySignature/.name/*StringLiteral"]($) }
                                             })($)
                                         })
-                                        pl.cc($["questionToken"], ($) => {
+                                        pr.cc($["questionToken"], ($) => {
                                             if ($ === null) {
                                                 //FIXME??
                                             } else {
@@ -416,7 +416,7 @@ export function visit<Annotation>(
                                                 })($)
                                             }
                                         })
-                                        pl.cc($["type"], ($) => {
+                                        pr.cc($["type"], ($) => {
                                             if ($ === null) {
                                                 //FIXME??
                                             } else {
@@ -434,16 +434,16 @@ export function visit<Annotation>(
                 break
             }
             case "typeReference": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinterface_typeReference$<Annotation>,
                     ) => {
                         if (foo["$interface/?typeReference/*TypeReference"] !== undefined) { foo["$interface/?typeReference/*TypeReference"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["name"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["name"], ($) => {
                                 X_identifier($)
                             })
-                            pl.cc($["parameters"], ($) => {
+                            pr.cc($["parameters"], ($) => {
                                 $.forEach(($) => {
                                     X_type($)
                                 })
@@ -454,7 +454,7 @@ export function visit<Annotation>(
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_initialization(
@@ -462,33 +462,33 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "temlateExpression": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinitialization_temlateExpression$<Annotation>,
                     ) => {
                         if (foo["$initialization/?temlateExpression/*TemplateExpression"] !== undefined) { foo["$initialization/?temlateExpression/*TemplateExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["head"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["head"], ($) => {
                                 ((
                                     $: api.TNGinitialization_temlateExpression$_head$<Annotation>,
                                 ) => {
                                     if (foo["$initialization/?temlateExpression/*TemplateExpression/.head/*TemplateHead"] !== undefined) { foo["$initialization/?temlateExpression/*TemplateExpression/.head/*TemplateHead"]($) }
                                 })($)
                             })
-                            pl.cc($["span"], ($) => {
+                            pr.cc($["span"], ($) => {
                                 $.forEach(($) => {
                                     ((
                                         $: api.TNGinitialization_temlateExpression$_span$<Annotation>,
                                     ) => {
                                         if (foo["$initialization/?temlateExpression/*TemplateExpression/.span/*TemplateSpan"] !== undefined) { foo["$initialization/?temlateExpression/*TemplateExpression/.span/*TemplateSpan"].begin($) }
-                                        pl.cc($.content, ($) => {
-                                            pl.cc($["expression"], ($) => {
+                                        pr.cc($.content, ($) => {
+                                            pr.cc($["expression"], ($) => {
                                                 X_initialization($)
                                             })
-                                            pl.cc($["x"], ($) => {
+                                            pr.cc($["x"], ($) => {
                                                 switch ($[0]) {
                                                     case "middle": {
-                                                        pl.cc($[1], ($) => {
+                                                        pr.cc($[1], ($) => {
                                                             ((
                                                                 $: api.TNGinitialization_temlateExpression$_span$_x_middle$<Annotation>,
                                                             ) => {
@@ -498,7 +498,7 @@ export function visit<Annotation>(
                                                         break
                                                     }
                                                     case "tail": {
-                                                        pl.cc($[1], ($) => {
+                                                        pr.cc($[1], ($) => {
                                                             ((
                                                                 $: api.TNGinitialization_temlateExpression$_span$_x_tail$<Annotation>,
                                                             ) => {
@@ -507,7 +507,7 @@ export function visit<Annotation>(
                                                         })
                                                         break
                                                     }
-                                                    default: pl.au($[0])
+                                                    default: pr.au($[0])
                                                 }
                                             })
                                         })
@@ -522,19 +522,19 @@ export function visit<Annotation>(
                 break
             }
             case "binaryExpression": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinitialization_binaryExpression$<Annotation>,
                     ) => {
                         if (foo["$initialization/?binaryExpression/*BinaryExpression"] !== undefined) { foo["$initialization/?binaryExpression/*BinaryExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["left"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["left"], ($) => {
                                 X_selection($)
                             })
-                            pl.cc($["operator"], ($) => {
+                            pr.cc($["operator"], ($) => {
                                 switch ($[0]) {
                                     case "PlusToken": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             ((
                                                 $: api.TNGinitialization_binaryExpression$_operator_PlusToken$<Annotation>,
                                             ) => {
@@ -543,10 +543,10 @@ export function visit<Annotation>(
                                         })
                                         break
                                     }
-                                    default: pl.au($[0])
+                                    default: pr.au($[0])
                                 }
                             })
-                            pl.cc($["right"], ($) => {
+                            pr.cc($["right"], ($) => {
                                 X_initialization($)
                             })
                         })
@@ -556,41 +556,41 @@ export function visit<Annotation>(
                 break
             }
             case "functionImplementation": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinitialization_functionImplementation$<Annotation>,
                     ) => {
                         if (foo["$initialization/?functionImplementation/*ArrowFunction"] !== undefined) { foo["$initialization/?functionImplementation/*ArrowFunction"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["dataParameter"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["dataParameter"], ($) => {
                                 if ($ === null) {
                                     //FIXME??
                                 } else {
                                     X_typelessParameter($)
                                 }
                             })
-                            pl.cc($["interfaceParameter"], ($) => {
+                            pr.cc($["interfaceParameter"], ($) => {
                                 if ($ === null) {
                                     //FIXME??
                                 } else {
                                     X_typelessParameter($)
                                 }
                             })
-                            pl.cc($["callbackParameter"], ($) => {
+                            pr.cc($["callbackParameter"], ($) => {
                                 if ($ === null) {
                                     //FIXME??
                                 } else {
                                     X_typelessParameter($)
                                 }
                             })
-                            pl.cc($["equalsGreaterThan"], ($) => {
+                            pr.cc($["equalsGreaterThan"], ($) => {
                                 ((
                                     $: api.TNGinitialization_functionImplementation$_equalsGreaterThan$<Annotation>,
                                 ) => {
                                     if (foo["$initialization/?functionImplementation/*ArrowFunction/.equalsGreaterThan/*EqualsGreaterThanToken"] !== undefined) { foo["$initialization/?functionImplementation/*ArrowFunction/.equalsGreaterThan/*EqualsGreaterThanToken"]($) }
                                 })($)
                             })
-                            pl.cc($["block"], ($) => {
+                            pr.cc($["block"], ($) => {
                                 X_block($)
                             })
                         })
@@ -600,32 +600,32 @@ export function visit<Annotation>(
                 break
             }
             case "literal": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     X_literalDataInitialization($)
                 })
                 break
             }
             case "objectLiteral": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGinitialization_objectLiteral$<Annotation>,
                     ) => {
                         if (foo["$initialization/?objectLiteral/*ObjectLiteralExpression"] !== undefined) { foo["$initialization/?objectLiteral/*ObjectLiteralExpression"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             $.forEach(($) => {
                                 ((
                                     $: api.TNGinitialization_objectLiteral$$<Annotation>,
                                 ) => {
                                     if (foo["$initialization/?objectLiteral/*ObjectLiteralExpression/*PropertyAssignment"] !== undefined) { foo["$initialization/?objectLiteral/*ObjectLiteralExpression/*PropertyAssignment"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["name"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["name"], ($) => {
                                             ((
                                                 $: api.TNGinitialization_objectLiteral$$_name$<Annotation>,
                                             ) => {
                                                 if (foo["$initialization/?objectLiteral/*ObjectLiteralExpression/*PropertyAssignment/.name/*StringLiteral"] !== undefined) { foo["$initialization/?objectLiteral/*ObjectLiteralExpression/*PropertyAssignment/.name/*StringLiteral"]($) }
                                             })($)
                                         })
-                                        pl.cc($["initialization"], ($) => {
+                                        pr.cc($["initialization"], ($) => {
                                             X_initialization($)
                                         })
                                     })
@@ -639,12 +639,12 @@ export function visit<Annotation>(
                 break
             }
             case "selection": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     X_selection($)
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_literalDataInitialization(
@@ -652,20 +652,20 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "state": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_state$<Annotation>,
                     ) => {
                         if (foo["$literalDataInitialization/?state/*ArrayLiteralExpression"] !== undefined) { foo["$literalDataInitialization/?state/*ArrayLiteralExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["state"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["state"], ($) => {
                                 ((
                                     $: api.TNGliteralDataInitialization_state$_state$<Annotation>,
                                 ) => {
                                     if (foo["$literalDataInitialization/?state/*ArrayLiteralExpression/.state/*StringLiteral"] !== undefined) { foo["$literalDataInitialization/?state/*ArrayLiteralExpression/.state/*StringLiteral"]($) }
                                 })($)
                             })
-                            pl.cc($["data"], ($) => {
+                            pr.cc($["data"], ($) => {
                                 X_initialization($)
                             })
                         })
@@ -675,7 +675,7 @@ export function visit<Annotation>(
                 break
             }
             case "false": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_false$<Annotation>,
                     ) => {
@@ -685,7 +685,7 @@ export function visit<Annotation>(
                 break
             }
             case "stringLiteral": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_stringLiteral$<Annotation>,
                     ) => {
@@ -695,7 +695,7 @@ export function visit<Annotation>(
                 break
             }
             case "numericLiteral": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_numericLiteral$<Annotation>,
                     ) => {
@@ -705,7 +705,7 @@ export function visit<Annotation>(
                 break
             }
             case "null": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_null$<Annotation>,
                     ) => {
@@ -715,7 +715,7 @@ export function visit<Annotation>(
                 break
             }
             case "true": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_true$<Annotation>,
                     ) => {
@@ -725,17 +725,17 @@ export function visit<Annotation>(
                 break
             }
             case "array": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGliteralDataInitialization_array$<Annotation>,
                     ) => {
                         if (foo["$literalDataInitialization/?array/*ParenthesizedExpression"] !== undefined) { foo["$literalDataInitialization/?array/*ParenthesizedExpression"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             ((
                                 $: api.TNGliteralDataInitialization_array$$<Annotation>,
                             ) => {
                                 if (foo["$literalDataInitialization/?array/*ParenthesizedExpression/*ArrayLiteralExpression"] !== undefined) { foo["$literalDataInitialization/?array/*ParenthesizedExpression/*ArrayLiteralExpression"].begin($) }
-                                pl.cc($.content, ($) => {
+                                pr.cc($.content, ($) => {
                                     $.forEach(($) => {
                                         X_initialization($)
                                     })
@@ -748,45 +748,45 @@ export function visit<Annotation>(
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_parameterTriplet(
         $: api.TGparameterTriplet<Annotation>,
     ) {
-        pl.cc($["dataParameter"], ($) => {
+        pr.cc($["dataParameter"], ($) => {
             ((
                 $: api.TNGparameterTriplet_dataParameter$<Annotation>,
             ) => {
                 if (foo["$parameterTriplet/.dataParameter/*Parameter"] !== undefined) { foo["$parameterTriplet/.dataParameter/*Parameter"].begin($) }
-                pl.cc($.content, ($) => {
-                    pl.cc($["name"], ($) => {
+                pr.cc($.content, ($) => {
+                    pr.cc($["name"], ($) => {
                         X_identifier($)
                     })
-                    pl.cc($["type"], ($) => {
+                    pr.cc($["type"], ($) => {
                         X_type($)
                     })
                 })
                 if (foo["$parameterTriplet/.dataParameter/*Parameter"] !== undefined) { foo["$parameterTriplet/.dataParameter/*Parameter"].end($) }
             })($)
         })
-        pl.cc($["interfaceParameter"], ($) => {
+        pr.cc($["interfaceParameter"], ($) => {
             ((
                 $: api.TNGparameterTriplet_interfaceParameter$<Annotation>,
             ) => {
                 if (foo["$parameterTriplet/.interfaceParameter/*Parameter"] !== undefined) { foo["$parameterTriplet/.interfaceParameter/*Parameter"].begin($) }
-                pl.cc($.content, ($) => {
-                    pl.cc($["name"], ($) => {
+                pr.cc($.content, ($) => {
+                    pr.cc($["name"], ($) => {
                         X_identifier($)
                     })
-                    pl.cc($["interface"], ($) => {
+                    pr.cc($["interface"], ($) => {
                         X_interface($)
                     })
                 })
                 if (foo["$parameterTriplet/.interfaceParameter/*Parameter"] !== undefined) { foo["$parameterTriplet/.interfaceParameter/*Parameter"].end($) }
             })($)
         })
-        pl.cc($["callbackParameter"], ($) => {
+        pr.cc($["callbackParameter"], ($) => {
             if ($ === null) {
                 //FIXME??
             } else {
@@ -799,16 +799,16 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "call": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGselection_call$<Annotation>,
                     ) => {
                         if (foo["$selection/?call/*CallExpression"] !== undefined) { foo["$selection/?call/*CallExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["name"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["name"], ($) => {
                                 X_selection($)
                             })
-                            pl.cc($["initialization"], ($) => {
+                            pr.cc($["initialization"], ($) => {
                                 X_initialization($)
                             })
                         })
@@ -818,33 +818,33 @@ export function visit<Annotation>(
                 break
             }
             case "conditial": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGselection_conditial$<Annotation>,
                     ) => {
                         if (foo["$selection/?conditial/*ConditionalExpression"] !== undefined) { foo["$selection/?conditial/*ConditionalExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["condition"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["condition"], ($) => {
                                 X_selection($)
                             })
-                            pl.cc($["questionToken"], ($) => {
+                            pr.cc($["questionToken"], ($) => {
                                 ((
                                     $: api.TNGselection_conditial$_questionToken$<Annotation>,
                                 ) => {
                                     if (foo["$selection/?conditial/*ConditionalExpression/.questionToken/*QuestionToken"] !== undefined) { foo["$selection/?conditial/*ConditionalExpression/.questionToken/*QuestionToken"]($) }
                                 })($)
                             })
-                            pl.cc($["then"], ($) => {
+                            pr.cc($["then"], ($) => {
                                 X_initialization($)
                             })
-                            pl.cc($["colon"], ($) => {
+                            pr.cc($["colon"], ($) => {
                                 ((
                                     $: api.TNGselection_conditial$_colon$<Annotation>,
                                 ) => {
                                     if (foo["$selection/?conditial/*ConditionalExpression/.colon/*ColonToken"] !== undefined) { foo["$selection/?conditial/*ConditionalExpression/.colon/*ColonToken"]($) }
                                 })($)
                             })
-                            pl.cc($["else"], ($) => {
+                            pr.cc($["else"], ($) => {
                                 X_initialization($)
                             })
                         })
@@ -854,22 +854,22 @@ export function visit<Annotation>(
                 break
             }
             case "identifier": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     X_identifier($)
                 })
                 break
             }
             case "propertyAccess": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGselection_propertyAccess$<Annotation>,
                     ) => {
                         if (foo["$selection/?propertyAccess/*PropertyAccessExpression"] !== undefined) { foo["$selection/?propertyAccess/*PropertyAccessExpression"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["first"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["first"], ($) => {
                                 X_selection($)
                             })
-                            pl.cc($["second"], ($) => {
+                            pr.cc($["second"], ($) => {
                                 X_identifier($)
                             })
                         })
@@ -878,7 +878,7 @@ export function visit<Annotation>(
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_type(
@@ -886,12 +886,12 @@ export function visit<Annotation>(
     ) {
         switch ($[0]) {
             case "array": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_array$<Annotation>,
                     ) => {
                         if (foo["$type/?array/*ArrayType"] !== undefined) { foo["$type/?array/*ArrayType"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             X_type($)
                         })
                         if (foo["$type/?array/*ArrayType"] !== undefined) { foo["$type/?array/*ArrayType"].end($) }
@@ -900,7 +900,7 @@ export function visit<Annotation>(
                 break
             }
             case "boolean": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_boolean$<Annotation>,
                     ) => {
@@ -910,7 +910,7 @@ export function visit<Annotation>(
                 break
             }
             case "string": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_string$<Annotation>,
                     ) => {
@@ -920,7 +920,7 @@ export function visit<Annotation>(
                 break
             }
             case "number": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_number$<Annotation>,
                     ) => {
@@ -930,12 +930,12 @@ export function visit<Annotation>(
                 break
             }
             case "literalType": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_literalType$<Annotation>,
                     ) => {
                         if (foo["$type/?literalType/*LiteralType"] !== undefined) { foo["$type/?literalType/*LiteralType"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             ((
                                 $: api.TNGtype_literalType$$<Annotation>,
                             ) => {
@@ -948,33 +948,33 @@ export function visit<Annotation>(
                 break
             }
             case "typeLiteral": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_typeLiteral$<Annotation>,
                     ) => {
                         if (foo["$type/?typeLiteral/*TypeLiteral"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             if ($ === null) {
                                 //FIXME??
                             } else {
                                 switch ($[0]) {
                                     case "index": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             ((
                                                 $: api.TNGtype_typeLiteral$_index$<Annotation>,
                                             ) => {
                                                 if (foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature"].begin($) }
-                                                pl.cc($.content, ($) => {
-                                                    pl.cc($["key"], ($) => {
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["key"], ($) => {
                                                         ((
                                                             $: api.TNGtype_typeLiteral$_index$_key$<Annotation>,
                                                         ) => {
                                                             if (foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature/.key/*Parameter"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature/.key/*Parameter"].begin($) }
-                                                            pl.cc($.content, ($) => {
-                                                                pl.cc($["name"], ($) => {
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["name"], ($) => {
                                                                     X_identifier($)
                                                                 })
-                                                                pl.cc($["type"], ($) => {
+                                                                pr.cc($["type"], ($) => {
                                                                     ((
                                                                         $: api.TNGtype_typeLiteral$_index$_key$_type$<Annotation>,
                                                                     ) => {
@@ -985,7 +985,7 @@ export function visit<Annotation>(
                                                             if (foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature/.key/*Parameter"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?index/*IndexSignature/.key/*Parameter"].end($) }
                                                         })($)
                                                     })
-                                                    pl.cc($["type"], ($) => {
+                                                    pr.cc($["type"], ($) => {
                                                         X_type($)
                                                     })
                                                 })
@@ -995,28 +995,28 @@ export function visit<Annotation>(
                                         break
                                     }
                                     case "properties": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             $.forEach(($) => {
                                                 ((
                                                     $: api.TNGtype_typeLiteral$_properties$<Annotation>,
                                                 ) => {
                                                     if (foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature"].begin($) }
-                                                    pl.cc($.content, ($) => {
-                                                        pl.cc($["readonly"], ($) => {
+                                                    pr.cc($.content, ($) => {
+                                                        pr.cc($["readonly"], ($) => {
                                                             ((
                                                                 $: api.TNGtype_typeLiteral$_properties$_readonly$<Annotation>,
                                                             ) => {
                                                                 if (foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature/.readonly/*ReadonlyKeyword"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature/.readonly/*ReadonlyKeyword"]($) }
                                                             })($)
                                                         })
-                                                        pl.cc($["name"], ($) => {
+                                                        pr.cc($["name"], ($) => {
                                                             ((
                                                                 $: api.TNGtype_typeLiteral$_properties$_name$<Annotation>,
                                                             ) => {
                                                                 if (foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature/.name/*StringLiteral"] !== undefined) { foo["$type/?typeLiteral/*TypeLiteral/?properties/*PropertySignature/.name/*StringLiteral"]($) }
                                                             })($)
                                                         })
-                                                        pl.cc($["questionToken"], ($) => {
+                                                        pr.cc($["questionToken"], ($) => {
                                                             if ($ === null) {
                                                                 //FIXME??
                                                             } else {
@@ -1027,7 +1027,7 @@ export function visit<Annotation>(
                                                                 })($)
                                                             }
                                                         })
-                                                        pl.cc($["type"], ($) => {
+                                                        pr.cc($["type"], ($) => {
                                                             X_type($)
                                                         })
                                                     })
@@ -1037,7 +1037,7 @@ export function visit<Annotation>(
                                         })
                                         break
                                     }
-                                    default: pl.au($[0])
+                                    default: pr.au($[0])
                                 }
                             }
                         })
@@ -1047,31 +1047,31 @@ export function visit<Annotation>(
                 break
             }
             case "typeReference": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_typeReference$<Annotation>,
                     ) => {
                         if (foo["$type/?typeReference/*TypeReference"] !== undefined) { foo["$type/?typeReference/*TypeReference"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["referencedType"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["referencedType"], ($) => {
                                 switch ($[0]) {
                                     case "identifier": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             X_identifier($)
                                         })
                                         break
                                     }
                                     case "qualifiedName": {
-                                        pl.cc($[1], ($) => {
+                                        pr.cc($[1], ($) => {
                                             ((
                                                 $: api.TNGtype_typeReference$_referencedType_qualifiedName$<Annotation>,
                                             ) => {
                                                 if (foo["$type/?typeReference/*TypeReference/.referencedType/?qualifiedName/*QualifiedName"] !== undefined) { foo["$type/?typeReference/*TypeReference/.referencedType/?qualifiedName/*QualifiedName"].begin($) }
-                                                pl.cc($.content, ($) => {
-                                                    pl.cc($["context"], ($) => {
+                                                pr.cc($.content, ($) => {
+                                                    pr.cc($["context"], ($) => {
                                                         X_identifier($)
                                                     })
-                                                    pl.cc($["type"], ($) => {
+                                                    pr.cc($["type"], ($) => {
                                                         X_identifier($)
                                                     })
                                                 })
@@ -1080,10 +1080,10 @@ export function visit<Annotation>(
                                         })
                                         break
                                     }
-                                    default: pl.au($[0])
+                                    default: pr.au($[0])
                                 }
                             })
-                            pl.cc($["typeArguments"], ($) => {
+                            pr.cc($["typeArguments"], ($) => {
                                 $.forEach(($) => {
                                     X_type($)
                                 })
@@ -1095,24 +1095,24 @@ export function visit<Annotation>(
                 break
             }
             case "union": {
-                pl.cc($[1], ($) => {
+                pr.cc($[1], ($) => {
                     ((
                         $: api.TNGtype_union$<Annotation>,
                     ) => {
                         if (foo["$type/?union/*UnionType"] !== undefined) { foo["$type/?union/*UnionType"].begin($) }
-                        pl.cc($.content, ($) => {
+                        pr.cc($.content, ($) => {
                             $.forEach(($) => {
                                 ((
                                     $: api.TNGtype_union$$<Annotation>,
                                 ) => {
                                     if (foo["$type/?union/*UnionType/*TupleType"] !== undefined) { foo["$type/?union/*UnionType/*TupleType"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["state"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["state"], ($) => {
                                             ((
                                                 $: api.TNGtype_union$$_state$<Annotation>,
                                             ) => {
                                                 if (foo["$type/?union/*UnionType/*TupleType/.state/*LiteralType"] !== undefined) { foo["$type/?union/*UnionType/*TupleType/.state/*LiteralType"].begin($) }
-                                                pl.cc($.content, ($) => {
+                                                pr.cc($.content, ($) => {
                                                     ((
                                                         $: api.TNGtype_union$$_state$$<Annotation>,
                                                     ) => {
@@ -1122,7 +1122,7 @@ export function visit<Annotation>(
                                                 if (foo["$type/?union/*UnionType/*TupleType/.state/*LiteralType"] !== undefined) { foo["$type/?union/*UnionType/*TupleType/.state/*LiteralType"].end($) }
                                             })($)
                                         })
-                                        pl.cc($["data"], ($) => {
+                                        pr.cc($["data"], ($) => {
                                             X_type($)
                                         })
                                     })
@@ -1135,7 +1135,7 @@ export function visit<Annotation>(
                 })
                 break
             }
-            default: pl.au($[0])
+            default: pr.au($[0])
         }
     }
     function X_typelessParameter(
@@ -1145,7 +1145,7 @@ export function visit<Annotation>(
             $: api.TNGtypelessParameter$<Annotation>,
         ) => {
             if (foo["$typelessParameter/*Parameter"] !== undefined) { foo["$typelessParameter/*Parameter"].begin($) }
-            pl.cc($.content, ($) => {
+            pr.cc($.content, ($) => {
                 X_identifier($)
             })
             if (foo["$typelessParameter/*Parameter"] !== undefined) { foo["$typelessParameter/*Parameter"].end($) }
@@ -1155,28 +1155,28 @@ export function visit<Annotation>(
         $: api.TNroot<Annotation>,
     ) => {
         if (foo[""] !== undefined) { foo[""].begin($) }
-        pl.cc($.content, ($) => {
-            pl.cc($["imports"], ($) => {
+        pr.cc($.content, ($) => {
+            pr.cc($["imports"], ($) => {
                 $.forEach(($) => {
                     ((
                         $: api.TNroot_imports$<Annotation>,
                     ) => {
                         if (foo["/.imports/*ImportDeclaration"] !== undefined) { foo["/.imports/*ImportDeclaration"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["clause"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["clause"], ($) => {
                                 ((
                                     $: api.TNroot_imports$_clause$<Annotation>,
                                 ) => {
                                     if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause"].begin($) }
-                                    pl.cc($.content, ($) => {
+                                    pr.cc($.content, ($) => {
                                         switch ($[0]) {
                                             case "namespace": {
-                                                pl.cc($[1], ($) => {
+                                                pr.cc($[1], ($) => {
                                                     ((
                                                         $: api.TNroot_imports$_clause$_namespace$<Annotation>,
                                                     ) => {
                                                         if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?namespace/*NamespaceImport"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?namespace/*NamespaceImport"].begin($) }
-                                                        pl.cc($.content, ($) => {
+                                                        pr.cc($.content, ($) => {
                                                             X_identifier($)
                                                         })
                                                         if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?namespace/*NamespaceImport"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?namespace/*NamespaceImport"].end($) }
@@ -1185,22 +1185,22 @@ export function visit<Annotation>(
                                                 break
                                             }
                                             case "named": {
-                                                pl.cc($[1], ($) => {
+                                                pr.cc($[1], ($) => {
                                                     ((
                                                         $: api.TNroot_imports$_clause$_named$<Annotation>,
                                                     ) => {
                                                         if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?named/*NamedImports"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?named/*NamedImports"].begin($) }
-                                                        pl.cc($.content, ($) => {
+                                                        pr.cc($.content, ($) => {
                                                             $.forEach(($) => {
                                                                 ((
                                                                     $: api.TNroot_imports$_clause$_named$$<Annotation>,
                                                                 ) => {
                                                                     if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?named/*NamedImports/*ImportSpecifier"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause/?named/*NamedImports/*ImportSpecifier"].begin($) }
-                                                                    pl.cc($.content, ($) => {
-                                                                        pl.cc($["name"], ($) => {
+                                                                    pr.cc($.content, ($) => {
+                                                                        pr.cc($["name"], ($) => {
                                                                             X_identifier($)
                                                                         })
-                                                                        pl.cc($["as"], ($) => {
+                                                                        pr.cc($["as"], ($) => {
                                                                             if ($ === null) {
                                                                                 //FIXME??
                                                                             } else {
@@ -1217,13 +1217,13 @@ export function visit<Annotation>(
                                                 })
                                                 break
                                             }
-                                            default: pl.au($[0])
+                                            default: pr.au($[0])
                                         }
                                     })
                                     if (foo["/.imports/*ImportDeclaration/.clause/*ImportClause"] !== undefined) { foo["/.imports/*ImportDeclaration/.clause/*ImportClause"].end($) }
                                 })($)
                             })
-                            pl.cc($["file"], ($) => {
+                            pr.cc($["file"], ($) => {
                                 ((
                                     $: api.TNroot_imports$_file$<Annotation>,
                                 ) => {
@@ -1235,72 +1235,72 @@ export function visit<Annotation>(
                     })($)
                 })
             })
-            pl.cc($["procedures"], ($) => {
+            pr.cc($["procedures"], ($) => {
                 $.forEach(($) => {
                     ((
                         $: api.TNroot_procedures$<Annotation>,
                     ) => {
                         if (foo["/.procedures/*FunctionDeclaration"] !== undefined) { foo["/.procedures/*FunctionDeclaration"].begin($) }
-                        pl.cc($.content, ($) => {
-                            pl.cc($["export"], ($) => {
+                        pr.cc($.content, ($) => {
+                            pr.cc($["export"], ($) => {
                                 ((
                                     $: api.TNroot_procedures$_export$<Annotation>,
                                 ) => {
                                     if (foo["/.procedures/*FunctionDeclaration/.export/*ExportKeyword"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.export/*ExportKeyword"]($) }
                                 })($)
                             })
-                            pl.cc($["name"], ($) => {
+                            pr.cc($["name"], ($) => {
                                 X_identifier($)
                             })
-                            pl.cc($["typeParameters"], ($) => {
+                            pr.cc($["typeParameters"], ($) => {
                                 $.forEach(($) => {
                                     ((
                                         $: api.TNroot_procedures$_typeParameters$<Annotation>,
                                     ) => {
                                         if (foo["/.procedures/*FunctionDeclaration/.typeParameters/*TypeParameter"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.typeParameters/*TypeParameter"].begin($) }
-                                        pl.cc($.content, ($) => {
+                                        pr.cc($.content, ($) => {
                                             X_identifier($)
                                         })
                                         if (foo["/.procedures/*FunctionDeclaration/.typeParameters/*TypeParameter"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.typeParameters/*TypeParameter"].end($) }
                                     })($)
                                 })
                             })
-                            pl.cc($["parameters"], ($) => {
+                            pr.cc($["parameters"], ($) => {
                                 $.forEach(($) => {
                                     ((
                                         $: api.TNroot_procedures$_parameters$<Annotation>,
                                     ) => {
                                         if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter"].begin($) }
-                                        pl.cc($.content, ($) => {
-                                            pl.cc($["name"], ($) => {
+                                        pr.cc($.content, ($) => {
+                                            pr.cc($["name"], ($) => {
                                                 X_identifier($)
                                             })
-                                            pl.cc($["type"], ($) => {
+                                            pr.cc($["type"], ($) => {
                                                 switch ($[0]) {
                                                     case "func": {
-                                                        pl.cc($[1], ($) => {
+                                                        pr.cc($[1], ($) => {
                                                             ((
                                                                 $: api.TNroot_procedures$_parameters$_type_func$<Annotation>,
                                                             ) => {
                                                                 if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType"].begin($) }
-                                                                pl.cc($.content, ($) => {
-                                                                    pl.cc($["parameters"], ($) => {
+                                                                pr.cc($.content, ($) => {
+                                                                    pr.cc($["parameters"], ($) => {
                                                                         ((
                                                                             $: api.TNroot_procedures$_parameters$_type_func$_parameters$<Annotation>,
                                                                         ) => {
                                                                             if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType/.parameters/*Parameter"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType/.parameters/*Parameter"].begin($) }
-                                                                            pl.cc($.content, ($) => {
-                                                                                pl.cc($["name"], ($) => {
+                                                                            pr.cc($.content, ($) => {
+                                                                                pr.cc($["name"], ($) => {
                                                                                     X_identifier($)
                                                                                 })
-                                                                                pl.cc($["type"], ($) => {
+                                                                                pr.cc($["type"], ($) => {
                                                                                     X_type($)
                                                                                 })
                                                                             })
                                                                             if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType/.parameters/*Parameter"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?func/*FunctionType/.parameters/*Parameter"].end($) }
                                                                         })($)
                                                                     })
-                                                                    pl.cc($["returnType"], ($) => {
+                                                                    pr.cc($["returnType"], ($) => {
                                                                         X_type($)
                                                                     })
                                                                 })
@@ -1310,26 +1310,26 @@ export function visit<Annotation>(
                                                         break
                                                     }
                                                     case "typeReference": {
-                                                        pl.cc($[1], ($) => {
+                                                        pr.cc($[1], ($) => {
                                                             ((
                                                                 $: api.TNroot_procedures$_parameters$_type_typeReference$<Annotation>,
                                                             ) => {
                                                                 if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference"].begin($) }
-                                                                pl.cc($.content, ($) => {
-                                                                    pl.cc($["name"], ($) => {
+                                                                pr.cc($.content, ($) => {
+                                                                    pr.cc($["name"], ($) => {
                                                                         ((
                                                                             $: api.TNroot_procedures$_parameters$_type_typeReference$_name$<Annotation>,
                                                                         ) => {
                                                                             if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference/.name/*QualifiedName"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference/.name/*QualifiedName"].begin($) }
-                                                                            pl.cc($.content, ($) => {
-                                                                                pl.cc($["context"], ($) => {
+                                                                            pr.cc($.content, ($) => {
+                                                                                pr.cc($["context"], ($) => {
                                                                                     ((
                                                                                         $: api.TNroot_procedures$_parameters$_type_typeReference$_name$_context$<Annotation>,
                                                                                     ) => {
                                                                                         if (foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference/.name/*QualifiedName/.context/*Identifier"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.parameters/*Parameter/.type/?typeReference/*TypeReference/.name/*QualifiedName/.context/*Identifier"]($) }
                                                                                     })($)
                                                                                 })
-                                                                                pl.cc($["type"], ($) => {
+                                                                                pr.cc($["type"], ($) => {
                                                                                     ((
                                                                                         $: api.TNroot_procedures$_parameters$_type_typeReference$_name$_type$<Annotation>,
                                                                                     ) => {
@@ -1346,7 +1346,7 @@ export function visit<Annotation>(
                                                         })
                                                         break
                                                     }
-                                                    default: pl.au($[0])
+                                                    default: pr.au($[0])
                                                 }
                                             })
                                         })
@@ -1354,31 +1354,31 @@ export function visit<Annotation>(
                                     })($)
                                 })
                             })
-                            pl.cc($["returnType"], ($) => {
+                            pr.cc($["returnType"], ($) => {
                                 ((
                                     $: api.TNroot_procedures$_returnType$<Annotation>,
                                 ) => {
                                     if (foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["referencedType"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["referencedType"], ($) => {
                                             switch ($[0]) {
                                                 case "identifier": {
-                                                    pl.cc($[1], ($) => {
+                                                    pr.cc($[1], ($) => {
                                                         X_identifier($)
                                                     })
                                                     break
                                                 }
                                                 case "qualifiedName": {
-                                                    pl.cc($[1], ($) => {
+                                                    pr.cc($[1], ($) => {
                                                         ((
                                                             $: api.TNroot_procedures$_returnType$_referencedType_qualifiedName$<Annotation>,
                                                         ) => {
                                                             if (foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference/.referencedType/?qualifiedName/*QualifiedName"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference/.referencedType/?qualifiedName/*QualifiedName"].begin($) }
-                                                            pl.cc($.content, ($) => {
-                                                                pl.cc($["context"], ($) => {
+                                                            pr.cc($.content, ($) => {
+                                                                pr.cc($["context"], ($) => {
                                                                     X_identifier($)
                                                                 })
-                                                                pl.cc($["type"], ($) => {
+                                                                pr.cc($["type"], ($) => {
                                                                     X_identifier($)
                                                                 })
                                                             })
@@ -1387,10 +1387,10 @@ export function visit<Annotation>(
                                                     })
                                                     break
                                                 }
-                                                default: pl.au($[0])
+                                                default: pr.au($[0])
                                             }
                                         })
-                                        pl.cc($["typeArguments"], ($) => {
+                                        pr.cc($["typeArguments"], ($) => {
                                             $.forEach(($) => {
                                                 X_type($)
                                             })
@@ -1399,18 +1399,18 @@ export function visit<Annotation>(
                                     if (foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.returnType/*TypeReference"].end($) }
                                 })($)
                             })
-                            pl.cc($["block"], ($) => {
+                            pr.cc($["block"], ($) => {
                                 ((
                                     $: api.TNroot_procedures$_block$<Annotation>,
                                 ) => {
                                     if (foo["/.procedures/*FunctionDeclaration/.block/*Block"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.block/*Block"].begin($) }
-                                    pl.cc($.content, ($) => {
-                                        pl.cc($["returnStatement"], ($) => {
+                                    pr.cc($.content, ($) => {
+                                        pr.cc($["returnStatement"], ($) => {
                                             ((
                                                 $: api.TNroot_procedures$_block$_returnStatement$<Annotation>,
                                             ) => {
                                                 if (foo["/.procedures/*FunctionDeclaration/.block/*Block/.returnStatement/*ReturnStatement"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.block/*Block/.returnStatement/*ReturnStatement"].begin($) }
-                                                pl.cc($.content, ($) => {
+                                                pr.cc($.content, ($) => {
                                                     X_initialization($)
                                                 })
                                                 if (foo["/.procedures/*FunctionDeclaration/.block/*Block/.returnStatement/*ReturnStatement"] !== undefined) { foo["/.procedures/*FunctionDeclaration/.block/*Block/.returnStatement/*ReturnStatement"].end($) }
@@ -1425,7 +1425,7 @@ export function visit<Annotation>(
                     })($)
                 })
             })
-            pl.cc($["endOfFile"], ($) => {
+            pr.cc($["endOfFile"], ($) => {
                 ((
                     $: api.TNroot_endOfFile$<Annotation>,
                 ) => {
