@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "analyse-path": "^0.2.3",
-    "npm-check-updates": "^15.2.1",
+    "npm-check-updates": "^15.2.2",
     "npm-safe-install": "^1.1.0",
-    "pareto-filesystem-res": "^0.22.0",
-    "pareto-runtime": "^0.24.0",
+    "pareto-filesystem-res": "^0.25.0",
+    "pareto-runtime": "^0.25.0",
     "pareto-ts-validator-api": "^0.1.0",
     "ts-morph": "^15.1.0"
   },
@@ -27,5 +27,5 @@
     "data"
   ],
   "native": true,
-  "content-fingerprint": "b1de563579d0cd65393bc9e7be1746bd85fa8075"
+  "content-fingerprint": "8e6668c78a9d272200e9eed4f17e3f5b567ea2da"
 }

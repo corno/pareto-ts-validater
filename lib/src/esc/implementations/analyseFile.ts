@@ -1,4 +1,4 @@
-// //import * as pr from "pareto-lang-lib"
+// //import * as pr from "pareto-lib-core"
 // import * as pf from "pareto-filesystem-api"
 // import * as ap from "analyse-path"
 // export function analyseFile(

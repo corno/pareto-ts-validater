@@ -1,5 +1,4 @@
-import * as pl from "pareto-lang-lib"
-import * as pa from "pareto-lang-api"
+import * as pa from "pareto-api-core"
 
 export type TAnnotatedString<Annotation> = { readonly "annotation": Annotation; readonly "value": string }
 export type TAnnotatedType<Annotation, Type> = { readonly "annotation": Annotation; readonly "content": Type }

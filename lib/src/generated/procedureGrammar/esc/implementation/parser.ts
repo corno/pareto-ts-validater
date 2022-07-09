@@ -1,5 +1,5 @@
-import * as pr from "pareto-lang-lib"
-import * as pa from "pareto-lang-api"
+import * as pr from "pareto-lib-core"
+import * as pa from "pareto-api-core"
 import * as tast from "../../interface/types/ts_api"
 import * as uast from "../../interface/types/uast"
 

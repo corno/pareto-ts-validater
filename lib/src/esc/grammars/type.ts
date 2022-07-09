@@ -1,5 +1,5 @@
 
-import * as pr from "pareto-lang-lib"
+import * as pr from "pareto-lib-core"
 import * as typeParser from "../../generated/paretoGrammar"
 import { _typescriptFileStructure } from "../../data/paretoProject"
 import { doAT, Handle, OnError } from "../handle"

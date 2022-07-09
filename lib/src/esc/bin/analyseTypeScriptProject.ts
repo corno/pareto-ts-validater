@@ -2,7 +2,7 @@
 
 // import * as pr from "pareto-runtime"
 // import * as pf from "pareto-filesystem-lib"
-// import * as pl from "pareto-lang-lib"
+// import * as pl from "pareto-lib-core"
 
 // import * as path from "path"
 // import * as tsmorph from "ts-morph"
